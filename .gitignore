@@ -2,5 +2,9 @@
 *.pyc
 bin
 build
+build-*
 lib
 *.sublime-workspace
+dist
+src/python_bindings
+qt/*pro.user*
