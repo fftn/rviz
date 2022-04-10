@@ -33,7 +33,7 @@
 #include <QObject>
 
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
-#include <ros/ros.h>
+//#include <ros/ros.h>
 #include <rviz/rviz_export.h>
 #include <rviz/SendFilePath.h>
 #endif
@@ -70,11 +70,11 @@ private:
   QApplication* app_;
   QTimer* continue_timer_;
   VisualizationFrame* frame_;
-  ros::NodeHandlePtr nh_;
-  ros::ServiceServer reload_shaders_service_;
-  ros::ServiceServer load_config_service_;
-  ros::ServiceServer load_config_discarding_service_;
-  ros::ServiceServer save_config_service_;
+  //ros::NodeHandlePtr nh_;
+  //ros::ServiceServer reload_shaders_service_;
+  //ros::ServiceServer load_config_service_;
+  //ros::ServiceServer load_config_discarding_service_;
+  //ros::ServiceServer save_config_service_;
 };
 
 } // end namespace rviz

@@ -56,9 +56,9 @@
 #include <boost/bind/bind.hpp>
 #include <boost/filesystem.hpp>
 
-#include <ros/console.h>
-#include <ros/package.h>
-#include <ros/init.h>
+//#include <ros/console.h>
+//#include <ros/package.h>
+//#include <ros/init.h>
 
 #include <OgreRenderWindow.h>
 #include <OgreMeshManager.h>

@@ -45,8 +45,8 @@
 #undef check
 #endif
 
-#include <ros/console.h>
-#include <ros/ros.h>
+//#include <ros/console.h>
+//#include <ros/ros.h>
 
 #include <rviz/selection/selection_manager.h>
 #include <rviz/env_config.h>
@@ -67,7 +67,7 @@ namespace rviz
 {
 bool reloadShaders(std_srvs::Empty::Request& /*unused*/, std_srvs::Empty::Response& /*unused*/)
 {
-  ROS_INFO("Reloading materials.");
+  //ROS_INFO("Reloading materials.");
   {
     Ogre::ResourceManager::ResourceMapIterator it =
         Ogre::MaterialManager::getSingleton().getResourceIterator();
@@ -77,7 +77,7 @@ bool reloadShaders(std_srvs::Empty::Request& /*unused*/, std_srvs::Empty::Respon
       resource->reload();
     }
   }
-  ROS_INFO("Reloading high-level gpu shaders.");
+  //ROS_INFO("Reloading high-level gpu shaders.");
   {
     Ogre::ResourceManager::ResourceMapIterator it =
         Ogre::HighLevelGpuProgramManager::getSingleton().getResourceIterator();
@@ -87,7 +87,7 @@ bool reloadShaders(std_srvs::Empty::Request& /*unused*/, std_srvs::Empty::Respon
       resource->reload();
     }
   }
-  ROS_INFO("Reloading gpu shaders.");
+  //ROS_INFO("Reloading gpu shaders.");
   {
     Ogre::ResourceManager::ResourceMapIterator it =
         Ogre::GpuProgramManager::getSingleton().getResourceIterator();
@@ -111,10 +111,10 @@ void VisualizerApp::setApp(QApplication* app)
 
 bool VisualizerApp::init(int argc, char** argv)
 {
-  ROS_INFO("rviz version %s", get_version().c_str());
-  ROS_INFO("compiled against Qt version " QT_VERSION_STR);
-  ROS_INFO("compiled against OGRE version %d.%d.%d%s (%s)", OGRE_VERSION_MAJOR, OGRE_VERSION_MINOR,
-           OGRE_VERSION_PATCH, OGRE_VERSION_SUFFIX, OGRE_VERSION_NAME);
+  //ROS_INFO("rviz version %s", get_version().c_str());
+  //ROS_INFO("compiled against Qt version " QT_VERSION_STR);
+  //ROS_INFO("compiled against OGRE version %d.%d.%d%s (%s)", OGRE_VERSION_MAJOR, OGRE_VERSION_MINOR,
+           //OGRE_VERSION_PATCH, OGRE_VERSION_SUFFIX, OGRE_VERSION_NAME);
 
 #ifdef Q_OS_MAC
   ProcessSerialNumber PSN;
@@ -179,16 +179,16 @@ bool VisualizerApp::init(int argc, char** argv)
       return false;
     }
 
-    if (!ros::master::check())
-    {
-      WaitForMasterDialog dialog;
-      if (dialog.exec() != QDialog::Accepted)
-      {
-        return false;
-      }
-    }
+    //if (!ros::master::check())
+    //{
+      //WaitForMasterDialog dialog;
+      //if (dialog.exec() != QDialog::Accepted)
+      //{
+        //return false;
+      //}
+    //}
 
-    nh_.reset(new ros::NodeHandle);
+    //nh_.reset(new ros::NodeHandle);
 
     if (vm.count("ogre-log"))
       OgreLogging::useRosLog();
@@ -222,15 +222,15 @@ bool VisualizerApp::init(int argc, char** argv)
       frame_->setFullScreen(true);
     frame_->show();
 
-    ros::NodeHandle private_nh("~");
-    reload_shaders_service_ = private_nh.advertiseService("reload_shaders", reloadShaders);
+    //ros::NodeHandle private_nh("~");
+    //reload_shaders_service_ = private_nh.advertiseService("reload_shaders", reloadShaders);
 
-    load_config_service_ =
-        private_nh.advertiseService("load_config", &VisualizerApp::loadConfigCallback, this);
-    load_config_discarding_service_ = private_nh.advertiseService(
-        "load_config_discarding_changes", &VisualizerApp::loadConfigDiscardingCallback, this);
-    save_config_service_ =
-        private_nh.advertiseService("save_config", &VisualizerApp::saveConfigCallback, this);
+    //load_config_service_ =
+        //private_nh.advertiseService("load_config", &VisualizerApp::loadConfigCallback, this);
+    //load_config_discarding_service_ = private_nh.advertiseService(
+        //"load_config_discarding_changes", &VisualizerApp::loadConfigDiscardingCallback, this);
+    //save_config_service_ =
+        //private_nh.advertiseService("save_config", &VisualizerApp::saveConfigCallback, this);
 
 #if CATCH_EXCEPTIONS
   }
