@@ -12,35 +12,24 @@ INCLUDEPATH += /opt/ros/noetic/include/
 INCLUDEPATH += /usr/include/OGRE/
 
 
-QMAKE_LFLAGS += "-Wl,-rpath,/opt/ros/noetic/lib/"
+QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 LIBS += -L/home/fft/Qt5.14.2/5.14.2/gcc_64/lib/
 
 
-LIBS += -lX11
 LIBS += -lrosconsole
 LIBS += -lroscpp_serialization
 LIBS += -lroscpp
 LIBS += -lroslib
-LIBS += -lrostime
-LIBS += -ltf2 -ltf2_ros -lmessage_filters -lclass_loader -L/opt/ros/noetic/lib
-LIBS += -lresource_retriever -L/usr/share/ewaybot/thirdpartylib/lib/ros/
-
-LIBS += -lboost_thread -L/usr/lib/x86_64-linux-gnu/
-LIBS += -lboost_filesystem -L/usr/lib/x86_64-linux-gnu/
-LIBS += -lboost_program_options
-LIBS += -ltinyxml -L/usr/lib/x86_64-linux-gnu/
-LIBS += -ltinyxml2
-LIBS += -lOgreMain -lassimp -lyaml-cpp
 LIBS += -lxmlrpcpp
-LIBS += -lconsole_bridge
-LIBS += -limage_transport
-LIBS += -lOgreOverlay
-#LIBS += -lOgrePaging
-#LIBS += -lOgreProperty
-#LIBS += -lOgreRTShaderSystem
-#LIBS += -lOgreTerrain
-#LIBS += -lOgreVolume
-#LIBS += -lOpenGL
+LIBS += -L../lib/manual -lrostime
+LIBS += -L../lib/3pl -lresource_retriever -lmessage_filters -lconsole_bridge -ltf2
+LIBS += -L../lib/cmake -lclass_loader -limage_transport -ltf2_ros
+
+LIBS += -lX11 -L/usr/lib/x86_64-linux-gnu/
+LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
+LIBS += -ltinyxml -ltinyxml2
+LIBS += -lOgreOverlay -lOgreMain
+LIBS += -lassimp -lyaml-cpp
 
 
 
@@ -226,29 +215,7 @@ HEADERS += \
     ../src/rviz/properties/splitter_handle.h \
     ../src/rviz/properties/string_property.h \
     \
+    ../src/rviz/load_resource.h \
     ../src/rviz/env_config.h \
     ../src/rviz/display_context.h \
-    #../src/rviz/load_resource.h \
-    #../src/rviz/ogre_helpers/apply_visibility_bits.h \
-    #../src/rviz/ogre_helpers/arrow.h \
-    #../src/rviz/ogre_helpers/axes.h \
-    #../src/rviz/ogre_helpers/billboard_line.h \
-    #../src/rviz/ogre_helpers/camera_base.h \
-    #../src/rviz/ogre_helpers/compatibility.h \
-    #../src/rviz/ogre_helpers/custom_parameter_indices.h \
-    #../src/rviz/ogre_helpers/grid.h \
-    #../src/rviz/ogre_helpers/initialization.h \
-    #../src/rviz/ogre_helpers/line.h \
-    #../src/rviz/ogre_helpers/mesh_shape.h \
-    #../src/rviz/ogre_helpers/movable_text.h \
-    #../src/rviz/ogre_helpers/object.h \
-    #../src/rviz/ogre_helpers/ogre_logging.h \
-    #../src/rviz/ogre_helpers/ogre_render_queue_clearer.h \
-    #../src/rviz/ogre_helpers/orbit_camera.h \
-    #../src/rviz/ogre_helpers/orthographic.h \
-    #../src/rviz/ogre_helpers/point_cloud.h \
-    #../src/rviz/ogre_helpers/qt_ogre_render_window.h \
-    #../src/rviz/ogre_helpers/render_system.h \
-    #../src/rviz/ogre_helpers/render_widget.h \
-    #../src/rviz/ogre_helpers/shape.h \
-    #../src/rviz/ogre_helpers/version_check.h \
+    ../src/rviz/ogre_helpers/arrow.h \
