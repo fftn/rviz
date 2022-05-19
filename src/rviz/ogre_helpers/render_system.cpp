@@ -66,7 +66,6 @@
 
 #include <QMessageBox>
 
-#define ROS_PACKAGE_NAME "rviz"
 namespace rviz
 {
 RenderSystem* RenderSystem::instance_ = nullptr;
