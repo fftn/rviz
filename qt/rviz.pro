@@ -24,6 +24,8 @@ LIBS += -lxmlrpcpp
 LIBS += -L../lib/manual -lrostime
 LIBS += -L../lib/3pl -lresource_retriever -lmessage_filters -lconsole_bridge -ltf2
 LIBS += -L../lib/cmake -lclass_loader -limage_transport -ltf2_ros
+LIBS += /home/fft/Downloads/mrviz/utility/rostime/src/librostime.so
+
 
 LIBS += -lX11 -L/usr/lib/x86_64-linux-gnu/
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
