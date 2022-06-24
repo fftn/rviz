@@ -5,17 +5,21 @@ QT += widgets
 
 INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/rviz/default_plugin/view_controllers/
-INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
+#INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
 INCLUDEPATH += ../src/rviz
 INCLUDEPATH += ../src/rviz/robot
 INCLUDEPATH += /opt/ros/noetic/include/
 INCLUDEPATH += /usr/include/OGRE/
+INCLUDEPATH += /usr/include/eigen3
 
 
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 LIBS += -L/home/fft/Qt5.14.2/5.14.2/gcc_64/lib/
 
 
+LIBS += -L/opt/ros/noetic/lib
+LIBS += -lrostime
+LIBS += -lactionlib
 LIBS += -lrosconsole
 LIBS += -lroscpp_serialization
 LIBS += -lroscpp
@@ -24,7 +28,6 @@ LIBS += -lxmlrpcpp
 LIBS += -L../lib/manual -lrostime
 LIBS += -L../lib/3pl -lresource_retriever -lmessage_filters -lconsole_bridge -ltf2
 LIBS += -L../lib/cmake -lclass_loader -limage_transport -ltf2_ros
-LIBS += /home/fft/Downloads/mrviz/utility/rostime/src/librostime.so
 
 
 LIBS += -lX11 -L/usr/lib/x86_64-linux-gnu/
