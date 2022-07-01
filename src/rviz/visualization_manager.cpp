@@ -51,9 +51,6 @@
 #include <boost/filesystem.hpp>
 #include <utility>
 
-#include <ros/package.h>
-#include <ros/callback_queue.h>
-
 #include <rviz/display.h>
 #include <rviz/display_factory.h>
 #include <rviz/display_group.h>
@@ -80,6 +77,8 @@
 
 #include <rviz/visualization_manager.h>
 #include <rviz/window_manager_interface.h>
+
+#include <ros/callback_queue.h>
 
 namespace rviz
 {
@@ -148,7 +147,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
 
   directional_light_ = scene_manager_->createLight("MainDirectional");
   directional_light_->setType(Ogre::Light::LT_DIRECTIONAL);
-  directional_light_->setDirection(Ogre::Vector3(-1, 0, -1));
+  //directional_light_->setDirection(Ogre::Vector3(-1, 0, -1));
   directional_light_->setDiffuseColour(Ogre::ColourValue(1.0f, 1.0f, 1.0f));
 
   root_display_group_ = new DisplayGroup();
@@ -368,7 +367,7 @@ void VisualizationManager::onUpdate()
 
   if (view_manager_ && view_manager_->getCurrent() && view_manager_->getCurrent()->getCamera())
   {
-    directional_light_->setDirection(view_manager_->getCurrent()->getCamera()->getDerivedDirection());
+    //directional_light_->setDirection(view_manager_->getCurrent()->getCamera()->getDerivedDirection());
   }
 
   frame_count_++;
@@ -422,7 +421,7 @@ void VisualizationManager::resetTime()
 {
   root_display_group_->reset();
   frame_manager_->getTF2BufferPtr()->clear();
-  ros_time_begin_ = ros::Time();
+  sim_time_begin_ = ros::Time();
   wall_clock_begin_ = ros::WallTime();
 
   queueRender();
@@ -486,7 +485,7 @@ double VisualizationManager::getWallClock()
 
 double VisualizationManager::getROSTime()
 {
-  return frame_manager_->getTime().toSec();
+  return frame_manager_->getTime();
 }
 
 double VisualizationManager::getWallClockElapsed()
@@ -496,7 +495,7 @@ double VisualizationManager::getWallClockElapsed()
 
 double VisualizationManager::getROSTimeElapsed()
 {
-  return (frame_manager_->getTime() - ros_time_begin_).toSec();
+  return frame_manager_->getTime() - ros_time_begin_;
 }
 
 void VisualizationManager::updateBackgroundColor()

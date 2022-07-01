@@ -56,10 +56,6 @@
 #include <boost/bind/bind.hpp>
 #include <boost/filesystem.hpp>
 
-//#include <ros/console.h>
-//#include <ros/package.h>
-//#include <ros/init.h>
-
 #include <OgreRenderWindow.h>
 #include <OgreMeshManager.h>
 
@@ -131,7 +127,7 @@ VisualizationFrame::VisualizationFrame(QWidget* parent)
   post_load_timer_->setSingleShot(true);
   connect(post_load_timer_, SIGNAL(timeout()), this, SLOT(markLoadingDone()));
 
-  package_path_ = ros::package::getPath("rviz");
+  package_path_ = "./";//ros::package::getPath("rviz");
   help_path_ = QString::fromStdString((fs::path(package_path_) / "help/help.html").string());
   splash_path_ = QString::fromStdString((fs::path(package_path_) / "images/splash.png").string());
 
@@ -179,13 +175,14 @@ void VisualizationFrame::setStatus(const QString& message)
 void VisualizationFrame::updateFps()
 {
   frame_count_++;
-  ros::WallDuration wall_diff = ros::WallTime::now() - last_fps_calc_time_;
+  double dCurTime = 10;//ewayos::Time::GetCurrentTime();
+  double dTimeDif = dCurTime-m_dLastCalTime;
 
-  if (wall_diff.toSec() > 1.0)
+  if (dTimeDif > 1.0)
   {
-    float fps = frame_count_ / wall_diff.toSec();
+    float fps = frame_count_ / dTimeDif;
     frame_count_ = 0;
-    last_fps_calc_time_ = ros::WallTime::now();
+    m_dLastCalTime = dCurTime;
     if (original_status_bar_ == statusBar())
     {
       fps_label_->setText(QString::number(int(fps)) + QString(" fps"));
@@ -262,12 +259,12 @@ void VisualizationFrame::initialize(const QString& display_config_file)
   // See: http://doc.qt.io/qt-5/qsplashscreen.html#details
   if (app_)
     app_->processEvents();
-
+/*
   if (!ros::isInitialized())
   {
     int argc = 0;
     ros::init(argc, nullptr, "rviz", ros::init_options::AnonymousName);
-  }
+  }*/
 
   // Periodically process events for the splash screen.
   if (app_)
@@ -427,7 +424,7 @@ void VisualizationFrame::loadPersistentSettings()
   }
   else
   {
-    ROS_ERROR("%s", qPrintable(reader.errorMessage()));
+    printf("%s\n", qPrintable(reader.errorMessage()));
   }
 }
 
@@ -447,7 +444,7 @@ void VisualizationFrame::savePersistentSettings()
 
   if (writer.error())
   {
-    ROS_ERROR("%s", qPrintable(writer.errorMessage()));
+    printf("%s\n", qPrintable(writer.errorMessage()));
   }
 }
 
@@ -735,7 +732,7 @@ void VisualizationFrame::loadDisplayConfig(const QString& qpath)
     actual_load_path = (fs::path(package_path_) / "default.rviz");
     if (!fs::is_regular_file(actual_load_path))
     {
-      ROS_ERROR("Default display config '%s' not found.  RViz will be very empty at first.",
+      printf("Default display config '%s' not found.  RViz will be very empty at first.\n",
                 actual_load_path.c_str());
       return;
     }
@@ -831,7 +828,7 @@ bool VisualizationFrame::saveDisplayConfig(const QString& path)
 
   if (writer.error())
   {
-    ROS_ERROR("%s", qPrintable(writer.errorMessage()));
+    printf("%s\n", qPrintable(writer.errorMessage()));
     error_message_ = writer.errorMessage();
     return false;
   }

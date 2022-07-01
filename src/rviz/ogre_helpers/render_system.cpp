@@ -51,9 +51,6 @@
 #undef CursorShape
 #endif
 
-#include <ros/package.h> // This dependency should be moved out of here, it is just used for a search path.
-#include <ros/console.h>
-
 #include <rviz/ogre_helpers/version_check.h>
 #include <OgreRenderWindow.h>
 #include <OgreSceneManager.h>
@@ -86,29 +83,24 @@ RenderSystem* RenderSystem::get()
 void RenderSystem::forceGlVersion(int version)
 {
   force_gl_version_ = version;
-  ROS_INFO_STREAM("Forcing OpenGl version " << (float)version / 100.0 << ".");
 }
 
 void RenderSystem::disableAntiAliasing()
 {
   use_anti_aliasing_ = false;
-  ROS_INFO("Disabling Anti-Aliasing");
 }
 
 void RenderSystem::forceNoStereo()
 {
   force_no_stereo_ = true;
-  ROS_INFO("Forcing Stereo OFF");
 }
 
 RenderSystem::RenderSystem() : ogre_overlay_system_(nullptr), stereo_supported_(false)
 {
   OgreLogging::configureLogging();
 
-  std::string rviz_path = ros::package::getPath(ROS_PACKAGE_NAME);
-
   setupDummyWindowId();
-  ogre_root_ = new Ogre::Root(rviz_path + "/ogre_media/plugins.cfg");
+  ogre_root_ = new Ogre::Root("./ogre_media/plugins.cfg");
   ogre_overlay_system_ = new Ogre::OverlaySystem();
   loadOgrePlugins();
   setupRenderSystem();
@@ -134,12 +126,10 @@ void RenderSystem::setupDummyWindowId()
 
   if (display == nullptr)
   {
-    ROS_WARN("$DISPLAY is invalid, falling back on default :0");
     display = XOpenDisplay(":0");
 
     if (display == nullptr)
     {
-      ROS_FATAL("Can't open default or :0 display. Try setting DISPLAY environment variable.");
       throw std::runtime_error("Can't open default or :0 display!\n");
     }
   }
@@ -183,7 +173,6 @@ void RenderSystem::detectGlVersion()
   {
     Ogre::RenderSystem* renderSys = ogre_root_->getRenderSystem();
     const Ogre::RenderSystemCapabilities* caps = renderSys->createRenderSystemCapabilities();
-    ROS_INFO("OpenGL device: %s", caps->getDeviceName().c_str());
     int major = caps->getDriverVersion().major;
     int minor = caps->getDriverVersion().minor;
     gl_version_ = major * 100 + minor * 10;
@@ -227,14 +216,12 @@ void RenderSystem::detectGlVersion()
   }
   if (mesa_workaround)
   { // https://github.com/ros-visualization/rviz/issues/1508
-    ROS_INFO("OpenGl version: %.1f (GLSL %.1f) limited to GLSL 1.4 on Mesa system.",
-             (float)gl_version_ / 100.0, (float)glsl_version_ / 100.0);
 
     gl_version_ = 310;
     glsl_version_ = 140;
     return;
   }
-  ROS_INFO("OpenGl version: %.1f (GLSL %.1f).", (float)gl_version_ / 100.0, (float)glsl_version_ / 100.0);
+  printf("OpenGl version: %.1f (GLSL %.1f).\n", (float)gl_version_ / 100.0, (float)glsl_version_ / 100.0);
 }
 
 void RenderSystem::setupRenderSystem()
@@ -280,7 +267,7 @@ void RenderSystem::setupRenderSystem()
 
 void RenderSystem::setupResources()
 {
-  std::string rviz_path = ros::package::getPath(ROS_PACKAGE_NAME);
+  std::string rviz_path = ".";
   Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
       rviz_path + "/ogre_media", "FileSystem", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
   Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
@@ -337,7 +324,7 @@ void RenderSystem::setupResources()
 
   // Add paths exported to the "media_export" package.
   std::vector<std::string> media_paths;
-  ros::package::getPlugins("media_export", "ogre_media_path", media_paths);
+  //ros::package::getPlugins("media_export", "ogre_media_path", media_paths);
   std::string delim(":");
   for (std::vector<std::string>::iterator iter = media_paths.begin(); iter != media_paths.end(); ++iter)
   {
@@ -349,14 +336,13 @@ void RenderSystem::setupResources()
       while (pos2 != (int)std::string::npos)
       {
         path = iter->substr(pos1, pos2 - pos1);
-        ROS_DEBUG("adding resource location: '%s'\n", path.c_str());
+
         Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
             path, "FileSystem", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
         pos1 = pos2 + 1;
         pos2 = iter->find(delim, pos2 + 1);
       }
       path = iter->substr(pos1, iter->size() - pos1);
-      ROS_DEBUG("adding resource location: '%s'\n", path.c_str());
       Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
           path, "FileSystem", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
     }
@@ -460,7 +446,7 @@ Ogre::RenderWindow* RenderSystem::makeRenderWindow(WindowIDType window_id,
 
   if (window == nullptr)
   {
-    ROS_ERROR("Unable to create the rendering window after 100 tries.");
+    printf("Unable to create the rendering window after 100 tries.\n");
     assert(false);
   }
 
@@ -473,7 +459,7 @@ Ogre::RenderWindow* RenderSystem::makeRenderWindow(WindowIDType window_id,
 
   stereo_supported_ = is_stereo;
 
-  ROS_INFO_ONCE("Stereo is %s", stereo_supported_ ? "SUPPORTED" : "NOT SUPPORTED");
+  printf("Stereo is %s\n", stereo_supported_ ? "SUPPORTED" : "NOT SUPPORTED");
 
   return window;
 }
@@ -519,7 +505,7 @@ Ogre::RenderWindow* RenderSystem::tryMakeRenderWindow(const std::string& name,
 
   if (window && attempts > 1)
   {
-    ROS_INFO("Created render window after %d attempts.", attempts);
+    printf("Created render window after %d attempts.\n", attempts);
   }
 
   return window;

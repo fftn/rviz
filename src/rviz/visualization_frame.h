@@ -43,7 +43,7 @@
 #include <rviz/panel.h>
 #include <rviz/rviz_export.h>
 
-#include <ros/time.h>
+//#include <ros/time.h>
 
 class QSplashScreen;
 class QAction;
@@ -396,7 +396,9 @@ protected:
   QStatusBar* original_status_bar_;
 
   int frame_count_;
-  ros::WallTime last_fps_calc_time_;
+
+  double m_dLastCalTime;
+  //ros::WallTime last_fps_calc_time_;
 
   QString error_message_; ///< Error message (if any) from most recent saveDisplayConfig() call.
 

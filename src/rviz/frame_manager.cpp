@@ -31,11 +31,8 @@
 #include "display.h"
 #include "properties/property.h"
 
-#include <ros/ros.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-
-#include <std_msgs/Float32.h>
 
 namespace rviz
 {
@@ -64,13 +61,13 @@ void FrameManager::update()
   {
     cache_.clear();
   }
-
+  double dCurTime = 10;//ewayos::Time::GetCurTime();r
   if (!pause_)
   {
     switch (sync_mode_)
     {
     case SyncOff:
-      sync_time_ = ros::Time::now();
+      sync_time_ = dCurTime;
       break;
     case SyncExact:
       break;
@@ -79,11 +76,11 @@ void FrameManager::update()
       current_delta_ = 0.7 * current_delta_ + 0.3 * sync_delta_;
       try
       {
-        sync_time_ = ros::Time::now() - ros::Duration(current_delta_);
+        sync_time_ = dCurTime - current_delta_;
       }
       catch (...)
       {
-        sync_time_ = ros::Time::now();
+        sync_time_ = dCurTime;
       }
       break;
     }
@@ -118,30 +115,31 @@ void FrameManager::setPause(bool pause)
 void FrameManager::setSyncMode(SyncMode mode)
 {
   sync_mode_ = mode;
-  sync_time_ = ros::Time(0);
+  sync_time_ = 0;
   current_delta_ = 0;
   sync_delta_ = 0;
 }
 
-void FrameManager::syncTime(ros::Time time)
+void FrameManager::syncTime(double dTime)
 {
   switch (sync_mode_)
   {
   case SyncOff:
     break;
   case SyncExact:
-    sync_time_ = time;
+    sync_time_ = dTime;
     break;
   case SyncApprox:
-    if (time == ros::Time(0))
+    if (dTime == 0)
     {
       sync_delta_ = 0;
       return;
     }
+    double dCurTime = 0;//ewayos::Time::GetCurTime();
     // avoid exception due to negative time
-    if (ros::Time::now() >= time)
+    if (dCurTime >= dTime)
     {
-      sync_delta_ = (ros::Time::now() - time).toSec();
+      sync_delta_ = dCurTime - dTime;
     }
     else
     {
@@ -151,10 +149,11 @@ void FrameManager::syncTime(ros::Time time)
   }
 }
 
-bool FrameManager::adjustTime(const std::string& frame, ros::Time& time)
+bool FrameManager::adjustTime(const std::string& frame, double &time)
 {
   // we only need to act if we get a zero timestamp, which means "latest"
-  if (time != ros::Time())
+    ros::Time rTime( time);
+  if (rTime != ros::Time())
   {
     return true;
   }
@@ -184,8 +183,8 @@ bool FrameManager::adjustTime(const std::string& frame, ros::Time& time)
                 frame.c_str(), fixed_frame_.c_str(), error_string.c_str(), error_code);
       return false;
     }
-
-    if (latest_time > sync_time_)
+    ros::Time rsync_time(sync_time_,sync_time_*1000000);
+    if (latest_time > rsync_time)
     {
       time = sync_time_;
     }
@@ -197,7 +196,7 @@ bool FrameManager::adjustTime(const std::string& frame, ros::Time& time)
 
 
 bool FrameManager::getTransform(const std::string& frame,
-                                ros::Time time,
+                                double time,
                                 Ogre::Vector3& position,
                                 Ogre::Quaternion& orientation)
 {
@@ -238,7 +237,7 @@ bool FrameManager::getTransform(const std::string& frame,
 }
 
 bool FrameManager::transform(const std::string& frame,
-                             ros::Time time,
+                             double time,
                              const geometry_msgs::Pose& pose_msg,
                              Ogre::Vector3& position,
                              Ogre::Quaternion& orientation)
@@ -259,7 +258,8 @@ bool FrameManager::transform(const std::string& frame,
   // convert pose into fixed_frame_
   try
   {
-    tf2::doTransform(pose, pose, tf_buffer_->lookupTransform(fixed_frame_, frame, time));
+     ros::Time rTime(time,time*1000000);
+    tf2::doTransform(pose, pose, tf_buffer_->lookupTransform(fixed_frame_, frame, rTime));
   }
   catch (std::runtime_error& e)
   {
@@ -275,7 +275,7 @@ bool FrameManager::transform(const std::string& frame,
   return true;
 }
 
-bool FrameManager::frameHasProblems(const std::string& frame, ros::Time /*time*/, std::string& error)
+bool FrameManager::frameHasProblems(const std::string& frame, double /*time*/, std::string& error)
 {
   if (!tf_buffer_->_frameExists(frame))
   {
@@ -290,7 +290,7 @@ bool FrameManager::frameHasProblems(const std::string& frame, ros::Time /*time*/
   return false;
 }
 
-bool FrameManager::transformHasProblems(const std::string& frame, ros::Time time, std::string& error)
+bool FrameManager::transformHasProblems(const std::string& frame, double time, std::string& error)
 {
   if (!adjustTime(frame, time))
   {
@@ -298,7 +298,8 @@ bool FrameManager::transformHasProblems(const std::string& frame, ros::Time time
   }
 
   std::string tf_error;
-  bool transform_succeeded = tf_buffer_->canTransform(fixed_frame_, frame, time, &tf_error);
+   ros::Time rTime(time,time*1000000);
+  bool transform_succeeded = tf_buffer_->canTransform(fixed_frame_, frame, rTime, &tf_error);
   if (transform_succeeded)
   {
     return false;
@@ -333,7 +334,7 @@ std::string getTransformStatusName(const std::string& caller_id)
 }
 
 std::string FrameManager::discoverFailureReason(const std::string& frame_id,
-                                                const ros::Time& stamp,
+                                                const double& stamp,
                                                 const std::string& /*caller_id*/,
                                                 tf2_ros::FilterFailureReason reason)
 {
@@ -356,7 +357,7 @@ std::string FrameManager::discoverFailureReason(const std::string& frame_id,
 }
 
 void FrameManager::messageArrived(const std::string& /*frame_id*/,
-                                  const ros::Time& /*stamp*/,
+                                  const double& /*stamp*/,
                                   const std::string& caller_id,
                                   Display* display)
 {

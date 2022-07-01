@@ -181,7 +181,7 @@ void TimePanel::onDisplayRemoved(Display* display)
   }
 }
 
-void TimePanel::onTimeSignal(Display* display, ros::Time time)
+void TimePanel::onTimeSignal(Display* display, double dTime)
 {
   QString name = display->getName();
   int index = sync_source_selector_->findData(QVariant((qulonglong)display));
@@ -205,7 +205,7 @@ void TimePanel::onTimeSignal(Display* display, ros::Time time)
     sync_source_selector_->setItemText(index, name);
     if (sync_source_selector_->currentIndex() == index)
     {
-      vis_manager_->getFrameManager()->syncTime(time);
+      vis_manager_->getFrameManager()->syncTime(dTime);
     }
   }
 }

@@ -49,12 +49,11 @@
 #include <OgreTechnique.h>
 #include <OgreRectangle2D.h>
 
-#include <sensor_msgs/image_encodings.h>
-#include <sensor_msgs/Image.h>
-
-#include <ros/assert.h>
-#include <ros/node_handle.h>
-#include <ros/publisher.h>
+//#include <sensor_msgs/image_encodings.h>
+//#include <sensor_msgs/Image.h>
+//#include <ros/assert.h>
+//#include <ros/node_handle.h>
+//#include <ros/publisher.h>
 
 #include <rviz/ogre_helpers/arrow.h>
 #include <rviz/ogre_helpers/axes.h>
@@ -178,7 +177,7 @@ void SelectionManager::initialize()
 
 bool SelectionManager::get3DPoint(Ogre::Viewport* viewport, int x, int y, Ogre::Vector3& result_point)
 {
-  ROS_DEBUG("SelectionManager.get3DPoint()");
+  printf("SelectionManager.get3DPoint()\n");
 
   std::vector<Ogre::Vector3> result_points_temp;
   bool success = get3DPatch(viewport, x, y, 1, 1, true, result_points_temp);
@@ -232,7 +231,7 @@ bool SelectionManager::getPatchDepthImage(Ogre::Viewport* viewport,
   }
   else
   {
-    ROS_WARN("Failed to render depth patch\n");
+    printf("Failed to render depth patch\n");
     return false;
   }
 
@@ -256,7 +255,7 @@ bool SelectionManager::get3DPatch(Ogre::Viewport* viewport,
                                   std::vector<Ogre::Vector3>& result_points)
 {
   boost::recursive_mutex::scoped_lock lock(global_mutex_);
-  ROS_DEBUG("SelectionManager.get3DPatch()");
+  printf("SelectionManager.get3DPatch()\n");
 
   std::vector<float> depth_vector;
 
@@ -331,9 +330,7 @@ void SelectionManager::setDepthTextureSize(unsigned width, unsigned height)
   if (width > 1024)
   {
     width = 1024;
-    ROS_ERROR_STREAM("SelectionManager::setDepthTextureSize invalid width requested. Max Width: 1024 -- "
-                     "Width requested: "
-                     << width << ".  Capping Width at 1024.");
+    printf("SelectionManager::setDepthTextureSize invalid width requested. Max Width: 1024 -- Width requested: %d.  Capping Width at 1024.",width);
   }
 
   if (depth_texture_width_ != width)
@@ -342,9 +339,7 @@ void SelectionManager::setDepthTextureSize(unsigned width, unsigned height)
   if (height > 1024)
   {
     height = 1024;
-    ROS_ERROR_STREAM("SelectionManager::setDepthTextureSize invalid height requested. Max Height: 1024 "
-                     "-- Height requested: "
-                     << width << ".  Capping Height at 1024.");
+    printf("SelectionManager::setDepthTextureSize invalid height requested. Max Height: 1024 -- Height requested: %d.  Capping Height at 1024.",width);
   }
 
   if (depth_texture_height_ != height)
@@ -473,7 +468,7 @@ void SelectionManager::addObject(CollObjectHandle obj, SelectionHandler* handler
   }
 
   bool inserted = objects_.insert(std::make_pair(obj, handler)).second;
-  ROS_ASSERT(inserted);
+  assert(inserted);
   Q_UNUSED(inserted);
 }
 
@@ -605,7 +600,7 @@ void SelectionManager::renderAndUnpack(Ogre::Viewport* viewport,
                                        int y2,
                                        V_CollObject& pixels)
 {
-  ROS_ASSERT(pass < s_num_render_textures_);
+  assert(pass < s_num_render_textures_);
 
   std::stringstream scheme;
   scheme << "Pick";
@@ -664,7 +659,7 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
 
   if (x2 == x1 || y2 == y1)
   {
-    ROS_WARN("SelectionManager::render(): not rendering 0 size area.");
+    printf("SelectionManager::render(): not rendering 0 size area.\n");
     vis_manager_->unlockRender();
     return false;
   }
@@ -741,7 +736,8 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
   // make sure the same objects are visible as in the original viewport
   render_viewport->setVisibilityMask(viewport->getVisibilityMask());
 
-  ros::WallTime start = ros::WallTime::now();
+  //ros::WallTime start = ros::WallTime::now();
+  double dStartTime = 10;//ewayos::Time::GetCurTime();
 
   // update & force ogre to render the scene
   Ogre::MaterialManager::getSingleton().addListener(this);
@@ -761,10 +757,10 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
   vis_manager_->getSceneManager()->_renderScene(main_view->getCamera(), main_view, false);
   vis_manager_->getSceneManager()->removeRenderQueueListener(this);
 
-  ros::WallTime end = ros::WallTime::now();
-  ros::WallDuration d = end - start;
+  double dEndTime = 10;//ewayos::Time::GetCurTime();//ros::WallTime::now();
+  double dTimeDif = dEndTime - dStartTime;
   //  ROS_DEBUG("Render took [%f] msec", d.toSec() * 1000.0f);
-  Q_UNUSED(d);
+  Q_UNUSED(dTimeDif);
 
   Ogre::MaterialManager::getSingleton().removeListener(this);
 
@@ -793,6 +789,7 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
 
 void SelectionManager::publishDebugImage(const Ogre::PixelBox& pixel_box, const std::string& label)
 {
+    /*
   ros::Publisher pub;
   ros::NodeHandle nh;
   PublisherMap::const_iterator iter = debug_publishers_.find(label);
@@ -847,7 +844,7 @@ void SelectionManager::publishDebugImage(const Ogre::PixelBox& pixel_box, const 
     msg.data[dest_index++] = b;
   }
 
-  pub.publish(msg);
+  pub.publish(msg);*/
 }
 
 void SelectionManager::renderQueueStarted(uint8_t /*queueGroupId*/,
@@ -950,7 +947,7 @@ void SelectionManager::pick(Ogre::Viewport* viewport,
       for (; need_it != need_end; ++need_it)
       {
         SelectionHandler* handler = getHandler(*need_it);
-        ROS_ASSERT(handler);
+        assert(handler);
 
         handler->preRenderPass(pass);
       }
@@ -964,7 +961,7 @@ void SelectionManager::pick(Ogre::Viewport* viewport,
       for (; need_it != need_end; ++need_it)
       {
         SelectionHandler* handler = getHandler(*need_it);
-        ROS_ASSERT(handler);
+        assert(handler);
 
         handler->postRenderPass(pass);
       }
@@ -1333,7 +1330,7 @@ void SelectionManager::selectionRemoved(const M_Picked& removed)
   {
     const Picked& picked = it->second;
     SelectionHandler* handler = getHandler(picked.handle);
-    ROS_ASSERT(handler);
+    assert(handler);
 
     handler->destroyProperties(picked, property_model_->getRoot());
   }
@@ -1347,7 +1344,7 @@ void SelectionManager::selectionAdded(const M_Picked& added)
   {
     const Picked& picked = it->second;
     SelectionHandler* handler = getHandler(picked.handle);
-    ROS_ASSERT(handler);
+    assert(handler);
 
     handler->createProperties(picked, property_model_->getRoot());
   }

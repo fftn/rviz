@@ -46,7 +46,7 @@ boost::filesystem::path getPath(const QString& url)
   {
     QString package_name = url.section('/', 2, 2);
     QString file_name = url.section('/', 3);
-    path = ros::package::getPath(package_name.toStdString());
+    path = "./";//ros::package::getPath(package_name.toStdString());
     path = path / file_name.toStdString();
   }
   else if (url.indexOf("file://", 0, Qt::CaseInsensitive) == 0)
@@ -55,7 +55,7 @@ boost::filesystem::path getPath(const QString& url)
   }
   else
   {
-    ROS_ERROR("Invalid or unsupported URL: '%s'", url.toStdString().c_str());
+    printf("Invalid or unsupported URL: '%s'\n", url.toStdString().c_str());
   }
 
   return path;
@@ -78,10 +78,10 @@ QPixmap loadPixmap(const QString& url, bool fill_cache)
   // so the error won't appear again anytime soon.
   if (boost::filesystem::exists(path))
   {
-    ROS_DEBUG_NAMED("load_resource", "Loading '%s'", path.string().c_str());
+    printf("load_resource Loading '%s'\n", path.string().c_str());
     if (!pixmap.load(QString::fromStdString(path.string())))
     {
-      ROS_ERROR("Could not load pixmap '%s'", path.string().c_str());
+      printf("Could not load pixmap '%s'\n", path.string().c_str());
     }
   }
 
@@ -103,7 +103,7 @@ QCursor makeIconCursor(const QString& url, bool fill_cache)
   QPixmap icon = loadPixmap(url, fill_cache);
   if (icon.width() == 0 || icon.height() == 0)
   {
-    ROS_ERROR("Could not load pixmap '%s' -- using default cursor instead.", url.toStdString().c_str());
+    printf("Could not load pixmap '%s' -- using default cursor instead.\n", url.toStdString().c_str());
     return getDefaultCursor();
   }
   QString cache_key = url + ".cursor";
@@ -119,7 +119,7 @@ QCursor makeIconCursor(const QPixmap& icon, const QString& cache_key, bool fill_
     return QCursor(cursor_img, 0, 0);
   }
 
-  QPixmap base_cursor = loadPixmap("package://rviz/icons/cursor.svg", fill_cache);
+  QPixmap base_cursor = loadPixmap("./icons/cursor.svg", fill_cache);
 
   const int cursor_size = 32;
 

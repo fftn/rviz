@@ -426,7 +426,7 @@ protected:
   RenderPanel* render_panel_;
 
   ros::WallTime wall_clock_begin_;
-  ros::Time ros_time_begin_;
+  double sim_time_begin_;
   ros::WallDuration wall_clock_elapsed_;
   ros::Duration ros_time_elapsed_;
 

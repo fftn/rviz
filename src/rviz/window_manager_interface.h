@@ -29,7 +29,7 @@
 
 #ifndef WINDOW_MANAGER_INTERFACE_H
 #define WINDOW_MANAGER_INTERFACE_H
-
+#include <QDockWidget>
 class QWidget;
 class QString;
 

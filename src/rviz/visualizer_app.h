@@ -70,11 +70,6 @@ private:
   QApplication* app_;
   QTimer* continue_timer_;
   VisualizationFrame* frame_;
-  //ros::NodeHandlePtr nh_;
-  //ros::ServiceServer reload_shaders_service_;
-  //ros::ServiceServer load_config_service_;
-  //ros::ServiceServer load_config_discarding_service_;
-  //ros::ServiceServer save_config_service_;
 };
 
 } // end namespace rviz

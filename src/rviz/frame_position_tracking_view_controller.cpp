@@ -39,6 +39,7 @@
 #include <rviz/view_manager.h>
 
 #include <rviz/frame_position_tracking_view_controller.h>
+#include <time.h>
 
 namespace rviz
 {
@@ -97,7 +98,7 @@ bool FramePositionTrackingViewController::getNewTransform()
   Ogre::Quaternion new_reference_orientation;
 
   bool got_transform =
-      context_->getFrameManager()->getTransform(target_frame_property_->getFrameStd(), ros::Time(),
+      context_->getFrameManager()->getTransform(target_frame_property_->getFrameStd(), (double)time(NULL),
                                                 new_reference_position, new_reference_orientation);
   if (got_transform)
   {

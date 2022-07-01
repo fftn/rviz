@@ -36,7 +36,6 @@
 #include <OgreMaterialManager.h>
 #include <OgreGpuProgramManager.h>
 #include <OgreHighLevelGpuProgramManager.h>
-#include <std_srvs/Empty.h>
 
 #ifdef Q_OS_MAC
 #include <ApplicationServices/ApplicationServices.h>
@@ -127,9 +126,7 @@ bool VisualizerApp::init(int argc, char** argv)
   try
   {
 #endif
-    ros::init(argc, argv, "rviz", ros::init_options::AnonymousName);
-
-    startContinueChecker();
+    startContinueChecker();//creator timer
 
     std::string display_config, fixed_frame, splash_path, help_path;
     int force_gl_version = 0;
@@ -164,31 +161,11 @@ bool VisualizerApp::init(int argc, char** argv)
         std::cout << "rviz command line options:\n" << options;
         return false;
       }
-
-      if (vm.count("log-level-debug"))
-      {
-        if (ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Debug))
-        {
-          ros::console::notifyLoggerLevelsChanged();
-        }
-      }
     }
     catch (std::exception& e)
     {
-      ROS_ERROR("Error parsing command line: %s", e.what());
       return false;
     }
-
-    //if (!ros::master::check())
-    //{
-      //WaitForMasterDialog dialog;
-      //if (dialog.exec() != QDialog::Accepted)
-      //{
-        //return false;
-      //}
-    //}
-
-    //nh_.reset(new ros::NodeHandle);
 
     if (vm.count("ogre-log"))
       OgreLogging::useRosLog();
@@ -222,16 +199,6 @@ bool VisualizerApp::init(int argc, char** argv)
       frame_->setFullScreen(true);
     frame_->show();
 
-    //ros::NodeHandle private_nh("~");
-    //reload_shaders_service_ = private_nh.advertiseService("reload_shaders", reloadShaders);
-
-    //load_config_service_ =
-        //private_nh.advertiseService("load_config", &VisualizerApp::loadConfigCallback, this);
-    //load_config_discarding_service_ = private_nh.advertiseService(
-        //"load_config_discarding_changes", &VisualizerApp::loadConfigDiscardingCallback, this);
-    //save_config_service_ =
-        //private_nh.advertiseService("save_config", &VisualizerApp::saveConfigCallback, this);
-
 #if CATCH_EXCEPTIONS
   }
   catch (std::exception& e)
@@ -258,15 +225,12 @@ void VisualizerApp::startContinueChecker()
 
 void VisualizerApp::checkContinue()
 {
-  if (!ros::ok())
-  {
     if (frame_)
     {
       // Make sure the window doesn't ask if we want to save first.
       frame_->setWindowModified(false);
     }
     QApplication::closeAllWindows();
-  }
 }
 
 bool VisualizerApp::loadConfigCallback(rviz::SendFilePathRequest& req, rviz::SendFilePathResponse& res)

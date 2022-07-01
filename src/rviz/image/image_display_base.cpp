@@ -33,7 +33,7 @@
 
 #include <pluginlib/class_loader.hpp>
 
-#include <image_transport/subscriber_plugin.h>
+//#include <image_transport/subscriber_plugin.h>
 
 #include <rviz/validate_floats.h>
 
@@ -43,10 +43,10 @@ namespace rviz
 {
 ImageDisplayBase::ImageDisplayBase() : Display(), sub_(), tf_filter_(), messages_received_(0)
 {
-  topic_property_ =
-      new RosTopicProperty("Image Topic", "",
-                           QString::fromStdString(ros::message_traits::datatype<sensor_msgs::Image>()),
-                           "sensor_msgs::Image topic to subscribe to.", this, SLOT(updateTopic()));
+//  topic_property_ =
+//      new RosTopicProperty("Image Topic", "",
+//                           QString::fromStdString(ros::message_traits::datatype<sensor_msgs::Image>()),
+//                           "sensor_msgs::Image topic to subscribe to.", this, SLOT(updateTopic()));
 
   transport_property_ = new EnumProperty("Transport Hint", "raw", "Preferred method of sending images.",
                                          this, SLOT(updateTopic()));

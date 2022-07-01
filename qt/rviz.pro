@@ -7,36 +7,43 @@ INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/rviz/default_plugin/view_controllers/
 #INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
 INCLUDEPATH += ../src/rviz
+INCLUDEPATH += ../src/utils
 INCLUDEPATH += ../src/rviz/robot
 INCLUDEPATH += /opt/ros/noetic/include/
-INCLUDEPATH += /usr/include/OGRE/
-INCLUDEPATH += /usr/include/eigen3
+INCLUDEPATH += ../3rdlibs/OGRE/include/
+INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/
+INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
+INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/ros/
+INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/tinyxml2/
 
 
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
-LIBS += -L/home/fft/Qt5.14.2/5.14.2/gcc_64/lib/
-
-
-LIBS += -L/opt/ros/noetic/lib
+LIBS += -L../3rdlibs/OGRE/libs/
+LIBS += -L../3rdlibs/image-transport/lib/
+LIBS += -L../3rdlibs/
+LIBS += -L/usr/share/ewaybot/thirdpartylib/lib
+LIBS += -L/usr/share/ewaybot/thirdpartylib/lib/ros
 LIBS += -lrostime
 LIBS += -lactionlib
 LIBS += -lrosconsole
 LIBS += -lroscpp_serialization
 LIBS += -lroscpp
 LIBS += -lroslib
+LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
+LIBS += -limage_transport
+LIBS += -lclass_loader
 LIBS += -lxmlrpcpp
 LIBS += -L../lib/manual -lrostime
 LIBS += -L../lib/3pl -lresource_retriever -lmessage_filters -lconsole_bridge -ltf2
 LIBS += -L../lib/cmake -lclass_loader -limage_transport -ltf2_ros
-
-
 LIBS += -lX11 -L/usr/lib/x86_64-linux-gnu/
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
 LIBS += -ltinyxml -ltinyxml2
-LIBS += -lOgreOverlay -lOgreMain
+LIBS += -lOgreOverlay -lOgreMain -lOgreProperty -lOgreRTShaderSystem -lOgreTerrain -lOgreVolume -lOgrePaging
 LIBS += -lassimp -lyaml-cpp
-
-
+LIBS += -ltf2 -ltf2_ros
+LIBS += -ljpegxr -ljxrglue -L../3rdlibs/jxr/lib/
+LIBS += -lzzip  -L../3rdlibs/zzip/lib/
 
 
 SOURCES +=  ../src/rviz/main.cpp \

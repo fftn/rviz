@@ -34,7 +34,6 @@
 
 #include <QObject>
 
-#include <ros/time.h>
 #include <tf2_ros/buffer.h>
 #include <geometry_msgs/Pose.h>
 
@@ -107,10 +106,10 @@ public:
   }
 
   /** @brief Synchronize with given time. */
-  void syncTime(ros::Time time);
+  void syncTime(double dTime);
 
   /** @brief Get current time, depending on the sync mode. */
-  ros::Time getTime()
+  double getTime()
   {
     return sync_time_;
   }
@@ -133,7 +132,7 @@ public:
    * @param[out] orientation The orientation of the frame relative to the fixed frame.
    * @return true on success, false on failure. */
   bool getTransform(const std::string& frame,
-                    ros::Time time,
+                    double time,
                     Ogre::Vector3& position,
                     Ogre::Quaternion& orientation);
 
@@ -160,7 +159,7 @@ public:
    * @param[out] orientation: Orientation part of pose relative to the fixed frame.
    * @return true on success, false on failure. */
   bool transform(const std::string& frame,
-                 ros::Time time,
+                 double time,
                  const geometry_msgs::Pose& pose,
                  Ogre::Vector3& position,
                  Ogre::Quaternion& orientation);
@@ -173,14 +172,14 @@ public:
    * @param[in] time Dummy parameter, not actually used.
    * @param[out] error If the frame does not exist, an error message is stored here.
    * @return true if the frame does not exist, false if it does exist. */
-  bool frameHasProblems(const std::string& frame, ros::Time time, std::string& error);
+  bool frameHasProblems(const std::string& frame, double time, std::string& error);
 
   /** @brief Check to see if a transform is known between a given frame and the fixed frame.
    * @param[in] frame The name of the frame to check.
    * @param[in] time The time at which the transform is desired.
    * @param[out] error If the transform is not known, an error message is stored here.
    * @return true if the transform is not known, false if it is. */
-  bool transformHasProblems(const std::string& frame, ros::Time time, std::string& error);
+  bool transformHasProblems(const std::string& frame, double time, std::string& error);
 
   /** Connect success and failure callbacks to a tf2_ros::MessageFilter.
    * @param filter The tf2_ros::MessageFilter to connect to.
@@ -220,7 +219,7 @@ public:
    * Once a problem has been detected with a given frame or transform,
    * call this to get an error message describing the problem. */
   std::string discoverFailureReason(const std::string& frame_id,
-                                    const ros::Time& stamp,
+                                    const double &stamp,
                                     const std::string& caller_id,
                                     tf2_ros::FilterFailureReason reason);
 
@@ -229,7 +228,7 @@ Q_SIGNALS:
   void fixedFrameChanged();
 
 private:
-  bool adjustTime(const std::string& frame, ros::Time& time);
+  bool adjustTime(const std::string& frame, double& time);
 
   template <class M>
   void messageCallback(const ros::MessageEvent<M const>& msg_evt, Display* display)
@@ -252,7 +251,7 @@ private:
   }
 
   void messageArrived(const std::string& frame_id,
-                      const ros::Time& stamp,
+                      const double &stamp,
                       const std::string& caller_id,
                       Display* display);
 
@@ -260,7 +259,7 @@ private:
 
   template <class TfFilterFailureReasonType>
   void messageFailed(const std::string& frame_id,
-                     const ros::Time& stamp,
+                     const double& stamp,
                      const std::string& caller_id,
                      TfFilterFailureReasonType reason,
                      Display* display)
@@ -271,7 +270,7 @@ private:
 
   struct CacheKey
   {
-    CacheKey(const std::string& f, ros::Time t) : frame(f), time(t)
+    CacheKey(const std::string& f, double t) : frame(f), time(t)
     {
     }
 
@@ -286,7 +285,7 @@ private:
     }
 
     std::string frame;
-    ros::Time time;
+    double time;
   };
 
   struct CacheEntry
@@ -313,7 +312,7 @@ private:
   SyncMode sync_mode_;
 
   // the current synchronized time, used to overwrite ros:Time(0)
-  ros::Time sync_time_;
+  double sync_time_;
 
   // used for approx. syncing
   double sync_delta_;

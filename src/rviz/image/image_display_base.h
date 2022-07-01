@@ -36,8 +36,8 @@
 #include <tf2_ros/message_filter.h>
 #include <sensor_msgs/Image.h>
 
-#include <image_transport/image_transport.h>
-#include <image_transport/subscriber_filter.h>
+//#include <image_transport/image_transport.h>
+//#include <image_transport/subscriber_filter.h>
 
 #include "rviz/display_context.h"
 #include "rviz/frame_manager.h"
@@ -102,10 +102,10 @@ protected:
   /** @brief Incoming message callback.  Checks if the message pointer
    * is valid, increments messages_received_, then calls
    * processMessage(). */
-  void incomingMessage(const sensor_msgs::Image::ConstPtr& msg);
+  //void incomingMessage(const sensor_msgs::Image::ConstPtr& msg);
 
   /** @brief Callback for messages, whose frame_id cannot resolved */
-  void failedMessage(const sensor_msgs::Image::ConstPtr& msg, tf2_ros::FilterFailureReason reason);
+  //void failedMessage(const sensor_msgs::Image::ConstPtr& msg, tf2_ros::FilterFailureReason reason);
 
   /** @brief Implement this to process the contents of a message.
    *
@@ -114,9 +114,9 @@ protected:
 
   void scanForTransportSubscriberPlugins();
 
-  boost::scoped_ptr<image_transport::ImageTransport> it_;
-  boost::shared_ptr<image_transport::SubscriberFilter> sub_;
-  boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > tf_filter_;
+  //boost::scoped_ptr<image_transport::ImageTransport> it_;
+ // boost::shared_ptr<image_transport::SubscriberFilter> sub_;
+ // boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > tf_filter_;
 
   std::string targetFrame_;
 
