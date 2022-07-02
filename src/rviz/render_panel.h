@@ -49,7 +49,7 @@ class RaySceneQuery;
 class ParticleSystem;
 } // namespace Ogre
 
-namespace ros
+namespace mos
 {
 class Node;
 }

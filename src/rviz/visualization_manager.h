@@ -31,9 +31,9 @@
 #ifndef RVIZ_VISUALIZATION_MANAGER_H_
 #define RVIZ_VISUALIZATION_MANAGER_H_
 
-#include <deque>
+//#include <deque>
 
-#include <ros/time.h>
+//#include <time.h>
 //#include <tf2_ros/transform_listener.h>
 
 #include <rviz/bit_allocator.h>
@@ -52,7 +52,7 @@ class SceneNode;
 class Light;
 } // namespace Ogre
 
-namespace ros
+namespace mos
 {
 class CallbackQueueInterface;
 }
@@ -134,7 +134,7 @@ public:
   void startUpdate();
 
   /*
-   * \brief Stop the update timers. No Displays will be updated and no ROS
+   * \brief Stop the update timers. No Displays will be updated and no MOS
    *        callbacks will be called during this period.
    */
   void stopUpdate();
@@ -215,9 +215,9 @@ public:
   double getWallClock();
 
   /**
-   * @brief Return the ROS time, in seconds.
+   * @brief Return the MOS time, in seconds.
    */
-  double getROSTime();
+  double getMOSTime();
 
   /**
    * @brief Return the wall clock time in seconds since the last reset.
@@ -225,9 +225,9 @@ public:
   double getWallClockElapsed();
 
   /**
-   * @brief Return the ROS time in seconds since the last reset.
+   * @brief Return the MOS time in seconds since the last reset.
    */
-  double getROSTimeElapsed();
+  double getMOSTimeElapsed();
 
   /**
    * @brief Handle a single key event for a given RenderPanel.
@@ -248,7 +248,7 @@ public:
   void handleMouseEvent(const ViewportMouseEvent& event) override;
 
   /**
-   * @brief Resets the wall and ROS elapsed time to zero and calls resetDisplays().
+   * @brief Resets the wall and MOS elapsed time to zero and calls resetDisplays().
    */
   void resetTime();
 
@@ -299,12 +299,12 @@ public:
   /**
    * @brief Return the CallbackQueue using the main GUI thread.
    */
-  ros::CallbackQueueInterface* getUpdateQueue() override;
+  mos::CallbackQueueInterface* getUpdateQueue() override;
 
   /**
    * @brief Return a CallbackQueue using a different thread than the main GUI one.
    */
-  ros::CallbackQueueInterface* getThreadedQueue() override;
+  mos::CallbackQueueInterface* getThreadedQueue() override;
 
   /** @brief Return the FrameManager instance. */
   FrameManager* getFrameManager() const override
@@ -386,7 +386,7 @@ protected Q_SLOTS:
    * This is the central place where update() is called on most rviz
    * objects.  Display objects, the FrameManager, the current
    * ViewController, the SelectionManager, PropertyManager.  Also
-   * calls ros::spinOnce(), so any callbacks on the global
+   * calls mos::spinOnce(), so any callbacks on the global
    * CallbackQueue get called from here as well.
    *
    * It is called at 30Hz from the update timer. */
@@ -406,8 +406,8 @@ protected:
   Ogre::SceneManager* scene_manager_; ///< Ogre scene manager associated with this panel
 
   QTimer* update_timer_; ///< Display::update is called on each display whenever this timer fires
-  ros::Time last_update_ros_time_; ///< Stores how long it's been since the last update
-  ros::WallTime last_update_wall_time_;
+  mos::Time last_update_mos_time_; ///< Stores how long it's been since the last update
+  mos::WallTime last_update_wall_time_;
 
   volatile bool shutting_down_;
 
@@ -425,10 +425,10 @@ protected:
 
   RenderPanel* render_panel_;
 
-  ros::WallTime wall_clock_begin_;
+  mos::WallTime wall_clock_begin_;
   double sim_time_begin_;
-  ros::WallDuration wall_clock_elapsed_;
-  ros::Duration ros_time_elapsed_;
+  mos::WallDuration wall_clock_elapsed_;
+  mos::Duration mos_time_elapsed_;
 
   ColorProperty* background_color_property_;
 

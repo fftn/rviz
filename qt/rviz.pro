@@ -4,6 +4,7 @@ CONFIG -= app_bundle
 QT += widgets
 
 INCLUDEPATH += ../src/
+INCLUDEPATH += ../src/include
 INCLUDEPATH += ../src/rviz/default_plugin/view_controllers/
 #INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
 INCLUDEPATH += ../src/rviz

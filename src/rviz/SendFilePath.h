@@ -30,7 +30,7 @@ typedef Response ResponseType;
 } // namespace rviz
 
 
-namespace ros
+namespace mos
 {
 namespace service_traits
 {
@@ -118,6 +118,6 @@ struct DataType< ::rviz::SendFilePathResponse>
 };
 
 } // namespace service_traits
-} // namespace ros
+} // namespace mos
 
 #endif // RVIZ_MESSAGE_SENDFILEPATH_H
