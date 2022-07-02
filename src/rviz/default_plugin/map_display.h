@@ -40,7 +40,7 @@
 #endif
 
 #include <nav_msgs/MapMetaData.h>
-#include <ros/time.h>
+#include <mos_time.h>
 
 #include <nav_msgs/OccupancyGrid.h>
 #include <map_msgs/OccupancyGridUpdate.h>

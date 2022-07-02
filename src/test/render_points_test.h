@@ -49,7 +49,7 @@
 #include <OGRE/OgreViewport.h>
 #include <OGRE/OgreLight.h>
 
-#include <ros/time.h>
+#include <mos_time.h>
 #endif
 
 using namespace rviz;

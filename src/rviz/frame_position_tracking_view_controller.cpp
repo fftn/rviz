@@ -39,7 +39,7 @@
 #include <rviz/view_manager.h>
 
 #include <rviz/frame_position_tracking_view_controller.h>
-#include <time.h>
+#include <mos_time.h>
 
 namespace rviz
 {

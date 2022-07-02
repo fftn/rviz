@@ -35,7 +35,7 @@
 
 #include <visualization_msgs/Marker.h>
 
-#include <ros/time.h>
+#include <mos_time.h>
 
 #include <boost/shared_ptr.hpp>
 

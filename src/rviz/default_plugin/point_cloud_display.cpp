@@ -30,7 +30,7 @@
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 
-#include <ros/time.h>
+#include <mos_time.h>
 
 #include <rviz/default_plugin/point_cloud_common.h>
 #include <rviz/display_context.h>

@@ -43,7 +43,6 @@
 #include <rviz/panel.h>
 #include <rviz/rviz_export.h>
 
-//#include <ros/time.h>
 
 class QSplashScreen;
 class QAction;

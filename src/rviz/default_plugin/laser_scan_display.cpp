@@ -30,7 +30,7 @@
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 
-#include <ros/time.h>
+#include <mos_time.h>
 
 #include <laser_geometry/laser_geometry.h>
 

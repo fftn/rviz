@@ -40,7 +40,7 @@
 #include <OgreTexture.h>
 #include <OgreTextureManager.h>
 
-#include <ros/time.h>
+#include <mos_time.h>
 
 #include "move_tool.h"
 

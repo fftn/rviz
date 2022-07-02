@@ -33,7 +33,7 @@
 #include <OgreSceneNode.h>
 #include <OgreWireBoundingBox.h>
 
-#include <ros/time.h>
+#include <mos_time.h>
 
 #include <pluginlib/class_loader.hpp>
 
