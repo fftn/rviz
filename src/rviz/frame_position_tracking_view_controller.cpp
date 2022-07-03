@@ -98,7 +98,7 @@ bool FramePositionTrackingViewController::getNewTransform()
   Ogre::Quaternion new_reference_orientation;
 
   bool got_transform =
-      context_->getFrameManager()->getTransform(target_frame_property_->getFrameStd(), (double)time(NULL),
+      context_->getFrameManager()->getTransform(target_frame_property_->getFrameStd(), mos::Time(),
                                                 new_reference_position, new_reference_orientation);
   if (got_transform)
   {
@@ -118,7 +118,7 @@ void FramePositionTrackingViewController::updateTargetSceneNode()
   }
 
   // Need to incorporate this functionality somehow....  Maybe right into TfFrameProperty itself.
-  /////  if( frame_manager_->transformHasProblems( getTargetFrame().toStdString(), ros::Time(), error ))
+  /////  if( frame_manager_->transformHasProblems( getTargetFrame().toStdString(), mos::Time(), error ))
   /////  {
   /////    // target_prop->setToError();
   /////    global_status_->setStatus( StatusProperty::Error, "Target Frame", QString::fromStdString(

@@ -50,14 +50,14 @@ TimePanel::TimePanel(QWidget* parent) : Panel(parent)
 {
   wall_time_label_ = makeTimeLabel();
   wall_elapsed_label_ = makeTimeLabel();
-  ros_time_label_ = makeTimeLabel();
-  ros_elapsed_label_ = makeTimeLabel();
+  mos_time_label_ = makeTimeLabel();
+  mos_elapsed_label_ = makeTimeLabel();
 
   experimental_cb_ = new QCheckBox("Experimental");
   experimental_cb_->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum));
 
   pause_button_ = new QPushButton("Pause");
-  pause_button_->setToolTip("Freeze ROS time.");
+  pause_button_->setToolTip("Freeze MOS time.");
   pause_button_->setCheckable(true);
 
   sync_mode_selector_ = new QComboBox(this);
@@ -66,7 +66,7 @@ TimePanel::TimePanel(QWidget* parent) : Panel(parent)
   sync_mode_selector_->addItem("Approximate");
   sync_mode_selector_->setSizeAdjustPolicy(QComboBox::AdjustToContents);
   sync_mode_selector_->setToolTip(
-      "Allows you to synchronize the ROS time and Tf transforms to a given source.");
+      "Allows you to synchronize the MOS time and Tf transforms to a given source.");
 
   // choose time sync signal
   sync_source_selector_ = new QComboBox(this);
@@ -86,8 +86,8 @@ TimePanel::TimePanel(QWidget* parent) : Panel(parent)
 
   old_widget_ = new QWidget(this);
   QHBoxLayout* old_layout = new QHBoxLayout(this);
-  old_layout->addWidget(new QLabel("ROS Elapsed:"));
-  old_layout->addWidget(ros_elapsed_label_);
+  old_layout->addWidget(new QLabel("MOS Elapsed:"));
+  old_layout->addWidget(mos_elapsed_label_);
   old_layout->addWidget(new QLabel("Wall Time:"));
   old_layout->addWidget(wall_time_label_);
   old_layout->addWidget(new QLabel("Wall Elapsed:"));
@@ -98,8 +98,8 @@ TimePanel::TimePanel(QWidget* parent) : Panel(parent)
   QHBoxLayout* layout = new QHBoxLayout(this);
 
   layout->addWidget(experimental_widget_);
-  layout->addWidget(new QLabel("ROS Time:"));
-  layout->addWidget(ros_time_label_);
+  layout->addWidget(new QLabel("MOS Time:"));
+  layout->addWidget(mos_time_label_);
   layout->addWidget(old_widget_);
   layout->addStretch(100);
   layout->addWidget(experimental_cb_);
@@ -166,8 +166,8 @@ void TimePanel::onDisplayAdded(Display* display)
   }
   else
   {
-    connect(display, SIGNAL(timeSignal(rviz::Display*, ros::Time)), this,
-            SLOT(onTimeSignal(rviz::Display*, ros::Time)));
+    connect(display, SIGNAL(timeSignal(rviz::Display*, mos::Time)), this,
+            SLOT(onTimeSignal(rviz::Display*, mos::Time)));
   }
 }
 
@@ -181,7 +181,7 @@ void TimePanel::onDisplayRemoved(Display* display)
   }
 }
 
-void TimePanel::onTimeSignal(Display* display, double dTime)
+void TimePanel::onTimeSignal(Display* display, mos::Time time)
 {
   QString name = display->getName();
   int index = sync_source_selector_->findData(QVariant((qulonglong)display));
@@ -205,7 +205,7 @@ void TimePanel::onTimeSignal(Display* display, double dTime)
     sync_source_selector_->setItemText(index, name);
     if (sync_source_selector_->currentIndex() == index)
     {
-      vis_manager_->getFrameManager()->syncTime(dTime);
+      vis_manager_->getFrameManager()->syncTime(time);
     }
   }
 }
@@ -224,8 +224,8 @@ void TimePanel::fillTimeLabel(QLineEdit* label, double time)
 
 void TimePanel::update()
 {
-  fillTimeLabel(ros_time_label_, vis_manager_->getROSTime());
-  fillTimeLabel(ros_elapsed_label_, vis_manager_->getROSTimeElapsed());
+  fillTimeLabel(mos_time_label_, vis_manager_->getMOSTime());
+  fillTimeLabel(mos_elapsed_label_, vis_manager_->getMOSTimeElapsed());
   fillTimeLabel(wall_time_label_, vis_manager_->getWallClock());
   fillTimeLabel(wall_elapsed_label_, vis_manager_->getWallClockElapsed());
 }

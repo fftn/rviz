@@ -35,6 +35,7 @@
 #include <ros/ros.h>
 #endif
 
+#include "mos_time.h"
 #include <rviz/properties/status_property.h>
 #include <rviz/properties/bool_property.h>
 #include <rviz/rviz_export.h>
@@ -52,7 +53,7 @@ class SceneNode;
 } // namespace Ogre
 
 // needed for timeSignal
-Q_DECLARE_METATYPE(ros::Time);
+Q_DECLARE_METATYPE(mos::Time);
 
 namespace rviz
 {
@@ -221,11 +222,11 @@ public:
   void setName(const QString& name) override;
 
   /** @brief Emit a time signal that other Displays can synchronize to. */
-  void emitTimeSignal(ros::Time time);
+  void emitTimeSignal(mos::Time time);
 
 Q_SIGNALS:
 
-  void timeSignal(rviz::Display* display, ros::Time time);
+  void timeSignal(rviz::Display* display, mos::Time time);
 
 public Q_SLOTS:
   /** @brief Enable or disable this Display.
@@ -297,12 +298,12 @@ protected:
   /** @brief A NodeHandle whose CallbackQueue is run from the main GUI thread (the "update" thread).
    *
    * This is configured after the constructor and before onInitialize() is called. */
-  ros::NodeHandle update_nh_;
+  //ros::NodeHandle update_nh_;
 
   /** @brief A NodeHandle whose CallbackQueue is run from a different thread than the GUI.
    *
    * This is configured after the constructor and before onInitialize() is called. */
-  ros::NodeHandle threaded_nh_;
+  //ros::NodeHandle threaded_nh_;
 
   /** @brief A convenience variable equal to context_->getFixedFrame().
    *

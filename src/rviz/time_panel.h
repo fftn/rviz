@@ -31,6 +31,7 @@
 #define RVIZ_TIME_PANEL_H
 
 #include <rviz/panel.h>
+#include "mos_time.h"
 
 class QLineEdit;
 class QComboBox;
@@ -69,7 +70,7 @@ protected Q_SLOTS:
   void onDisplayAdded(rviz::Display* display);
   void onDisplayRemoved(rviz::Display* display);
 
-  void onTimeSignal(rviz::Display* display, double dTime);
+  void onTimeSignal(rviz::Display* display, mos::Time time);
 
   void load(const Config& config) override;
   void save(Config config) const override;
@@ -92,8 +93,8 @@ protected:
   QComboBox* sync_source_selector_;
   QComboBox* sync_mode_selector_;
 
-  QLineEdit* ros_time_label_;
-  QLineEdit* ros_elapsed_label_;
+  QLineEdit* mos_time_label_;
+  QLineEdit* mos_elapsed_label_;
   QLineEdit* wall_time_label_;
   QLineEdit* wall_elapsed_label_;
 };

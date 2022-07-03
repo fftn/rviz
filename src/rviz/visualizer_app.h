@@ -35,7 +35,6 @@
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
 //#include <ros/ros.h>
 #include <rviz/rviz_export.h>
-#include <rviz/SendFilePath.h>
 #endif
 
 class QTimer;
@@ -63,9 +62,9 @@ private Q_SLOTS:
 
 private:
   void startContinueChecker();
-  bool loadConfigCallback(rviz::SendFilePathRequest& req, rviz::SendFilePathResponse& res);
-  bool loadConfigDiscardingCallback(rviz::SendFilePathRequest& req, rviz::SendFilePathResponse& res);
-  bool saveConfigCallback(rviz::SendFilePathRequest& req, rviz::SendFilePathResponse& res);
+  bool loadConfigCallback();
+  bool loadConfigDiscardingCallback();
+  bool saveConfigCallback();
 
   QApplication* app_;
   QTimer* continue_timer_;

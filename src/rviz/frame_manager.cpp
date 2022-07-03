@@ -61,13 +61,12 @@ void FrameManager::update()
   {
     cache_.clear();
   }
-  double dCurTime = 10;//ewayos::Time::GetCurTime();r
   if (!pause_)
   {
     switch (sync_mode_)
     {
     case SyncOff:
-      sync_time_ = dCurTime;
+      sync_time_ = mos::Time::now();
       break;
     case SyncExact:
       break;
@@ -76,11 +75,11 @@ void FrameManager::update()
       current_delta_ = 0.7 * current_delta_ + 0.3 * sync_delta_;
       try
       {
-        sync_time_ = dCurTime - current_delta_;
+        sync_time_ = mos::Time::now() - mos::Duration(current_delta_);
       }
       catch (...)
       {
-        sync_time_ = dCurTime;
+        sync_time_ = mos::Time::now();
       }
       break;
     }
@@ -115,31 +114,30 @@ void FrameManager::setPause(bool pause)
 void FrameManager::setSyncMode(SyncMode mode)
 {
   sync_mode_ = mode;
-  sync_time_ = 0;
+  sync_time_ = mos::Time(0);
   current_delta_ = 0;
   sync_delta_ = 0;
 }
 
-void FrameManager::syncTime(double dTime)
+void FrameManager::syncTime(mos::Time time)
 {
   switch (sync_mode_)
   {
   case SyncOff:
     break;
   case SyncExact:
-    sync_time_ = dTime;
+    sync_time_ = time;
     break;
   case SyncApprox:
-    if (dTime == 0)
+    if (time == mos::Time(0))
     {
       sync_delta_ = 0;
       return;
     }
-    double dCurTime = 0;//ewayos::Time::GetCurTime();
     // avoid exception due to negative time
-    if (dCurTime >= dTime)
+    if (mos::Time::now() >= time)
     {
-      sync_delta_ = dCurTime - dTime;
+      sync_delta_ = (mos::Time::now() - time).toSec();
     }
     else
     {
@@ -149,11 +147,11 @@ void FrameManager::syncTime(double dTime)
   }
 }
 
-bool FrameManager::adjustTime(const std::string& frame, double &time)
+bool FrameManager::adjustTime(const std::string& frame, mos::Time &time)
 {
+  (void)frame;
   // we only need to act if we get a zero timestamp, which means "latest"
-    ros::Time rTime( time);
-  if (rTime != ros::Time())
+  if (time != mos::Time())
   {
     return true;
   }
@@ -165,38 +163,36 @@ bool FrameManager::adjustTime(const std::string& frame, double &time)
   case SyncExact:
     time = sync_time_;
     break;
-  case SyncApprox:
-  {
+//  case SyncApprox:
+//  {
     // if we don't have tf info for the given timestamp, use the latest available
-    ros::Time latest_time;
-    std::string error_string;
-    int error_code;
-    if (fixed_frame_id_ == 0) // we couldn't resolve the fixed_frame_id yet
-      fixed_frame_id_ = tf_buffer_->_lookupFrameNumber(fixed_frame_);
+//    mos::Time latest_time;
+//    std::string error_string;
+//    int error_code;
+//    if (fixed_frame_id_ == 0) // we couldn't resolve the fixed_frame_id yet
+//      fixed_frame_id_ = tf_buffer_->_lookupFrameNumber(fixed_frame_);
 
-    error_code = tf_buffer_->_getLatestCommonTime(fixed_frame_id_, tf_buffer_->_lookupFrameNumber(frame),
-                                                  latest_time, &error_string);
+//    error_code = tf_buffer_->_getLatestCommonTime(fixed_frame_id_, tf_buffer_->_lookupFrameNumber(frame), latest_time, &error_string);
 
-    if (error_code != 0)
-    {
-      ROS_ERROR("Error getting latest time from frame '%s' to frame '%s': %s (Error code: %d)",
-                frame.c_str(), fixed_frame_.c_str(), error_string.c_str(), error_code);
-      return false;
-    }
-    ros::Time rsync_time(sync_time_,sync_time_*1000000);
-    if (latest_time > rsync_time)
-    {
-      time = sync_time_;
-    }
-  }
-  break;
+//    if (error_code != 0)
+//    {
+//      ROS_ERROR("Error getting latest time from frame '%s' to frame '%s': %s (Error code: %d)",
+//                frame.c_str(), fixed_frame_.c_str(), error_string.c_str(), error_code);
+//      return false;
+//    }
+//    if (latest_time > sync_time_)
+//    {
+//      time = sync_time_;
+//    }
+//  }
+//  break;
   }
   return true;
 }
 
 
 bool FrameManager::getTransform(const std::string& frame,
-                                double time,
+                                mos::Time time,
                                 Ogre::Vector3& position,
                                 Ogre::Quaternion& orientation)
 {
@@ -237,7 +233,7 @@ bool FrameManager::getTransform(const std::string& frame,
 }
 
 bool FrameManager::transform(const std::string& frame,
-                             double time,
+                             mos::Time time,
                              const geometry_msgs::Pose& pose_msg,
                              Ogre::Vector3& position,
                              Ogre::Quaternion& orientation)
@@ -256,17 +252,16 @@ bool FrameManager::transform(const std::string& frame,
     pose.orientation.w = 1.0;
 
   // convert pose into fixed_frame_
-  try
-  {
-     ros::Time rTime(time,time*1000000);
-    tf2::doTransform(pose, pose, tf_buffer_->lookupTransform(fixed_frame_, frame, rTime));
-  }
-  catch (std::runtime_error& e)
-  {
-    ROS_DEBUG("Error transforming from frame '%s' to frame '%s': %s", frame.c_str(),
-              fixed_frame_.c_str(), e.what());
-    return false;
-  }
+//  try
+//  {
+//    tf2::doTransform(pose, pose, tf_buffer_->lookupTransform(fixed_frame_, frame, time));
+//  }
+//  catch (std::runtime_error& e)
+//  {
+//    ROS_DEBUG("Error transforming from frame '%s' to frame '%s': %s", frame.c_str(),
+//              fixed_frame_.c_str(), e.what());
+//    return false;
+//  }
 
   position = Ogre::Vector3(pose.position.x, pose.position.y, pose.position.z);
   orientation =
@@ -275,7 +270,7 @@ bool FrameManager::transform(const std::string& frame,
   return true;
 }
 
-bool FrameManager::frameHasProblems(const std::string& frame, double /*time*/, std::string& error)
+bool FrameManager::frameHasProblems(const std::string& frame, mos::Time /*time*/, std::string& error)
 {
   if (!tf_buffer_->_frameExists(frame))
   {
@@ -290,40 +285,40 @@ bool FrameManager::frameHasProblems(const std::string& frame, double /*time*/, s
   return false;
 }
 
-bool FrameManager::transformHasProblems(const std::string& frame, double time, std::string& error)
+bool FrameManager::transformHasProblems(const std::string& frame, mos::Time time, std::string& error)
 {
   if (!adjustTime(frame, time))
   {
     return false;
   }
 
-  std::string tf_error;
-   ros::Time rTime(time,time*1000000);
-  bool transform_succeeded = tf_buffer_->canTransform(fixed_frame_, frame, rTime, &tf_error);
-  if (transform_succeeded)
-  {
-    return false;
-  }
+//  std::string tf_error;
+//  bool transform_succeeded = tf_buffer_->canTransform(fixed_frame_, frame, time, &tf_error);
+//  if (transform_succeeded)
+//  {
+//    return false;
+//  }
 
-  bool ok = true;
-  ok = ok && !frameHasProblems(fixed_frame_, time, error);
-  ok = ok && !frameHasProblems(frame, time, error);
+//  bool ok = true;
+//  ok = ok && !frameHasProblems(fixed_frame_, time, error);
+//  ok = ok && !frameHasProblems(frame, time, error);
 
-  if (ok)
-  {
-    std::stringstream ss;
-    ss << "No transform to fixed frame [" << fixed_frame_ << "].  TF error: [" << tf_error << "]";
-    error = ss.str();
-    ok = false;
-  }
+//  if (ok)
+//  {
+//    std::stringstream ss;
+//    ss << "No transform to fixed frame [" << fixed_frame_ << "].  TF error: [" << tf_error << "]";
+//    error = ss.str();
+//    ok = false;
+//  }
 
-  {
-    std::stringstream ss;
-    ss << "For frame [" << frame << "]: " << error;
-    error = ss.str();
-  }
+//  {
+//    std::stringstream ss;
+//    ss << "For frame [" << frame << "]: " << error;
+//    error = ss.str();
+//  }
 
-  return !ok;
+//  return !ok;
+  return true;
 }
 
 std::string getTransformStatusName(const std::string& caller_id)
@@ -334,7 +329,7 @@ std::string getTransformStatusName(const std::string& caller_id)
 }
 
 std::string FrameManager::discoverFailureReason(const std::string& frame_id,
-                                                const double& stamp,
+                                                const mos::Time& stamp,
                                                 const std::string& /*caller_id*/,
                                                 tf2_ros::FilterFailureReason reason)
 {

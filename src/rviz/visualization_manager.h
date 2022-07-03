@@ -33,7 +33,7 @@
 
 //#include <deque>
 
-//#include <time.h>
+#include <mos_time.h>
 //#include <tf2_ros/transform_listener.h>
 
 #include <rviz/bit_allocator.h>
@@ -77,7 +77,7 @@ class WindowManagerInterface;
 class Tool;
 class OgreRenderQueueClearer;
 
-class VisualizationManagerPrivate;
+//class VisualizationManagerPrivate;
 
 /**
  * \brief The VisualizationManager class is the central manager class
@@ -275,12 +275,12 @@ public:
   /**
    * @brief Lock a mutex to delay calls to Ogre::Root::renderOneFrame().
    */
-  void lockRender();
+  //void lockRender();
 
   /**
    * @brief Unlock a mutex, allowing calls to Ogre::Root::renderOneFrame().
    */
-  void unlockRender();
+  //void unlockRender();
 
   /**
    * \brief Queues a render.  Multiple calls before a render happens will only cause a single render.
@@ -297,14 +297,9 @@ public:
   }
 
   /**
-   * @brief Return the CallbackQueue using the main GUI thread.
-   */
-  mos::CallbackQueueInterface* getUpdateQueue() override;
-
-  /**
    * @brief Return a CallbackQueue using a different thread than the main GUI one.
    */
-  mos::CallbackQueueInterface* getThreadedQueue() override;
+  //mos::CallbackQueueInterface* getThreadedQueue() override;
 
   /** @brief Return the FrameManager instance. */
   FrameManager* getFrameManager() const override
@@ -426,7 +421,7 @@ protected:
   RenderPanel* render_panel_;
 
   mos::WallTime wall_clock_begin_;
-  double sim_time_begin_;
+  mos::Time mos_time_begin_;
   mos::WallDuration wall_clock_elapsed_;
   mos::Duration mos_time_elapsed_;
 
@@ -454,7 +449,7 @@ private Q_SLOTS:
 
 private:
   DisplayFactory* display_factory_;
-  VisualizationManagerPrivate* private_;
+  //VisualizationManagerPrivate* private_;
   uint32_t default_visibility_bit_;
   BitAllocator visibility_bit_allocator_;
   QString help_path_;

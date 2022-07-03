@@ -114,10 +114,10 @@ public:
   virtual DisplayFactory* getDisplayFactory() const = 0;
 
   /** @brief Return the CallbackQueue using the main GUI thread. */
-  virtual ros::CallbackQueueInterface* getUpdateQueue() = 0;
+  //virtual ros::CallbackQueueInterface* getUpdateQueue() = 0;
 
   /** @brief Return a CallbackQueue using a different thread than the main GUI one. */
-  virtual ros::CallbackQueueInterface* getThreadedQueue() = 0;
+  //virtual ros::CallbackQueueInterface* getThreadedQueue() = 0;
 
   /** @brief Handle a single key event for a given RenderPanel. */
   virtual void handleChar(QKeyEvent* event, RenderPanel* panel) = 0;

@@ -51,6 +51,7 @@
 #include <boost/filesystem.hpp>
 #include <utility>
 
+#include <mos_time.h>
 #include <rviz/display.h>
 #include <rviz/display_factory.h>
 #include <rviz/display_group.h>
@@ -106,15 +107,16 @@ private:
   QIcon icon_;
 };
 
-class VisualizationManagerPrivate
+/*class VisualizationManagerPrivate
 {
 public:
-  ros::CallbackQueue threaded_queue_;
+  mos::CallbackQueue threaded_queue_;
   boost::thread_group threaded_queue_threads_;
-  ros::NodeHandle update_nh_;
-  ros::NodeHandle threaded_nh_;
+  mos::NodeHandle update_nh_;
+  mos::NodeHandle threaded_nh_;
   boost::mutex render_mutex_;
 };
+*/
 
 VisualizationManager::VisualizationManager(RenderPanel* render_panel,
                                            WindowManagerInterface* wm,
@@ -129,7 +131,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
   , render_requested_(1)
   , frame_count_(0)
   , window_manager_(wm)
-  , private_(new VisualizationManagerPrivate)
+  //, private_(new VisualizationManagerPrivate)
 {
   // visibility_bit_allocator_ is listed after default_visibility_bit_ (and thus initialized later be
   // default):
@@ -139,7 +141,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
 
   render_panel->setAutoRender(false);
 
-  private_->threaded_nh_.setCallbackQueue(&private_->threaded_queue_);
+  //private_->threaded_nh_.setCallbackQueue(&private_->threaded_queue_);
 
   scene_manager_ = ogre_root_->createSceneManager(Ogre::ST_GENERIC);
 
@@ -201,8 +203,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
   update_timer_ = new QTimer;
   connect(update_timer_, SIGNAL(timeout()), this, SLOT(onUpdate()));
 
-  private_->threaded_queue_threads_.create_thread(
-      boost::bind(&VisualizationManager::threadedQueueThreadFunc, this));
+  //private_->threaded_queue_threads_.create_thread( boost::bind(&VisualizationManager::threadedQueueThreadFunc, this));
 
   display_factory_ = new DisplayFactory();
 
@@ -214,7 +215,7 @@ VisualizationManager::~VisualizationManager()
 {
   update_timer_->stop();
   shutting_down_ = true;
-  private_->threaded_queue_threads_.join_all();
+  //private_->threaded_queue_threads_.join_all();
 
   delete update_timer_;
 
@@ -234,7 +235,7 @@ VisualizationManager::~VisualizationManager()
     ogre_root_->destroySceneManager(scene_manager_);
   }
   delete frame_manager_;
-  delete private_;
+  //delete private_;
 
   Ogre::Root::getSingletonPtr()->removeFrameListener(ogre_render_queue_clearer_);
   delete ogre_render_queue_clearer_;
@@ -248,29 +249,24 @@ void VisualizationManager::initialize()
   selection_manager_->initialize();
   tool_manager_->initialize();
 
-  last_update_ros_time_ = ros::Time::now();
-  last_update_wall_time_ = ros::WallTime::now();
+  last_update_mos_time_ = mos::Time::now();
+  last_update_wall_time_ = mos::WallTime::now();
 }
 
-ros::CallbackQueueInterface* VisualizationManager::getThreadedQueue()
+/*mos::CallbackQueueInterface* VisualizationManager::getThreadedQueue()
 {
   return &private_->threaded_queue_;
-}
+}*/
 
-void VisualizationManager::lockRender()
-{
-  private_->render_mutex_.lock();
-}
+//void VisualizationManager::lockRender()
+//{
+//  private_->render_mutex_.lock();
+//}
 
-void VisualizationManager::unlockRender()
-{
-  private_->render_mutex_.unlock();
-}
-
-ros::CallbackQueueInterface* VisualizationManager::getUpdateQueue()
-{
-  return ros::getGlobalCallbackQueue();
-}
+//void VisualizationManager::unlockRender()
+//{
+//  private_->render_mutex_.unlock();
+//}
 
 void VisualizationManager::startUpdate()
 {
@@ -318,27 +314,27 @@ void VisualizationManager::queueRender()
 
 void VisualizationManager::onUpdate()
 {
-  ros::WallDuration wall_diff = ros::WallTime::now() - last_update_wall_time_;
-  ros::Duration ros_diff = ros::Time::now() - last_update_ros_time_;
+  mos::WallDuration wall_diff = mos::WallTime::now() - last_update_wall_time_;
+  mos::Duration mos_diff = mos::Time::now() - last_update_mos_time_;
   float wall_dt = wall_diff.toSec();
-  float ros_dt = ros_diff.toSec();
-  last_update_ros_time_ = ros::Time::now();
-  last_update_wall_time_ = ros::WallTime::now();
+  float mos_dt = mos_diff.toSec();
+  last_update_mos_time_ = mos::Time::now();
+  last_update_wall_time_ = mos::WallTime::now();
 
-  if (ros_dt < 0.0)
+  if (mos_dt < 0.0)
   {
     resetTime();
   }
 
-  ros::spinOnce();
+  //ros::spinOnce();
 
   Q_EMIT preUpdate();
 
   frame_manager_->update();
 
-  root_display_group_->update(wall_dt, ros_dt);
+  root_display_group_->update(wall_dt, mos_dt);
 
-  view_manager_->update(wall_dt, ros_dt);
+  view_manager_->update(wall_dt, mos_dt);
 
   time_update_timer_ += wall_dt;
 
@@ -362,7 +358,7 @@ void VisualizationManager::onUpdate()
 
   if (tool_manager_->getCurrentTool())
   {
-    tool_manager_->getCurrentTool()->update(wall_dt, ros_dt);
+    tool_manager_->getCurrentTool()->update(wall_dt, mos_dt);
   }
 
   if (view_manager_ && view_manager_->getCurrent() && view_manager_->getCurrent()->getCamera())
@@ -375,26 +371,26 @@ void VisualizationManager::onUpdate()
   if (render_requested_ || wall_dt > 0.01)
   {
     render_requested_ = 0;
-    boost::mutex::scoped_lock lock(private_->render_mutex_);
+    //boost::mutex::scoped_lock lock(private_->render_mutex_);
     ogre_root_->renderOneFrame();
   }
 }
 
 void VisualizationManager::updateTime()
 {
-  if (ros_time_begin_.isZero())
+  if (mos_time_begin_.isZero())
   {
-    ros_time_begin_ = ros::Time::now();
+    mos_time_begin_ = mos::Time::now();
   }
 
-  ros_time_elapsed_ = ros::Time::now() - ros_time_begin_;
+  mos_time_elapsed_ = mos::Time::now() - mos_time_begin_;
 
   if (wall_clock_begin_.isZero())
   {
-    wall_clock_begin_ = ros::WallTime::now();
+    wall_clock_begin_ = mos::WallTime::now();
   }
 
-  wall_clock_elapsed_ = ros::WallTime::now() - wall_clock_begin_;
+  wall_clock_elapsed_ = mos::WallTime::now() - wall_clock_begin_;
 }
 
 void VisualizationManager::updateFrames()
@@ -421,8 +417,8 @@ void VisualizationManager::resetTime()
 {
   root_display_group_->reset();
   frame_manager_->getTF2BufferPtr()->clear();
-  sim_time_begin_ = ros::Time();
-  wall_clock_begin_ = ros::WallTime();
+  mos_time_begin_ = mos::Time();
+  wall_clock_begin_ = mos::WallTime();
 
   queueRender();
 }
@@ -480,12 +476,12 @@ VisualizationManager::createDisplay(const QString& class_lookup_name, const QStr
 
 double VisualizationManager::getWallClock()
 {
-  return ros::WallTime::now().toSec();
+  return mos::WallTime::now().toSec();
 }
 
-double VisualizationManager::getROSTime()
+double VisualizationManager::getMOSTime()
 {
-  return frame_manager_->getTime();
+  return frame_manager_->getTime().toSec();
 }
 
 double VisualizationManager::getWallClockElapsed()
@@ -493,9 +489,9 @@ double VisualizationManager::getWallClockElapsed()
   return wall_clock_elapsed_.toSec();
 }
 
-double VisualizationManager::getROSTimeElapsed()
+double VisualizationManager::getMOSTimeElapsed()
 {
-  return frame_manager_->getTime() - ros_time_begin_;
+  return (frame_manager_->getTime() - mos_time_begin_).toSec();
 }
 
 void VisualizationManager::updateBackgroundColor()
@@ -564,12 +560,12 @@ void VisualizationManager::handleChar(QKeyEvent* event, RenderPanel* panel)
 
 void VisualizationManager::threadedQueueThreadFunc()
 {
-  ros::WallDuration timeout(0.1);
+  mos::WallDuration timeout(0.1);
   while (!shutting_down_)
   {
-    if (update_timer_->isActive())
-      private_->threaded_queue_.callOne(timeout);
-    else
+//    if (update_timer_->isActive())
+//      private_->threaded_queue_.callOne(timeout);
+//    else
       timeout.sleep();
   }
 }

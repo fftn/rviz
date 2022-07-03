@@ -44,8 +44,8 @@
 #undef check
 #endif
 
-//#include <ros/console.h>
-//#include <ros/ros.h>
+#include <ros/console.h>
+#include <ros/ros.h>
 
 #include <rviz/selection/selection_manager.h>
 #include <rviz/env_config.h>
@@ -233,33 +233,18 @@ void VisualizerApp::checkContinue()
     QApplication::closeAllWindows();
 }
 
-bool VisualizerApp::loadConfigCallback(rviz::SendFilePathRequest& req, rviz::SendFilePathResponse& res)
+bool VisualizerApp::loadConfigCallback()
 {
-  fs::path path = req.path.data;
-  if (fs::is_regular_file(path))
-    res.success = frame_->loadDisplayConfigHelper(path.string());
-  else
-    res.success = false;
   return true;
 }
 
-bool VisualizerApp::loadConfigDiscardingCallback(rviz::SendFilePathRequest& req,
-                                                 rviz::SendFilePathResponse& res)
+bool VisualizerApp::loadConfigDiscardingCallback()
 {
-  fs::path path = req.path.data;
-  if (fs::is_regular_file(path))
-  {
-    bool discard_changes = true;
-    res.success = frame_->loadDisplayConfigHelper(path.string(), discard_changes);
-  }
-  else
-    res.success = false;
   return true;
 }
 
-bool VisualizerApp::saveConfigCallback(rviz::SendFilePathRequest& req, rviz::SendFilePathResponse& res)
+bool VisualizerApp::saveConfigCallback()
 {
-  res.success = frame_->saveDisplayConfig(QString::fromStdString(req.path.data));
   return true;
 }
 
