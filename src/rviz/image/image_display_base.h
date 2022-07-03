@@ -33,7 +33,7 @@
 
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
 #include <message_filters/subscriber.h>
-#include <tf2_ros/message_filter.h>
+//#include <tf2_ros/message_filter.h>
 #include <sensor_msgs/Image.h>
 
 //#include <image_transport/image_transport.h>
@@ -110,13 +110,13 @@ protected:
   /** @brief Implement this to process the contents of a message.
    *
    * This is called by incomingMessage(). */
-  virtual void processMessage(const sensor_msgs::Image::ConstPtr& msg) = 0;
+  //virtual void processMessage(const sensor_msgs::Image::ConstPtr& msg) = 0;
 
   void scanForTransportSubscriberPlugins();
 
   //boost::scoped_ptr<image_transport::ImageTransport> it_;
- // boost::shared_ptr<image_transport::SubscriberFilter> sub_;
- // boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > tf_filter_;
+  // boost::shared_ptr<image_transport::SubscriberFilter> sub_;
+  // boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > tf_filter_;
 
   std::string targetFrame_;
 

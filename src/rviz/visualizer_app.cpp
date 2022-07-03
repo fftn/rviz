@@ -64,7 +64,8 @@ namespace fs = boost::filesystem;
 
 namespace rviz
 {
-bool reloadShaders(std_srvs::Empty::Request& /*unused*/, std_srvs::Empty::Response& /*unused*/)
+//bool reloadShaders(std_srvs::Empty::Request& /*unused*/, std_srvs::Empty::Response& /*unused*/)
+bool reloadShaders()
 {
   //ROS_INFO("Reloading materials.");
   {

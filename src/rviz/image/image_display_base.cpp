@@ -41,7 +41,8 @@
 
 namespace rviz
 {
-ImageDisplayBase::ImageDisplayBase() : Display(), sub_(), tf_filter_(), messages_received_(0)
+//ImageDisplayBase::ImageDisplayBase() : Display(), sub_(), tf_filter_(), messages_received_(0)
+ImageDisplayBase::ImageDisplayBase() : Display(), messages_received_(0)
 {
 //  topic_property_ =
 //      new RosTopicProperty("Image Topic", "",
@@ -75,7 +76,7 @@ ImageDisplayBase::~ImageDisplayBase()
 
 void ImageDisplayBase::onInitialize()
 {
-  it_.reset(new image_transport::ImageTransport(update_nh_));
+  //it_.reset(new image_transport::ImageTransport(update_nh_));
   scanForTransportSubscriberPlugins();
 }
 
@@ -103,38 +104,38 @@ void ImageDisplayBase::setTopic(const QString& topic, const QString& datatype)
 }
 
 
-void ImageDisplayBase::incomingMessage(const sensor_msgs::Image::ConstPtr& msg)
-{
-  if (!msg || context_->getFrameManager()->getPause())
-  {
-    return;
-  }
+//void ImageDisplayBase::incomingMessage(const sensor_msgs::Image::ConstPtr& msg)
+//{
+//  if (!msg || context_->getFrameManager()->getPause())
+//  {
+//    return;
+//  }
 
-  ++messages_received_;
-  setStatus(StatusProperty::Ok, "Image", QString::number(messages_received_) + " images received");
+//  ++messages_received_;
+//  setStatus(StatusProperty::Ok, "Image", QString::number(messages_received_) + " images received");
 
-  emitTimeSignal(msg->header.stamp);
+//  emitTimeSignal(msg->header.stamp);
 
-  processMessage(msg);
-}
+//  processMessage(msg);
+//}
 
 
-void ImageDisplayBase::failedMessage(const sensor_msgs::Image::ConstPtr& msg,
-                                     tf2_ros::FilterFailureReason reason)
-{
-  setStatusStd(StatusProperty::Error, "Image",
-               context_->getFrameManager()->discoverFailureReason(msg->header.frame_id,
-                                                                  msg->header.stamp, "", reason));
-}
+//void ImageDisplayBase::failedMessage(const sensor_msgs::Image::ConstPtr& msg,
+//                                     tf2_ros::FilterFailureReason reason)
+//{
+//  setStatusStd(StatusProperty::Error, "Image",
+//               context_->getFrameManager()->discoverFailureReason(msg->header.frame_id,
+//                                                                  msg->header.stamp, "", reason));
+//}
 
 
 void ImageDisplayBase::reset()
 {
   Display::reset();
-  if (tf_filter_)
-  {
-    tf_filter_->clear();
-  }
+//  if (tf_filter_)
+//  {
+//    tf_filter_->clear();
+//  }
 
   messages_received_ = 0;
   setStatus(StatusProperty::Warn, "Image", "No Image received");
@@ -143,11 +144,11 @@ void ImageDisplayBase::reset()
 void ImageDisplayBase::updateQueueSize()
 {
   uint32_t size = queue_size_property_->getInt();
-  if (tf_filter_)
-  {
-    tf_filter_->setQueueSize(size);
-    subscribe();
-  }
+//  if (tf_filter_)
+//  {
+//    tf_filter_->setQueueSize(size);
+//    subscribe();
+//  }
 }
 
 void ImageDisplayBase::subscribe()
@@ -159,99 +160,99 @@ void ImageDisplayBase::subscribe()
 
   try
   {
-    tf_filter_.reset();
+//    tf_filter_.reset();
 
-    sub_.reset(new image_transport::SubscriberFilter());
+//    sub_.reset(new image_transport::SubscriberFilter());
 
-    if (!topic_property_->getTopicStd().empty() && !transport_property_->getStdString().empty())
-    {
-      // Determine UDP vs TCP transport for user selection.
-      if (unreliable_property_->getBool())
-      {
-        sub_->subscribe(*it_, topic_property_->getTopicStd(), (uint32_t)queue_size_property_->getInt(),
-                        image_transport::TransportHints(transport_property_->getStdString(),
-                                                        ros::TransportHints().unreliable()));
-      }
-      else
-      {
-        sub_->subscribe(*it_, topic_property_->getTopicStd(), (uint32_t)queue_size_property_->getInt(),
-                        image_transport::TransportHints(transport_property_->getStdString()));
-      }
+//    if (!topic_property_->getTopicStd().empty() && !transport_property_->getStdString().empty())
+//    {
+//      // Determine UDP vs TCP transport for user selection.
+//      if (unreliable_property_->getBool())
+//      {
+//        sub_->subscribe(*it_, topic_property_->getTopicStd(), (uint32_t)queue_size_property_->getInt(),
+//                        image_transport::TransportHints(transport_property_->getStdString(),
+//                                                        ros::TransportHints().unreliable()));
+//      }
+//      else
+//      {
+//        sub_->subscribe(*it_, topic_property_->getTopicStd(), (uint32_t)queue_size_property_->getInt(),
+//                        image_transport::TransportHints(transport_property_->getStdString()));
+//      }
 
 
-      if (targetFrame_.empty())
-      {
-        sub_->registerCallback(
-            boost::bind(&ImageDisplayBase::incomingMessage, this, boost::placeholders::_1));
-      }
-      else
-      {
-        tf_filter_.reset(new tf2_ros::MessageFilter<sensor_msgs::Image>(
-            *sub_, *context_->getTF2BufferPtr(), targetFrame_, queue_size_property_->getInt(),
-            update_nh_));
-        tf_filter_->registerCallback(
-            boost::bind(&ImageDisplayBase::incomingMessage, this, boost::placeholders::_1));
-        tf_filter_->registerFailureCallback(boost::bind(
-            &ImageDisplayBase::failedMessage, this, boost::placeholders::_1, boost::placeholders::_2));
-      }
-    }
+//      if (targetFrame_.empty())
+//      {
+//        sub_->registerCallback(
+//            boost::bind(&ImageDisplayBase::incomingMessage, this, boost::placeholders::_1));
+//      }
+//      else
+//      {
+//        tf_filter_.reset(new tf2_ros::MessageFilter<sensor_msgs::Image>(
+//            *sub_, *context_->getTF2BufferPtr(), targetFrame_, queue_size_property_->getInt(),
+//            update_nh_));
+//        tf_filter_->registerCallback(
+//            boost::bind(&ImageDisplayBase::incomingMessage, this, boost::placeholders::_1));
+//        tf_filter_->registerFailureCallback(boost::bind(
+//            &ImageDisplayBase::failedMessage, this, boost::placeholders::_1, boost::placeholders::_2));
+//      }
+//    }
     setStatus(StatusProperty::Ok, "Topic", "OK");
   }
   catch (ros::Exception& e)
   {
     setStatus(StatusProperty::Error, "Topic", QString("Error subscribing: ") + e.what());
   }
-  catch (image_transport::Exception& e)
-  {
-    setStatus(StatusProperty::Error, "Topic", QString("Error subscribing: ") + e.what());
-  }
+//  catch (image_transport::Exception& e)
+//  {
+//    setStatus(StatusProperty::Error, "Topic", QString("Error subscribing: ") + e.what());
+//  }
 }
 
 void ImageDisplayBase::unsubscribe()
 {
-  tf_filter_.reset();
-  sub_.reset();
+//  tf_filter_.reset();
+//  sub_.reset();
 }
 
 void ImageDisplayBase::fixedFrameChanged()
 {
-  if (tf_filter_)
-  {
-    tf_filter_->setTargetFrame(fixed_frame_.toStdString());
-    reset();
-  }
+//  if (tf_filter_)
+//  {
+//    tf_filter_->setTargetFrame(fixed_frame_.toStdString());
+//    reset();
+//  }
 }
 
 void ImageDisplayBase::scanForTransportSubscriberPlugins()
 {
-  pluginlib::ClassLoader<image_transport::SubscriberPlugin> sub_loader(
-      "image_transport", "image_transport::SubscriberPlugin");
+//  pluginlib::ClassLoader<image_transport::SubscriberPlugin> sub_loader(
+//      "image_transport", "image_transport::SubscriberPlugin");
 
-  BOOST_FOREACH (const std::string& lookup_name, sub_loader.getDeclaredClasses())
-  {
-    // lookup_name is formatted as "pkg/transport_sub", for instance
-    // "image_transport/compressed_sub" for the "compressed"
-    // transport.  This code removes the "_sub" from the tail and
-    // everything up to and including the "/" from the head, leaving
-    // "compressed" (for example) in transport_name.
-    std::string transport_name = boost::erase_last_copy(lookup_name, "_sub");
-    transport_name = transport_name.substr(lookup_name.find('/') + 1);
+//  BOOST_FOREACH (const std::string& lookup_name, sub_loader.getDeclaredClasses())
+//  {
+//    // lookup_name is formatted as "pkg/transport_sub", for instance
+//    // "image_transport/compressed_sub" for the "compressed"
+//    // transport.  This code removes the "_sub" from the tail and
+//    // everything up to and including the "/" from the head, leaving
+//    // "compressed" (for example) in transport_name.
+//    std::string transport_name = boost::erase_last_copy(lookup_name, "_sub");
+//    transport_name = transport_name.substr(lookup_name.find('/') + 1);
 
-    // If the plugin loads without throwing an exception, add its
-    // transport name to the list of valid plugins, otherwise ignore
-    // it.
-    try
-    {
-      boost::shared_ptr<image_transport::SubscriberPlugin> sub = sub_loader.createInstance(lookup_name);
-      transport_plugin_types_.insert(transport_name);
-    }
-    catch (const pluginlib::LibraryLoadException& e)
-    {
-    }
-    catch (const pluginlib::CreateClassException& e)
-    {
-    }
-  }
+//    // If the plugin loads without throwing an exception, add its
+//    // transport name to the list of valid plugins, otherwise ignore
+//    // it.
+//    try
+//    {
+//      boost::shared_ptr<image_transport::SubscriberPlugin> sub = sub_loader.createInstance(lookup_name);
+//      transport_plugin_types_.insert(transport_name);
+//    }
+//    catch (const pluginlib::LibraryLoadException& e)
+//    {
+//    }
+//    catch (const pluginlib::CreateClassException& e)
+//    {
+//    }
+  //}
 }
 
 void ImageDisplayBase::updateTopic()
@@ -271,34 +272,34 @@ void ImageDisplayBase::fillTransportOptionList(EnumProperty* property)
   choices.push_back("raw");
 
   // Loop over all current ROS topic names
-  ros::master::V_TopicInfo topics;
-  ros::master::getTopics(topics);
-  ros::master::V_TopicInfo::iterator it = topics.begin();
-  ros::master::V_TopicInfo::iterator end = topics.end();
-  for (; it != end; ++it)
-  {
-    // If the beginning of this topic name is the same as topic_,
-    // and the whole string is not the same,
-    // and the next character is /
-    // and there are no further slashes from there to the end,
-    // then consider this a possible transport topic.
-    const ros::master::TopicInfo& ti = *it;
-    const std::string& topic_name = ti.name;
-    const std::string& topic = topic_property_->getStdString();
+//  ros::master::V_TopicInfo topics;
+//  ros::master::getTopics(topics);
+//  ros::master::V_TopicInfo::iterator it = topics.begin();
+//  ros::master::V_TopicInfo::iterator end = topics.end();
+//  for (; it != end; ++it)
+//  {
+//    // If the beginning of this topic name is the same as topic_,
+//    // and the whole string is not the same,
+//    // and the next character is /
+//    // and there are no further slashes from there to the end,
+//    // then consider this a possible transport topic.
+//    const ros::master::TopicInfo& ti = *it;
+//    const std::string& topic_name = ti.name;
+//    const std::string& topic = topic_property_->getStdString();
 
-    if (topic_name.find(topic) == 0 && topic_name != topic && topic_name[topic.size()] == '/' &&
-        topic_name.find('/', topic.size() + 1) == std::string::npos)
-    {
-      std::string transport_type = topic_name.substr(topic.size() + 1);
+//    if (topic_name.find(topic) == 0 && topic_name != topic && topic_name[topic.size()] == '/' &&
+//        topic_name.find('/', topic.size() + 1) == std::string::npos)
+//    {
+//      std::string transport_type = topic_name.substr(topic.size() + 1);
 
-      // If the transport type string found above is in the set of
-      // supported transport type plugins, add it to the list.
-      if (transport_plugin_types_.find(transport_type) != transport_plugin_types_.end())
-      {
-        choices.push_back(transport_type);
-      }
-    }
-  }
+//      // If the transport type string found above is in the set of
+//      // supported transport type plugins, add it to the list.
+//      if (transport_plugin_types_.find(transport_type) != transport_plugin_types_.end())
+//      {
+//        choices.push_back(transport_type);
+//      }
+//    }
+//  }
 
   for (size_t i = 0; i < choices.size(); i++)
   {
