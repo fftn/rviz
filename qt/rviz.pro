@@ -5,7 +5,7 @@ QT += widgets
 
 INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/include
-INCLUDEPATH += ../src/rviz/default_plugin/view_controllers/
+#INCLUDEPATH += ../src/rviz/default_plugin/view_controllers/
 #INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
 INCLUDEPATH += ../src/rviz
 INCLUDEPATH += ../src/utils
@@ -16,6 +16,7 @@ INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/
 INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
 INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/ros/
 INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/tinyxml2/
+INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/OGRE/
 
 
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
@@ -112,12 +113,12 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/robot/tf_link_updater.cpp \
     ../src/rviz/selection/selection_handler.cpp \
     ../src/rviz/selection/selection_manager.cpp \
-    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/fps_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/frame_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.cpp \
+#    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.cpp \
+#    ../src/rviz/default_plugin/view_controllers/fps_view_controller.cpp \
+#    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.cpp \
+#    ../src/rviz/default_plugin/view_controllers/frame_view_controller.cpp \
+#    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.cpp \
+#    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.cpp \
     \
     ../src/rviz/properties/color_property.cpp \
     ../src/rviz/properties/combo_box.cpp \
@@ -205,12 +206,12 @@ HEADERS += \
     ../src/rviz/robot/robot_joint.h \
     ../src/rviz/robot/robot_link.h \
     ../src/rviz/selection/selection_manager.h \
-    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/fps_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/frame_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.h \
+#    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.h \
+#    ../src/rviz/default_plugin/view_controllers/fps_view_controller.h \
+#    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.h \
+#    ../src/rviz/default_plugin/view_controllers/frame_view_controller.h \
+#    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.h \
+#    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.h \
     ../src/rviz/properties/color_property.h \
     ../src/rviz/properties/combo_box.h \
     ../src/rviz/properties/display_visibility_property.h \
