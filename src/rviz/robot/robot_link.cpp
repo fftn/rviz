@@ -40,7 +40,7 @@
 #include <OgreSharedPtr.h>
 #include <OgreTechnique.h>
 
-#include <ros/console.h>
+//#include <ros/console.h>
 
 #include <resource_retriever/retriever.h>
 #include <urdf_model/model.h>
@@ -507,7 +507,7 @@ Ogre::MaterialPtr RobotLink::getMaterialForLink(const urdf::LinkConstSharedPtr& 
       }
       catch (resource_retriever::Exception& e)
       {
-        ROS_ERROR("%s", e.what());
+//        ROS_ERROR("%s", e.what());
       }
 
       if (res.size != 0)
@@ -529,7 +529,7 @@ Ogre::MaterialPtr RobotLink::getMaterialForLink(const urdf::LinkConstSharedPtr& 
         }
         catch (Ogre::Exception& e)
         {
-          ROS_ERROR("Could not load texture [%s]: %s", filename.c_str(), e.what());
+//          ROS_ERROR("Could not load texture [%s]: %s", filename.c_str(), e.what());
         }
       }
     }
@@ -635,7 +635,7 @@ void RobotLink::createEntityForGeometryElement(const urdf::LinkConstSharedPtr& l
     break;
   }
   default:
-    ROS_WARN("Unsupported geometry type for element: %d", geom.type);
+//    ROS_WARN("Unsupported geometry type for element: %d", geom.type);
     break;
   }
 
@@ -834,7 +834,7 @@ void RobotLink::updateTrail()
       }
       else
       {
-        ROS_WARN("No visual node for link %s, cannot create a trail", name_.c_str());
+//        ROS_WARN("No visual node for link %s, cannot create a trail", name_.c_str());
       }
     }
   }

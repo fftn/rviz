@@ -54,10 +54,10 @@ class Object;
 class Axes;
 } // namespace rviz
 
-namespace tf
-{
-class TransformListener;
-}
+//namespace tf
+//{
+//class TransformListener;
+//}
 
 namespace rviz
 {

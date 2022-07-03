@@ -24,7 +24,7 @@ LIBS += -L../3rdlibs/image-transport/lib/
 LIBS += -L../3rdlibs/
 LIBS += -L/usr/share/ewaybot/thirdpartylib/lib
 LIBS += -L/usr/share/ewaybot/thirdpartylib/lib/ros
-LIBS += -lrostime
+LIBS += -lmostime -L../src/target/lib
 LIBS += -lactionlib
 LIBS += -lrosconsole
 LIBS += -lroscpp_serialization
@@ -34,10 +34,10 @@ LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
 LIBS += -limage_transport
 LIBS += -lclass_loader
 LIBS += -lxmlrpcpp
-LIBS += -L../lib/manual -lrostime
+LIBS += -L../lib/manual
 LIBS += -L../lib/3pl -lresource_retriever -lmessage_filters -lconsole_bridge -ltf2
-LIBS += -L../lib/cmake -lclass_loader -limage_transport -ltf2_ros
-LIBS += -lX11 -L/usr/lib/x86_64-linux-gnu/
+LIBS += -L../lib/cmake -limage_transport -ltf2_ros
+LIBS += -lX11
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
 LIBS += -ltinyxml -ltinyxml2
 LIBS += -lOgreOverlay -lOgreMain -lOgreProperty -lOgreRTShaderSystem -lOgreTerrain -lOgreVolume -lOgrePaging
@@ -157,7 +157,6 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/ogre_helpers/render_system.cpp \
     ../src/rviz/ogre_helpers/render_widget.cpp \
     ../src/rviz/ogre_helpers/shape.cpp \
-    ../src/rviz/mos_time.cpp \
 
 HEADERS += \
     ../src/rviz/add_display_dialog.h \
@@ -233,5 +232,4 @@ HEADERS += \
     ../src/rviz/env_config.h \
     ../src/rviz/display_context.h \
     ../src/rviz/ogre_helpers/arrow.h \
-    ../src/rviz/mos_time.h \
 

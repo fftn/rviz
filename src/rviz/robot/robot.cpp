@@ -48,8 +48,8 @@
 #include <OgreMaterial.h>
 #include <OgreResourceGroupManager.h>
 
-#include <ros/console.h>
-#include <ros/assert.h>
+//#include <ros/console.h>
+//#include <ros/assert.h>
 
 namespace rviz
 {
@@ -624,7 +624,7 @@ RobotLink* Robot::getLink(const std::string& name)
   M_NameToLink::iterator it = links_.find(name);
   if (it == links_.end())
   {
-    ROS_WARN("Link [%s] does not exist", name.c_str());
+//    ROS_WARN("Link [%s] does not exist", name.c_str());
     return nullptr;
   }
 
@@ -636,7 +636,7 @@ RobotJoint* Robot::getJoint(const std::string& name)
   M_NameToJoint::iterator it = joints_.find(name);
   if (it == joints_.end())
   {
-    ROS_WARN("Joint [%s] does not exist", name.c_str());
+//    ROS_WARN("Joint [%s] does not exist", name.c_str());
     return nullptr;
   }
 
@@ -715,34 +715,34 @@ void Robot::update(const LinkUpdater& updater)
       // NaN.
       if (visual_orientation.isNaN())
       {
-        ROS_ERROR_THROTTLE(1.0,
-                           "visual orientation of %s contains NaNs. "
-                           "Skipping render as long as the orientation is invalid.",
-                           link->getName().c_str());
+//        ROS_ERROR_THROTTLE(1.0,
+//                           "visual orientation of %s contains NaNs. "
+//                           "Skipping render as long as the orientation is invalid.",
+//                           link->getName().c_str());
         continue;
       }
       if (visual_position.isNaN())
       {
-        ROS_ERROR_THROTTLE(
-            1.0,
-            "visual position of %s contains NaNs. Skipping render as long as the position is invalid.",
-            link->getName().c_str());
+//        ROS_ERROR_THROTTLE(
+//            1.0,
+//            "visual position of %s contains NaNs. Skipping render as long as the position is invalid.",
+//            link->getName().c_str());
         continue;
       }
       if (collision_orientation.isNaN())
       {
-        ROS_ERROR_THROTTLE(1.0,
-                           "collision orientation of %s contains NaNs. "
-                           "Skipping render as long as the orientation is invalid.",
-                           link->getName().c_str());
+//        ROS_ERROR_THROTTLE(1.0,
+//                           "collision orientation of %s contains NaNs. "
+//                           "Skipping render as long as the orientation is invalid.",
+//                           link->getName().c_str());
         continue;
       }
       if (collision_position.isNaN())
       {
-        ROS_ERROR_THROTTLE(1.0,
-                           "collision position of %s contains NaNs. "
-                           "Skipping render as long as the position is invalid.",
-                           link->getName().c_str());
+//        ROS_ERROR_THROTTLE(1.0,
+//                           "collision position of %s contains NaNs. "
+//                           "Skipping render as long as the position is invalid.",
+//                           link->getName().c_str());
         continue;
       }
       link->setTransforms(visual_position, visual_orientation, collision_position, collision_orientation);
