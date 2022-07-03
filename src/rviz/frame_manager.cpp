@@ -31,20 +31,20 @@
 #include "display.h"
 #include "properties/property.h"
 
-#include <tf2_ros/transform_listener.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+//#include <tf2_ros/transform_listener.h>
+//#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 namespace rviz
 {
-FrameManager::FrameManager(std::shared_ptr<tf2_ros::Buffer> tf_buffer,
-                           std::shared_ptr<tf2_ros::TransformListener> tf_listener)
+FrameManager::FrameManager(/*std::shared_ptr<tf2_ros::Buffer> tf_buffer,
+                           std::shared_ptr<tf2_ros::TransformListener> tf_listener*/)
 {
-  assert(!tf_listener || tf_buffer); // tf_listener implies tf_buffer to defined too
-  tf_buffer_ =
-      tf_buffer ? std::move(tf_buffer) : std::make_shared<tf2_ros::Buffer>(ros::Duration(10 * 60));
-  tf_listener_ = tf_listener ?
-                     std::move(tf_listener) :
-                     std::make_shared<tf2_ros::TransformListener>(*tf_buffer_, ros::NodeHandle(), true);
+//  assert(!tf_listener || tf_buffer); // tf_listener implies tf_buffer to defined too
+//  tf_buffer_ =
+//      tf_buffer ? std::move(tf_buffer) : std::make_shared<tf2_ros::Buffer>(ros::Duration(10 * 60));
+//  tf_listener_ = tf_listener ?
+//                     std::move(tf_listener) :
+//                     std::make_shared<tf2_ros::TransformListener>(*tf_buffer_, ros::NodeHandle(), true);
 
   setSyncMode(SyncOff);
   setPause(false);
@@ -94,7 +94,7 @@ void FrameManager::setFixedFrame(const std::string& frame)
     if (fixed_frame_ != frame)
     {
       fixed_frame_ = frame;
-      fixed_frame_id_ = tf_buffer_->_lookupFrameNumber(fixed_frame_);
+//      fixed_frame_id_ = tf_buffer_->_lookupFrameNumber(fixed_frame_);
       cache_.clear();
       should_emit = true;
     }
@@ -272,7 +272,7 @@ bool FrameManager::transform(const std::string& frame,
 
 bool FrameManager::frameHasProblems(const std::string& frame, mos::Time /*time*/, std::string& error)
 {
-  if (!tf_buffer_->_frameExists(frame))
+//  if (!tf_buffer_->_frameExists(frame))
   {
     error = "Frame [" + frame + "] does not exist";
     if (frame == fixed_frame_)
@@ -330,23 +330,23 @@ std::string getTransformStatusName(const std::string& caller_id)
 
 std::string FrameManager::discoverFailureReason(const std::string& frame_id,
                                                 const mos::Time& stamp,
-                                                const std::string& /*caller_id*/,
-                                                tf2_ros::FilterFailureReason reason)
+                                                const std::string& /*caller_id*//*,
+                                                tf2_ros::FilterFailureReason reason*/)
 {
-  if (reason == tf2_ros::filter_failure_reasons::OutTheBack)
-  {
-    std::stringstream ss;
-    ss << "Message removed because it is too old (frame=[" << frame_id << "], stamp=[" << stamp << "])";
-    return ss.str();
-  }
-  else
-  {
+//  if (reason == tf2_ros::filter_failure_reasons::OutTheBack)
+//  {
+//    std::stringstream ss;
+//    ss << "Message removed because it is too old (frame=[" << frame_id << "], stamp=[" << stamp << "])";
+//    return ss.str();
+//  }
+//  else
+//  {
     std::string error;
     if (transformHasProblems(frame_id, stamp, error))
     {
       return error;
     }
-  }
+//  }
 
   return "Unknown reason for transform failure";
 }

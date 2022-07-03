@@ -95,10 +95,10 @@ public:
   virtual FrameManager* getFrameManager() const = 0;
 
   /** @brief Convenience function: returns getFrameManager()->getTF2BufferPtr(). */
-  std::shared_ptr<tf2_ros::Buffer> getTF2BufferPtr() const
-  {
-    return getFrameManager()->getTF2BufferPtr();
-  }
+//  std::shared_ptr<tf2_ros::Buffer> getTF2BufferPtr() const
+//  {
+//    return getFrameManager()->getTF2BufferPtr();
+//  }
 
   /** @brief Return the fixed frame name. */
   virtual QString getFixedFrame() const = 0;

@@ -157,6 +157,7 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/ogre_helpers/render_system.cpp \
     ../src/rviz/ogre_helpers/render_widget.cpp \
     ../src/rviz/ogre_helpers/shape.cpp \
+    ../src/rviz/mos_time.cpp \
 
 HEADERS += \
     ../src/rviz/add_display_dialog.h \
@@ -232,3 +233,5 @@ HEADERS += \
     ../src/rviz/env_config.h \
     ../src/rviz/display_context.h \
     ../src/rviz/ogre_helpers/arrow.h \
+    ../src/rviz/mos_time.h \
+

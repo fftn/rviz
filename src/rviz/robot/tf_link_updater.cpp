@@ -53,7 +53,7 @@ bool TFLinkUpdater::getLinkTransforms(const std::string& _link_name,
 
   Ogre::Vector3 position;
   Ogre::Quaternion orientation;
-  if (!frame_manager_->getTransform(link_name, ros::Time(), position, orientation))
+  if (!frame_manager_->getTransform(link_name, mos::Time(), position, orientation))
   {
     std::stringstream ss;
     ss << "No transform from [" << link_name << "] to [" << frame_manager_->getFixedFrame() << "]";

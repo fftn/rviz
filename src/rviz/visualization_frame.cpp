@@ -55,6 +55,7 @@
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/bind/bind.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/make_shared.hpp>
 
 #include <OgreRenderWindow.h>
 #include <OgreMeshManager.h>

@@ -77,7 +77,7 @@ class WindowManagerInterface;
 class Tool;
 class OgreRenderQueueClearer;
 
-//class VisualizationManagerPrivate;
+class VisualizationManagerPrivate;
 
 /**
  * \brief The VisualizationManager class is the central manager class
@@ -110,10 +110,10 @@ public:
    */
   explicit VisualizationManager(
       RenderPanel* render_panel,
-      WindowManagerInterface* wm = nullptr,
+      WindowManagerInterface* wm = nullptr/*,
       std::shared_ptr<tf2_ros::Buffer> tf_buffer = std::shared_ptr<tf2_ros::Buffer>(),
       std::shared_ptr<tf2_ros::TransformListener> tf_listener =
-          std::shared_ptr<tf2_ros::TransformListener>());
+          std::shared_ptr<tf2_ros::TransformListener>()*/);
 
   /**
    * \brief Destructor
@@ -275,12 +275,12 @@ public:
   /**
    * @brief Lock a mutex to delay calls to Ogre::Root::renderOneFrame().
    */
-  //void lockRender();
+  void lockRender();
 
   /**
    * @brief Unlock a mutex, allowing calls to Ogre::Root::renderOneFrame().
    */
-  //void unlockRender();
+  void unlockRender();
 
   /**
    * \brief Queues a render.  Multiple calls before a render happens will only cause a single render.
@@ -449,7 +449,7 @@ private Q_SLOTS:
 
 private:
   DisplayFactory* display_factory_;
-  //VisualizationManagerPrivate* private_;
+  VisualizationManagerPrivate* private_;
   uint32_t default_visibility_bit_;
   BitAllocator visibility_bit_allocator_;
   QString help_path_;

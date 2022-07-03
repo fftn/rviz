@@ -107,21 +107,20 @@ private:
   QIcon icon_;
 };
 
-/*class VisualizationManagerPrivate
+class VisualizationManagerPrivate
 {
 public:
-  mos::CallbackQueue threaded_queue_;
+//  mos::CallbackQueue threaded_queue_;
   boost::thread_group threaded_queue_threads_;
-  mos::NodeHandle update_nh_;
-  mos::NodeHandle threaded_nh_;
+//  mos::NodeHandle update_nh_;
+//  mos::NodeHandle threaded_nh_;
   boost::mutex render_mutex_;
 };
-*/
 
 VisualizationManager::VisualizationManager(RenderPanel* render_panel,
-                                           WindowManagerInterface* wm,
+                                           WindowManagerInterface* wm/*,
                                            std::shared_ptr<tf2_ros::Buffer> tf_buffer,
-                                           std::shared_ptr<tf2_ros::TransformListener> tf_listener)
+                                           std::shared_ptr<tf2_ros::TransformListener> tf_listener*/)
   : ogre_root_(Ogre::Root::getSingletonPtr())
   , update_timer_(nullptr)
   , shutting_down_(false)
@@ -131,13 +130,13 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
   , render_requested_(1)
   , frame_count_(0)
   , window_manager_(wm)
-  //, private_(new VisualizationManagerPrivate)
+  , private_(new VisualizationManagerPrivate)
 {
   // visibility_bit_allocator_ is listed after default_visibility_bit_ (and thus initialized later be
   // default):
   default_visibility_bit_ = visibility_bit_allocator_.allocBit();
 
-  frame_manager_ = new FrameManager(std::move(tf_buffer), std::move(tf_listener));
+  frame_manager_ = new FrameManager(/*std::move(tf_buffer), std::move(tf_listener)*/);
 
   render_panel->setAutoRender(false);
 
@@ -215,7 +214,7 @@ VisualizationManager::~VisualizationManager()
 {
   update_timer_->stop();
   shutting_down_ = true;
-  //private_->threaded_queue_threads_.join_all();
+  private_->threaded_queue_threads_.join_all();
 
   delete update_timer_;
 
@@ -235,7 +234,7 @@ VisualizationManager::~VisualizationManager()
     ogre_root_->destroySceneManager(scene_manager_);
   }
   delete frame_manager_;
-  //delete private_;
+  delete private_;
 
   Ogre::Root::getSingletonPtr()->removeFrameListener(ogre_render_queue_clearer_);
   delete ogre_render_queue_clearer_;
@@ -258,15 +257,15 @@ void VisualizationManager::initialize()
   return &private_->threaded_queue_;
 }*/
 
-//void VisualizationManager::lockRender()
-//{
-//  private_->render_mutex_.lock();
-//}
+void VisualizationManager::lockRender()
+{
+  private_->render_mutex_.lock();
+}
 
-//void VisualizationManager::unlockRender()
-//{
-//  private_->render_mutex_.unlock();
-//}
+void VisualizationManager::unlockRender()
+{
+  private_->render_mutex_.unlock();
+}
 
 void VisualizationManager::startUpdate()
 {
@@ -395,28 +394,28 @@ void VisualizationManager::updateTime()
 
 void VisualizationManager::updateFrames()
 {
-  if (!frame_manager_->getTF2BufferPtr()->_frameExists(getFixedFrame().toStdString()))
-  {
-    bool no_frames = frame_manager_->getTF2BufferPtr()->allFramesAsString().empty();
-    global_status_->setStatus(no_frames ? StatusProperty::Warn : StatusProperty::Error, "Fixed Frame",
-                              no_frames ? QString("No TF data") :
-                                          QString("Unknown frame %1").arg(getFixedFrame()));
-  }
-  else
+//  if (!frame_manager_->getTF2BufferPtr()->_frameExists(getFixedFrame().toStdString()))
+//  {
+//    bool no_frames = frame_manager_->getTF2BufferPtr()->allFramesAsString().empty();
+//    global_status_->setStatus(no_frames ? StatusProperty::Warn : StatusProperty::Error, "Fixed Frame",
+//                              no_frames ? QString("No TF data") :
+//                                          QString("Unknown frame %1").arg(getFixedFrame()));
+//  }
+//  else
   {
     global_status_->setStatus(StatusProperty::Ok, "Fixed Frame", "OK");
   }
 }
 
-std::shared_ptr<tf2_ros::Buffer> VisualizationManager::getTF2BufferPtr() const
-{
-  return frame_manager_->getTF2BufferPtr();
-}
+//std::shared_ptr<tf2_ros::Buffer> VisualizationManager::getTF2BufferPtr() const
+//{
+//  return frame_manager_->getTF2BufferPtr();
+//}
 
 void VisualizationManager::resetTime()
 {
   root_display_group_->reset();
-  frame_manager_->getTF2BufferPtr()->clear();
+//  frame_manager_->getTF2BufferPtr()->clear();
   mos_time_begin_ = mos::Time();
   wall_clock_begin_ = mos::WallTime();
 
