@@ -54,7 +54,7 @@
 #include <iostream>
 #include <cmath>
 #include <exception.h>
-#include "duration.h"
+#include "mos_duration.h"
 #include <boost/math/special_functions/round.hpp>
 
 /*********************************************************************
