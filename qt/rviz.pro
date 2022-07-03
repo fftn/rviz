@@ -16,6 +16,10 @@ INCLUDEPATH += /usr/include/eigen3
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 LIBS += -L/home/fft/Qt5.14.2/5.14.2/gcc_64/lib/
 
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+LIBS += -L/opt/ros/noetic/lib
+LIBS += -lactionlib
+#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 LIBS += -L/opt/ros/noetic/lib
 LIBS += -lrostime
