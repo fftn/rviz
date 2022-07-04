@@ -3,6 +3,9 @@ CONFIG += console c++14
 CONFIG -= app_bundle
 QT += widgets
 
+QMAKE_CXXFLAGS += -DOGRE_NODELESS_POSITIONING
+
+
 INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/include
 #INCLUDEPATH += ../src/rviz/default_plugin/view_controllers/
