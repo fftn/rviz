@@ -36,6 +36,7 @@
 #include <QWindow>
 
 #include <boost/bind/bind.hpp>
+#include <boost/thread/thread.hpp>
 
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
