@@ -100,7 +100,8 @@ RenderSystem::RenderSystem() : ogre_overlay_system_(nullptr), stereo_supported_(
   OgreLogging::configureLogging();
 
   setupDummyWindowId();
-  ogre_root_ = new Ogre::Root("./ogre_media/plugins.cfg");
+  std::string rviz_path = ".";
+  ogre_root_ = new Ogre::Root(rviz_path + "/ogre_media/plugins.cfg");
   ogre_overlay_system_ = new Ogre::OverlaySystem();
   loadOgrePlugins();
   setupRenderSystem();

@@ -3,31 +3,22 @@ CONFIG += console c++14
 CONFIG -= app_bundle
 QT += widgets
 
-QMAKE_CXXFLAGS += -DOGRE_NODELESS_POSITIONING
-
-
 INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/include
-#INCLUDEPATH += ../src/rviz/default_plugin/view_controllers/
-#INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
 INCLUDEPATH += ../src/rviz
 INCLUDEPATH += ../src/utils
 INCLUDEPATH += ../src/rviz/robot
-INCLUDEPATH += /opt/ros/noetic/include/
+INCLUDEPATH += ../3rdlibs/
 INCLUDEPATH += ../3rdlibs/OGRE/include/
-INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/
-INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/eigen3/
-INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/ros/
-INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/tinyxml2/
-INCLUDEPATH += /usr/share/ewaybot/thirdpartylib/include/OGRE/
+INCLUDEPATH += ../3rdlibs/yaml-cpp/include/
 
 
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
-LIBS += -L../3rdlibs/OGRE/libs/
+LIBS += -L../3rdlibs/lib
+LIBS += -L../3rdlibs/OGRE/lib/
+#LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
+LIBS += -L../3rdlibs/yaml-cpp/libs/
 LIBS += -L../3rdlibs/image-transport/lib/
-LIBS += -L../3rdlibs/
-LIBS += -L/usr/share/ewaybot/thirdpartylib/lib
-LIBS += -L/usr/share/ewaybot/thirdpartylib/lib/ros
 LIBS += -lmostime -L../src/target/lib
 LIBS += -lactionlib
 LIBS += -lrosconsole
@@ -44,6 +35,7 @@ LIBS += -L../lib/cmake -limage_transport -ltf2_ros
 LIBS += -lX11
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
 LIBS += -ltinyxml -ltinyxml2
+#LIBS += -lOgreOverlay_d -lOgreMain_d -lOgreProperty_d -lOgreRTShaderSystem_d -lOgreTerrain_d -lOgreVolume_d -lOgrePaging_d
 LIBS += -lOgreOverlay -lOgreMain -lOgreProperty -lOgreRTShaderSystem -lOgreTerrain -lOgreVolume -lOgrePaging
 LIBS += -lassimp -lyaml-cpp
 LIBS += -ltf2 -ltf2_ros

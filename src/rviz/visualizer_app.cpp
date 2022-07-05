@@ -128,6 +128,7 @@ bool VisualizerApp::init(int argc, char** argv)
   {
 #endif
     startContinueChecker();//creator timer
+    mos::Time::init();
 
     std::string display_config, fixed_frame, splash_path, help_path;
     int force_gl_version = 0;
