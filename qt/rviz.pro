@@ -9,14 +9,15 @@ INCLUDEPATH += ../src/rviz
 INCLUDEPATH += ../src/utils
 INCLUDEPATH += ../src/rviz/robot
 INCLUDEPATH += ../3rdlibs/
+INCLUDEPATH += ../3rdlibs/eigen3
 INCLUDEPATH += ../3rdlibs/OGRE/include/
 INCLUDEPATH += ../3rdlibs/yaml-cpp/include/
 
 
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 LIBS += -L../3rdlibs/lib
-LIBS += -L../3rdlibs/OGRE/lib/
-#LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
+#LIBS += -L../3rdlibs/OGRE/lib/
+LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
 LIBS += -L../3rdlibs/yaml-cpp/libs/
 LIBS += -L../3rdlibs/image-transport/lib/
 LIBS += -lmostime -L../src/target/lib
@@ -35,8 +36,8 @@ LIBS += -L../lib/cmake -limage_transport -ltf2_ros
 LIBS += -lX11
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
 LIBS += -ltinyxml -ltinyxml2
-#LIBS += -lOgreOverlay_d -lOgreMain_d -lOgreProperty_d -lOgreRTShaderSystem_d -lOgreTerrain_d -lOgreVolume_d -lOgrePaging_d
-LIBS += -lOgreOverlay -lOgreMain -lOgreProperty -lOgreRTShaderSystem -lOgreTerrain -lOgreVolume -lOgrePaging
+LIBS += -lOgreOverlay_d -lOgreMain_d -lOgreProperty_d -lOgreRTShaderSystem_d -lOgreTerrain_d -lOgreVolume_d -lOgrePaging_d
+#LIBS += -lOgreOverlay -lOgreMain -lOgreProperty -lOgreRTShaderSystem -lOgreTerrain -lOgreVolume -lOgrePaging
 LIBS += -lassimp -lyaml-cpp
 LIBS += -ltf2 -ltf2_ros
 LIBS += -ljpegxr -ljxrglue -L../3rdlibs/jxr/lib/
@@ -108,12 +109,12 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/robot/tf_link_updater.cpp \
     ../src/rviz/selection/selection_handler.cpp \
     ../src/rviz/selection/selection_manager.cpp \
-#    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.cpp \
-#    ../src/rviz/default_plugin/view_controllers/fps_view_controller.cpp \
-#    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.cpp \
-#    ../src/rviz/default_plugin/view_controllers/frame_view_controller.cpp \
-#    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.cpp \
-#    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/fps_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/frame_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.cpp \
     \
     ../src/rviz/properties/color_property.cpp \
     ../src/rviz/properties/combo_box.cpp \
@@ -201,12 +202,12 @@ HEADERS += \
     ../src/rviz/robot/robot_joint.h \
     ../src/rviz/robot/robot_link.h \
     ../src/rviz/selection/selection_manager.h \
-#    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.h \
-#    ../src/rviz/default_plugin/view_controllers/fps_view_controller.h \
-#    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.h \
-#    ../src/rviz/default_plugin/view_controllers/frame_view_controller.h \
-#    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.h \
-#    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/fps_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/frame_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.h \
     ../src/rviz/properties/color_property.h \
     ../src/rviz/properties/combo_box.h \
     ../src/rviz/properties/display_visibility_property.h \
