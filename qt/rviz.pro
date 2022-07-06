@@ -18,8 +18,8 @@ INCLUDEPATH += ../3rdlibs/yaml-cpp/include/
 
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 LIBS += -L../3rdlibs/lib
-#LIBS += -L../3rdlibs/OGRE/lib/
-LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
+LIBS += -L../3rdlibs/OGRE/lib/
+#LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
 LIBS += -L../3rdlibs/yaml-cpp/libs/
 LIBS += -L../3rdlibs/image-transport/lib/
 LIBS += -lmostime -L../src/utils/mos_time
@@ -38,7 +38,8 @@ LIBS += -L../lib/cmake -limage_transport -ltf2_ros
 LIBS += -lX11
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
 LIBS += -ltinyxml -ltinyxml2
-LIBS += -lOgreOverlay_d -lOgreMain_d -lOgreProperty_d -lOgreRTShaderSystem_d -lOgreTerrain_d -lOgreVolume_d -lOgrePaging_d
+LIBS += -lOgreOverlay_d -lOgreMain_d -lOgreProperty_d
+#-lOgreRTShaderSystem_d -lOgreTerrain_d -lOgreVolume_d -lOgrePaging_d
 #LIBS += -lOgreOverlay -lOgreMain -lOgreProperty -lOgreRTShaderSystem -lOgreTerrain -lOgreVolume -lOgrePaging
 LIBS += -lassimp -lyaml-cpp
 LIBS += -ltf2 -ltf2_ros

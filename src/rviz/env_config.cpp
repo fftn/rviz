@@ -50,7 +50,7 @@ std::string get_ogre_plugin_path()
   // The return string here is replaced at compile time by
   // CMakeLists.txt in this directory.
   //return "/usr/lib/x86_64-linux-gnu/OGRE-1.9.0";
-  return "/home/fft/Downloads/ogre-1-9-0/buildqt/lib";
+  return "./3rdlibs/OGRE/lib";
 }
 
 }
