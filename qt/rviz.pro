@@ -1,7 +1,12 @@
 TEMPLATE = app
 CONFIG += console c++14
 CONFIG -= app_bundle
-QT += widgets
+#QT += widgets
+
+INCLUDEPATH += $$(HOME)/qt5/qtbase/include
+INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtWidgets
+INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtGui
+INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtCore
 
 INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/include
@@ -45,6 +50,7 @@ LIBS += -lassimp -lyaml-cpp
 LIBS += -ltf2 -ltf2_ros
 LIBS += -ljpegxr -ljxrglue -L../3rdlibs/jxr/lib/
 LIBS += -lzzip  -L../3rdlibs/zzip/lib/
+LIBS += -L$$(HOME)/qt5/qtbase/lib -lQt5Gui -lQt5Widgets -lQt5Core
 
 
 SOURCES +=  ../src/rviz/main.cpp \
