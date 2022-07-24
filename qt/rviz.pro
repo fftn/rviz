@@ -21,7 +21,9 @@ INCLUDEPATH += ../3rdlibs/OGRE/include/
 INCLUDEPATH += ../3rdlibs/yaml-cpp/include/
 
 
-QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
+#QMAKE_LFLAGS += "-Wl,--disable-new-dtags"
+QMAKE_LFLAGS += "-Wl,-rpath,../lib/share,-rpath,../3rdlibs/OGRE/lib"
+QMAKE_LFLAGS += "-Wl,-rpath,$$(HOME)/qt5/qtbase/lib"
 LIBS += -L../3rdlibs/lib
 LIBS += -L../3rdlibs/OGRE/lib/
 #LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
