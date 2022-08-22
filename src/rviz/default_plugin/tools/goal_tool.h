@@ -61,8 +61,8 @@ private Q_SLOTS:
   void updateTopic();
 
 private:
-  ros::NodeHandle nh_;
-  ros::Publisher pub_;
+//  ros::NodeHandle nh_;
+//  ros::Publisher pub_;
 
   StringProperty* topic_property_;
 };

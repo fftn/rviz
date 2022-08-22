@@ -169,6 +169,16 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/ogre_helpers/render_system.cpp \
     ../src/rviz/ogre_helpers/render_widget.cpp \
     ../src/rviz/ogre_helpers/shape.cpp \
+    ../src/rviz/default_plugin/tools/move_tool.cpp \
+    ../src/rviz/default_plugin/tools/interaction_tool.cpp \
+    ../src/rviz/default_plugin/tools/selection_tool.cpp \
+    ../src/rviz/default_plugin/tools/initial_pose_tool.cpp \
+    ../src/rviz/default_plugin/tools/goal_tool.cpp \
+    ../src/rviz/default_plugin/tools/pose_tool.cpp \
+    ../src/rviz/default_plugin/tools/focus_tool.cpp \
+    ../src/rviz/default_plugin/tools/point_tool.cpp \
+    ../src/rviz/default_plugin/tools/measure_tool.cpp \
+    ../src/rviz/default_plugin/grid_display.cpp
 
 HEADERS += \
     ../src/rviz/add_display_dialog.h \
@@ -243,7 +253,35 @@ HEADERS += \
     ../src/rviz/load_resource.h \
     ../src/rviz/env_config.h \
     ../src/rviz/display_context.h \
+    ../src/rviz/ogre_helpers/apply_visibility_bits.h \
     ../src/rviz/ogre_helpers/arrow.h \
+    ../src/rviz/ogre_helpers/axes.h \
+    ../src/rviz/ogre_helpers/billboard_line.h \
+    ../src/rviz/ogre_helpers/camera_base.h \
+    ../src/rviz/ogre_helpers/grid.h \
+    ../src/rviz/ogre_helpers/initialization.h \
+    ../src/rviz/ogre_helpers/line.h \
+    ../src/rviz/ogre_helpers/mesh_shape.h \
+    ../src/rviz/ogre_helpers/movable_text.h \
+    ../src/rviz/ogre_helpers/object.h \
+    ../src/rviz/ogre_helpers/ogre_logging.h \
+    ../src/rviz/ogre_helpers/ogre_render_queue_clearer.h \
+    ../src/rviz/ogre_helpers/orbit_camera.h \
+    ../src/rviz/ogre_helpers/orthographic.h \
+    ../src/rviz/ogre_helpers/point_cloud.h \
+    ../src/rviz/ogre_helpers/qt_ogre_render_window.h \
+    ../src/rviz/ogre_helpers/render_system.h \
+    ../src/rviz/ogre_helpers/render_widget.h \
+    ../src/rviz/ogre_helpers/shape.h \
     ../src/rviz/pluginlib_factory.h \
     ../src/rviz/class_id_recording_factory.h \
-
+    ../src/rviz/default_plugin/tools/move_tool.h \
+    ../src/rviz/default_plugin/tools/interaction_tool.h \
+    ../src/rviz/default_plugin/tools/selection_tool.h \
+    ../src/rviz/default_plugin/tools/initial_pose_tool.h \
+    ../src/rviz/default_plugin/tools/goal_tool.h \
+    ../src/rviz/default_plugin/tools/pose_tool.h \
+    ../src/rviz/default_plugin/tools/focus_tool.h \
+    ../src/rviz/default_plugin/tools/point_tool.h \
+    ../src/rviz/default_plugin/tools/measure_tool.h \
+    ../src/rviz/default_plugin/grid_display.h \

@@ -37,6 +37,7 @@
 #include <rviz/properties/property_tree_model.h>
 
 #include "display_group.h"
+#include <rviz/default_plugin/grid_display.h>
 
 namespace rviz
 {
@@ -118,14 +119,23 @@ void DisplayGroup::load(const Config& config)
 
 Display* DisplayGroup::createDisplay(const QString& class_id)
 {
-  DisplayFactory* factory = context_->getDisplayFactory();
-  QString error;
-  Display* disp = factory->make(class_id, &error);
-  if (!disp)
-  {
-    return new FailedDisplay(class_id, error);
+//  DisplayFactory* factory = context_->getDisplayFactory();
+//  QString error;
+//  Display* disp = factory->make(class_id, &error);
+//  if (!disp)
+//  {
+//    return new FailedDisplay(class_id, error);
+//  }
+  if("rviz/Grid" == class_id){
+      Display* disp = new GridDisplay();
+      disp->setClassId(class_id);
+      disp->setDescription("\n      Displays a grid along the ground plane, centered at the origin of the target frame of reference.\n   ");
+      return disp;
   }
-  return disp;
+  else{
+      printf("CreateDisplay ERROR![%s][%s][%d]", qPrintable(class_id), __FILE__, __LINE__);
+  }
+  return nullptr;
 }
 
 void DisplayGroup::onEnableChanged()

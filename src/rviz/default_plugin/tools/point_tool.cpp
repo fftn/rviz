@@ -83,14 +83,14 @@ void PointTool::deactivate()
 
 void PointTool::updateTopic()
 {
-  try
-  {
-    pub_ = nh_.advertise<geometry_msgs::PointStamped>(topic_property_->getStdString(), 1);
-  }
-  catch (const ros::Exception& e)
-  {
-    ROS_ERROR_STREAM_NAMED("PointTool", e.what());
-  }
+//  try
+//  {
+//    pub_ = nh_.advertise<geometry_msgs::PointStamped>(topic_property_->getStdString(), 1);
+//  }
+//  catch (const ros::Exception& e)
+//  {
+//    ROS_ERROR_STREAM_NAMED("PointTool", e.what());
+//  }
 }
 
 void PointTool::updateAutoDeactivate()
@@ -120,8 +120,9 @@ int PointTool::processMouseEvent(ViewportMouseEvent& event)
       ps.point.y = pos.y;
       ps.point.z = pos.z;
       ps.header.frame_id = context_->getFixedFrame().toStdString();
-      ps.header.stamp = ros::Time::now();
-      pub_.publish(ps);
+      //TODO
+//      ps.header.stamp = mos::Time::now();
+//      pub_.publish(ps);
 
       if (auto_deactivate_property_->getBool())
       {

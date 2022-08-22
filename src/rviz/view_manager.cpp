@@ -60,17 +60,13 @@ ViewManager::~ViewManager()
 {
   delete property_model_;
   delete factory_;
-  delete orbit_;
+//  delete orbit_;
 }
 
 void ViewManager::initialize()
 {
-    orbit_ = new OrbitViewController();
-    orbit_->setClassId("rviz/Orbit");
-    orbit_->setDescription("\n      Makes it easy to move around a given point in space, looking at it from any angle.\n    ");
-    orbit_->initialize(context_);
-//  setCurrent(create("rviz/Orbit"), false);
-    setCurrent(orbit_, false);
+  setCurrent(create("rviz/Orbit"), false);
+//    setCurrent(orbit_, false);
 }
 
 void ViewManager::update(float wall_dt, float ros_dt)
@@ -83,14 +79,26 @@ void ViewManager::update(float wall_dt, float ros_dt)
 
 ViewController* ViewManager::create(const QString& class_id)
 {
-  QString error;
-  ViewController* view = factory_->make(class_id, &error);
-  if (!view)
-  {
-    view = new FailedViewController(class_id, error);
-  }
-  view->initialize(context_);
+//  QString error;
+//  ViewController* view = factory_->make(class_id, &error);
+//  if (!view)
+//  {
+//    view = new FailedViewController(class_id, error);
+//  }
+//  view->initialize(context_);
 
+  QString class_name = class_id.mid(class_id.indexOf('/')+1);
+  ViewController* view = nullptr;
+  if ("Orbit" == class_name){
+    view = new OrbitViewController();
+    view->setDescription("\n      Makes it easy to move around a given point in space, looking at it from any angle.\n    ");
+  }
+  else{
+    printf("CreateView ERROR![%s][%s][%d]", qPrintable(class_id), __FILE__, __LINE__);
+    return nullptr;
+  }
+  view->setClassId(class_id);
+  view->initialize(context_);
   return view;
 }
 

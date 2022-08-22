@@ -148,7 +148,7 @@ private:
   PluginlibFactory<ViewController>* factory_;
   ViewController* current_;
   RenderPanel* render_panel_;
-  ViewController* orbit_;
+//  ViewController* orbit_;
 };
 
 /** @brief Container property for ViewControllers which gets the

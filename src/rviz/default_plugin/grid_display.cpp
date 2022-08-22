@@ -42,6 +42,7 @@
 #include <rviz/selection/selection_manager.h>
 
 #include "grid_display.h"
+#include <mos_time.h>
 
 namespace rviz
 {
@@ -128,7 +129,7 @@ void GridDisplay::update(float /*dt*/, float /*ros_dt*/)
 
   Ogre::Vector3 position;
   Ogre::Quaternion orientation;
-  if (context_->getFrameManager()->getTransform(frame, ros::Time(), position, orientation))
+  if (context_->getFrameManager()->getTransform(frame, mos::Time(), position, orientation))
   {
     scene_node_->setPosition(position);
     scene_node_->setOrientation(orientation);
@@ -137,7 +138,7 @@ void GridDisplay::update(float /*dt*/, float /*ros_dt*/)
   else
   {
     std::string error;
-    if (context_->getFrameManager()->transformHasProblems(frame, ros::Time(), error))
+    if (context_->getFrameManager()->transformHasProblems(frame, mos::Time(), error))
     {
       setStatus(StatusProperty::Error, "Transform", QString::fromStdString(error));
     }

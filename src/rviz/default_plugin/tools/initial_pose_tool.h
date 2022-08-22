@@ -34,6 +34,7 @@
 #include <QObject>
 
 #include <ros/ros.h>
+#include <mos_time/mos_time.h>
 
 #include "rviz/default_plugin/tools/pose_tool.h"
 #endif
@@ -62,8 +63,8 @@ private Q_SLOTS:
   void updateTopic();
 
 private:
-  ros::NodeHandle nh_;
-  ros::Publisher pub_;
+//  ros::NodeHandle nh_;
+//  ros::Publisher pub_;
 
   StringProperty* topic_property_;
   FloatProperty* std_dev_x_;

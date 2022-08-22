@@ -31,10 +31,11 @@
 #define RVIZ_POINT_TOOL_H
 
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
-#include <ros/node_handle.h>
-#include <ros/publisher.h>
+//#include <ros/node_handle.h>
+//#include <ros/publisher.h>
 
 #include "rviz/tool.h"
+#include "mos_time.h"
 
 #include <QCursor>
 #include <QObject>
@@ -70,8 +71,8 @@ protected:
   QCursor std_cursor_;
   QCursor hit_cursor_;
 
-  ros::NodeHandle nh_;
-  ros::Publisher pub_;
+//  ros::NodeHandle nh_;
+//  ros::Publisher pub_;
 
   StringProperty* topic_property_;
   BoolProperty* auto_deactivate_property_;

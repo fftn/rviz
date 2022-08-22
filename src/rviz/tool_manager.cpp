@@ -35,6 +35,14 @@
 #include <rviz/properties/property_tree_model.h>
 
 #include <rviz/tool_manager.h>
+#include <rviz/default_plugin/tools/move_tool.h>
+#include <rviz/default_plugin/tools/interaction_tool.h>
+#include <rviz/default_plugin/tools/selection_tool.h>
+#include <rviz/default_plugin/tools/initial_pose_tool.h>
+#include <rviz/default_plugin/tools/goal_tool.h>
+#include <rviz/default_plugin/tools/focus_tool.h>
+#include <rviz/default_plugin/tools/measure_tool.h>
+#include <rviz/default_plugin/tools/point_tool.h>
 
 namespace rviz
 {
@@ -218,25 +226,49 @@ void rviz::ToolManager::closeTool()
 
 Tool* ToolManager::addTool(const QString& class_id)
 {
-  QString error;
-  bool failed = false;
-
   //possible <Tool> classes
 //  addTool("rviz/MoveCamera");
 //  addTool("rviz/Interact");
 //  addTool("rviz/Select");
 //  addTool("rviz/SetInitialPose");
 //  addTool("rviz/SetGoal");
-  Tool* tool = factory_->make(class_id, &error);
-  if (!tool)
-  {
-    tool = new FailedTool(class_id, error);
-    failed = true;
+//  addTool("rviz/FocusTool");
+  QString class_name = class_id.mid(class_id.indexOf('/')+1);
+  QIcon icon = loadPixmap("package://rviz/icons/classes/" + class_name + ".svg");
+
+  Tool* tool = nullptr;
+  if ("MoveCamera" == class_name){
+      tool = new MoveTool();
+  }
+  else if ("Interact" == class_name){
+      tool = new InteractionTool();
+  }
+  else if ("Select" == class_name){
+      tool = new SelectionTool();
+  }
+  else if ("SetInitialPose" == class_name){
+      tool = new InitialPoseTool();
+  }
+  else if ("SetGoal" == class_name){
+      tool = new GoalTool();
+  }
+  else if ("FocusCamera" == class_name){
+      tool = new FocusTool();
+  }
+  else if ("PublishPoint" == class_name){
+      tool = new PointTool();
+  }
+  else if ("Measure" == class_name){
+      tool = new MeasureTool();
+  }
+  else {
+      return nullptr;
   }
 
   tools_.append(tool);
-  tool->setName(addSpaceToCamelCase(factory_->getClassName(class_id)));
-  tool->setIcon(factory_->getIcon(class_id));
+  tool->setName(addSpaceToCamelCase(class_name));
+  tool->setIcon(icon);
+
   tool->initialize(context_);
 
   if (tool->getShortcutKey() != '\0')
@@ -259,7 +291,7 @@ Tool* ToolManager::addTool(const QString& class_id)
 
   // If the default tool is unset and this tool loaded correctly, set
   // it as the default and current.
-  if (default_tool_ == nullptr && !failed)
+  if (default_tool_ == nullptr)
   {
     setDefaultTool(tool);
     setCurrentTool(tool);
