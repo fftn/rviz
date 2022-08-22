@@ -37,6 +37,7 @@
 #include <rviz/properties/property_tree_model.h>
 #include <rviz/render_panel.h>
 #include <rviz/view_controller.h>
+#include <rviz/default_plugin/view_controllers/orbit_view_controller.h>
 
 #include <rviz/view_manager.h>
 
@@ -59,11 +60,17 @@ ViewManager::~ViewManager()
 {
   delete property_model_;
   delete factory_;
+  delete orbit_;
 }
 
 void ViewManager::initialize()
 {
-  setCurrent(create("rviz/Orbit"), false);
+    orbit_ = new OrbitViewController();
+    orbit_->setClassId("rviz/Orbit");
+    orbit_->setDescription("\n      Makes it easy to move around a given point in space, looking at it from any angle.\n    ");
+    orbit_->initialize(context_);
+//  setCurrent(create("rviz/Orbit"), false);
+    setCurrent(orbit_, false);
 }
 
 void ViewManager::update(float wall_dt, float ros_dt)

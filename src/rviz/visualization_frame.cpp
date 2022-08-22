@@ -120,7 +120,11 @@ VisualizationFrame::VisualizationFrame(QWidget* parent)
   , frame_count_(0)
   , toolbar_visible_(true)
 {
-  panel_factory_ = new PanelFactory();
+    try {
+      panel_factory_ = new PanelFactory();
+    } catch (...) {
+        printf("init panel factory error;\n");
+    }
 
   installEventFilter(geom_change_detector_);
   connect(geom_change_detector_, SIGNAL(changed()), this, SLOT(setDisplayConfigModified()));
@@ -128,7 +132,7 @@ VisualizationFrame::VisualizationFrame(QWidget* parent)
   post_load_timer_->setSingleShot(true);
   connect(post_load_timer_, SIGNAL(timeout()), this, SLOT(markLoadingDone()));
 
-  package_path_ = "./";//ros::package::getPath("rviz");
+  package_path_ = ros::package::getPath("rviz");
   help_path_ = QString::fromStdString((fs::path(package_path_) / "help/help.html").string());
   splash_path_ = QString::fromStdString((fs::path(package_path_) / "images/splash.png").string());
 
@@ -176,14 +180,13 @@ void VisualizationFrame::setStatus(const QString& message)
 void VisualizationFrame::updateFps()
 {
   frame_count_++;
-  double dCurTime = 10;//ewayos::Time::GetCurrentTime();
-  double dTimeDif = dCurTime-m_dLastCalTime;
+  mos::WallDuration wall_diff = mos::WallTime::now() - last_fps_calc_time_;
 
-  if (dTimeDif > 1.0)
+  if (wall_diff.toSec() > 1.0)
   {
-    float fps = frame_count_ / dTimeDif;
+    float fps = frame_count_ / wall_diff.toSec();
     frame_count_ = 0;
-    m_dLastCalTime = dCurTime;
+    last_fps_calc_time_= mos::WallTime::now();
     if (original_status_bar_ == statusBar())
     {
       fps_label_->setText(QString::number(int(fps)) + QString(" fps"));

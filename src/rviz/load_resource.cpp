@@ -119,7 +119,7 @@ QCursor makeIconCursor(const QPixmap& icon, const QString& cache_key, bool fill_
     return QCursor(cursor_img, 0, 0);
   }
 
-  QPixmap base_cursor = loadPixmap("./icons/cursor.svg", fill_cache);
+  QPixmap base_cursor = loadPixmap("package://rviz/icons/cursor.svg", fill_cache);
 
   const int cursor_size = 32;
 

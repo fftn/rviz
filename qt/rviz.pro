@@ -22,20 +22,23 @@ INCLUDEPATH += ../3rdlibs/yaml-cpp/include/
 
 
 #QMAKE_LFLAGS += "-Wl,--disable-new-dtags"
-QMAKE_LFLAGS += "-Wl,-rpath,../lib/share,-rpath,../3rdlibs/OGRE/lib"
 QMAKE_LFLAGS += "-Wl,-rpath,$$(HOME)/qt5/qtbase/lib"
+QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
+QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/src/utils/mos_time"
+QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/3rdlibs/OGRE/lib/"
+QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/3rdlibs/lib"
 LIBS += -L../3rdlibs/lib
 LIBS += -L../3rdlibs/OGRE/lib/
-#LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
 LIBS += -L../3rdlibs/yaml-cpp/libs/
 LIBS += -L../3rdlibs/image-transport/lib/
+LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
+#LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
 LIBS += -lmostime -L../src/utils/mos_time
 LIBS += -lactionlib
 LIBS += -lrosconsole
 LIBS += -lroscpp_serialization
 LIBS += -lroscpp
 LIBS += -lroslib
-LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
 LIBS += -limage_transport
 LIBS += -lclass_loader
 LIBS += -lxmlrpcpp
@@ -53,6 +56,7 @@ LIBS += -ltf2 -ltf2_ros
 LIBS += -ljpegxr -ljxrglue -L../3rdlibs/jxr/lib/
 LIBS += -lzzip  -L../3rdlibs/zzip/lib/
 LIBS += -L$$(HOME)/qt5/qtbase/lib -lQt5Gui -lQt5Widgets -lQt5Core
+#LIBS += -L$$(HOME)/Qt5.14.2/5.14.2/gcc_64/lib/
 
 
 SOURCES +=  ../src/rviz/main.cpp \
@@ -240,4 +244,6 @@ HEADERS += \
     ../src/rviz/env_config.h \
     ../src/rviz/display_context.h \
     ../src/rviz/ogre_helpers/arrow.h \
+    ../src/rviz/pluginlib_factory.h \
+    ../src/rviz/class_id_recording_factory.h \
 

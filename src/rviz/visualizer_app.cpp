@@ -100,7 +100,7 @@ bool reloadShaders()
   return true;
 }
 
-VisualizerApp::VisualizerApp() : app_(nullptr), continue_timer_(nullptr), frame_(nullptr)
+VisualizerApp::VisualizerApp() : app_(nullptr), frame_(nullptr)
 {
 }
 
@@ -127,7 +127,6 @@ bool VisualizerApp::init(int argc, char** argv)
   try
   {
 #endif
-    startContinueChecker();//creator timer
     mos::Time::init();
 
     std::string display_config, fixed_frame, splash_path, help_path;
@@ -166,6 +165,7 @@ bool VisualizerApp::init(int argc, char** argv)
     }
     catch (std::exception& e)
     {
+      printf("Error parsing command line: %s", e.what());
       return false;
     }
 
@@ -214,41 +214,7 @@ bool VisualizerApp::init(int argc, char** argv)
 
 VisualizerApp::~VisualizerApp()
 {
-  delete continue_timer_;
   delete frame_;
 }
-
-void VisualizerApp::startContinueChecker()
-{
-  continue_timer_ = new QTimer(this);
-  connect(continue_timer_, SIGNAL(timeout()), this, SLOT(checkContinue()));
-  continue_timer_->start(100);
-}
-
-void VisualizerApp::checkContinue()
-{
-    if (frame_)
-    {
-      // Make sure the window doesn't ask if we want to save first.
-      frame_->setWindowModified(false);
-    }
-    QApplication::closeAllWindows();
-}
-
-bool VisualizerApp::loadConfigCallback()
-{
-  return true;
-}
-
-bool VisualizerApp::loadConfigDiscardingCallback()
-{
-  return true;
-}
-
-bool VisualizerApp::saveConfigCallback()
-{
-  return true;
-}
-
 
 } // namespace rviz

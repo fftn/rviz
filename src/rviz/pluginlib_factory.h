@@ -36,9 +36,9 @@
 #include <string>
 #include <vector>
 
-//#ifndef Q_MOC_RUN
-//#include <pluginlib/class_loader.hpp>
-//#endif
+#ifndef Q_MOC_RUN
+#include <pluginlib/class_loader.hpp>
+#endif
 
 #include <rviz/class_id_recording_factory.h>
 #include <rviz/load_resource.h>
@@ -61,18 +61,18 @@ private:
 public:
   PluginlibFactory(const QString& package, const QString& base_class_type)
   {
-//    class_loader_ =
-//        new pluginlib::ClassLoader<Type>(package.toStdString(), base_class_type.toStdString());
+    class_loader_ =
+        new pluginlib::ClassLoader<Type>(package.toStdString(), base_class_type.toStdString());
   }
   ~PluginlibFactory() override
   {
-    //delete class_loader_;
+    delete class_loader_;
   }
 
   QStringList getDeclaredClassIds() override
   {
     QStringList ids;
-    std::vector<std::string> std_ids;// = class_loader_->getDeclaredClasses();
+    std::vector<std::string> std_ids  = class_loader_->getDeclaredClasses();
     for (size_t i = 0; i < std_ids.size(); i++)
     {
       ids.push_back(QString::fromStdString(std_ids[i]));
@@ -92,8 +92,8 @@ public:
     {
       return iter->description_;
     }
-    return QString("");
-    //return QString::fromStdString(class_loader_->getClassDescription(class_id.toStdString()));
+//    return QString("");
+    return QString::fromStdString(class_loader_->getClassDescription(class_id.toStdString()));
   }
 
   QString getClassName(const QString& class_id) const override
@@ -103,8 +103,8 @@ public:
     {
       return iter->name_;
     }
-    return QString("");
-    //return QString::fromStdString(class_loader_->getName(class_id.toStdString()));
+//    return QString("");
+    return QString::fromStdString(class_loader_->getName(class_id.toStdString()));
   }
 
   QString getClassPackage(const QString& class_id) const override
@@ -114,8 +114,8 @@ public:
     {
       return iter->package_;
     }
-    return QString("");
-    //return QString::fromStdString(class_loader_->getClassPackage(class_id.toStdString()));
+//    return QString("");
+    return QString::fromStdString(class_loader_->getClassPackage(class_id.toStdString()));
   }
 
   virtual QString getPluginManifestPath(const QString& class_id) const
@@ -125,21 +125,21 @@ public:
     {
       return "";
     }
-    return QString("");
-    //return QString::fromStdString(class_loader_->getPluginManifestPath(class_id.toStdString()));
+//    return QString("");
+    return QString::fromStdString(class_loader_->getPluginManifestPath(class_id.toStdString()));
   }
 
   QIcon getIcon(const QString& class_id) const override
   {
     QString package = getClassPackage(class_id);
     QString class_name = getClassName(class_id);
-    QIcon icon = loadPixmap("./icons/classes/" + class_name + ".svg");
+    QIcon icon = loadPixmap("package://rviz/icons/classes/" + class_name + ".svg");
     if (icon.isNull())
     {
-      icon = loadPixmap("./icons/classes/" + class_name + ".png");
+      icon = loadPixmap("package://rviz/icons/classes/" + class_name + ".png");
       if (icon.isNull())
       {
-        icon = loadPixmap("./icons/default_class_icon.png");
+        icon = loadPixmap("package://rviz/icons/default_class_icon.png");
       }
     }
     return icon;
@@ -186,28 +186,27 @@ protected:
     }
     try
     {
-      //return class_loader_->createUnmanagedInstance(class_id.toStdString());
-       return nullptr;
+      return class_loader_->createUnmanagedInstance(class_id.toStdString());
+//       return nullptr;
+    }
+    catch (pluginlib::PluginlibException& ex)
+    {
+      ROS_ERROR("PluginlibFactory: The plugin for class '%s' failed to load.  Error: %s",
+                qPrintable(class_id), ex.what());
+      if (error_return)
+      {
+        *error_return = QString::fromStdString(ex.what());
+      }
+      return nullptr;
     }
     catch(...)
     {
         return nullptr;
     }
-
-//    catch (pluginlib::PluginlibException& ex)
-//    {
-//      ROS_ERROR("PluginlibFactory: The plugin for class '%s' failed to load.  Error: %s",
-//                qPrintable(class_id), ex.what());
-//      if (error_return)
-//      {
-//        *error_return = QString::fromStdString(ex.what());
-//      }
-//      return nullptr;
-//    }
   }
 
 private:
-  //pluginlib::ClassLoader<Type>* class_loader_;
+  pluginlib::ClassLoader<Type>* class_loader_;
   QHash<QString, BuiltInClassRecord> built_ins_;
 };
 

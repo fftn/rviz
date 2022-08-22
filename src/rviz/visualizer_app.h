@@ -56,18 +56,8 @@ public:
    * @return false on failure, true on success. */
   bool init(int argc, char** argv);
 
-private Q_SLOTS:
-  /** If ros::ok() is false, close all windows. */
-  void checkContinue();
-
 private:
-  void startContinueChecker();
-  bool loadConfigCallback();
-  bool loadConfigDiscardingCallback();
-  bool saveConfigCallback();
-
   QApplication* app_;
-  QTimer* continue_timer_;
   VisualizationFrame* frame_;
 };
 

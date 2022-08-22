@@ -46,8 +46,7 @@ QString addSpaceToCamelCase(QString input)
 }
 
 ToolManager::ToolManager(DisplayContext* context)
-  : factory_(new PluginlibFactory<Tool>("rviz", "rviz::Tool"))
-  , property_tree_model_(new PropertyTreeModel(new Property()))
+  : property_tree_model_(new PropertyTreeModel(new Property()))
   , context_(context)
   , current_tool_(nullptr)
   , default_tool_(nullptr)
@@ -58,7 +57,6 @@ ToolManager::ToolManager(DisplayContext* context)
 ToolManager::~ToolManager()
 {
   removeAll();
-  delete factory_;
   delete property_tree_model_;
 }
 
@@ -222,6 +220,13 @@ Tool* ToolManager::addTool(const QString& class_id)
 {
   QString error;
   bool failed = false;
+
+  //possible <Tool> classes
+//  addTool("rviz/MoveCamera");
+//  addTool("rviz/Interact");
+//  addTool("rviz/Select");
+//  addTool("rviz/SetInitialPose");
+//  addTool("rviz/SetGoal");
   Tool* tool = factory_->make(class_id, &error);
   if (!tool)
   {
