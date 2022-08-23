@@ -19,6 +19,7 @@ INCLUDEPATH += ../3rdlibs/tinyxml2
 INCLUDEPATH += ../3rdlibs/eigen3
 INCLUDEPATH += ../3rdlibs/OGRE/include/
 INCLUDEPATH += ../3rdlibs/yaml-cpp/include/
+INCLUDEPATH += /usr/include/python3.8/
 
 
 #QMAKE_LFLAGS += "-Wl,--disable-new-dtags"
@@ -37,10 +38,9 @@ LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
 LIBS += -lmostime -L../src/utils/mos_time
 LIBS += -lactionlib
 LIBS += -limage_transport
-#LIBS += -lclass_loader
-LIBS += -lxmlrpcpp
+LIBS += -lxmlrpcpp -lboost_regex -lcurl -lpython3.8
 LIBS += -L../lib/manual
-LIBS += -L../lib/3pl -lresource_retriever -lmessage_filters -lconsole_bridge -ltf2
+LIBS += -L../lib/3pl -ltf2
 LIBS += -L../lib/cmake -limage_transport -ltf2_ros
 LIBS += -lX11
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
@@ -61,9 +61,6 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/config.cpp \
     ../src/rviz/add_display_dialog.cpp \
     ../src/rviz/display.cpp \
-#    ../src/rviz/display_factory.cpp \
-#    ../src/rviz/pluginlib_factory.cpp \
-#    ../src/rviz/class_id_recording_factory.cpp \
     ../src/rviz/display_group.cpp \
     ../src/rviz/displays_panel.cpp \
     ../src/rviz/failed_display.cpp \
@@ -80,7 +77,6 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/new_object_dialog.cpp \
     ../src/rviz/panel.cpp \
     ../src/rviz/panel_dock_widget.cpp \
-#    ../src/rviz/panel_factory.cpp \
     ../src/rviz/preferences_dialog.cpp \
     ../src/rviz/render_panel.cpp \
     ../src/rviz/scaled_image_widget.cpp \
@@ -142,7 +138,6 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/properties/property_tree_delegate.cpp \
     ../src/rviz/properties/property_tree_model.cpp \
     ../src/rviz/properties/property_tree_widget.cpp \
-#    ../src/rviz/properties/ros_topic_property.cpp \
     ../src/rviz/properties/splitter_handle.cpp \
     ../src/rviz/properties/string_property.cpp \
     \
@@ -179,7 +174,13 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/default_plugin/grid_display.cpp \
     ../src/utils/mos_console.cpp \
     ../src/utils/mos_console_backend.cpp \
-    ../src/utils/impl/mos_console_print.cpp
+    ../src/utils/impl/mos_console_print.cpp \
+    ../src/utils/mos_retriever.cpp \
+    ../src/utils/mos_package.cpp \
+    ../src/utils/mospack/mospack_backcompat.cpp \
+    ../src/utils/mospack/mospack_cmdline.cpp \
+    ../src/utils/mospack/mos_pack.cpp \
+    ../src/utils/mospack/mospack_utils.cpp \
 
 HEADERS += \
     ../src/rviz/add_display_dialog.h \
@@ -194,7 +195,6 @@ HEADERS += \
     ../src/rviz/new_object_dialog.h \
     ../src/rviz/panel.h \
     ../src/rviz/panel_dock_widget.h \
-#    ../src/rviz/panel_factory.h \
     ../src/rviz/preferences_dialog.h \
     ../src/rviz/render_panel.h \
     ../src/rviz/scaled_image_widget.h \
@@ -248,7 +248,6 @@ HEADERS += \
     ../src/rviz/properties/property_tree_delegate.h \
     ../src/rviz/properties/property_tree_model.h \
     ../src/rviz/properties/property_tree_widget.h \
-#    ../src/rviz/properties/ros_topic_property.h \
     ../src/rviz/properties/splitter_handle.h \
     ../src/rviz/properties/string_property.h \
     \
@@ -275,8 +274,6 @@ HEADERS += \
     ../src/rviz/ogre_helpers/render_system.h \
     ../src/rviz/ogre_helpers/render_widget.h \
     ../src/rviz/ogre_helpers/shape.h \
-#    ../src/rviz/pluginlib_factory.h \
-#    ../src/rviz/class_id_recording_factory.h \
     ../src/rviz/default_plugin/tools/move_tool.h \
     ../src/rviz/default_plugin/tools/interaction_tool.h \
     ../src/rviz/default_plugin/tools/selection_tool.h \
@@ -287,3 +284,4 @@ HEADERS += \
     ../src/rviz/default_plugin/tools/point_tool.h \
     ../src/rviz/default_plugin/tools/measure_tool.h \
     ../src/rviz/default_plugin/grid_display.h \
+    ../src/utils/mos_retriever.h \

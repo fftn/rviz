@@ -8,3 +8,4 @@ lib
 dist
 src/python_bindings
 qt/*pro.user*
+.o
