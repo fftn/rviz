@@ -10,10 +10,10 @@
 #include <vector>
 #include <map>
 
-#include <ros/types.h>
-#include <ros/serialization.h>
-#include <ros/builtin_message_traits.h>
-#include <ros/message_operations.h>
+#include <mos_types.h>
+#include <mos_serialization.h>
+#include <mos_builtin_message_traits.h>
+#include "mos_message_operations.h"
 
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/Quaternion.h>

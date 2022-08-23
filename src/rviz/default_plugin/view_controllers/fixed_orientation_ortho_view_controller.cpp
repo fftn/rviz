@@ -225,5 +225,5 @@ void FixedOrientationOrthoViewController::move(float dx, float dy)
 
 #include <cmath>
 
-#include <pluginlib/class_list_macros.hpp>
-PLUGINLIB_EXPORT_CLASS(rviz::FixedOrientationOrthoViewController, rviz::ViewController)
+//#include <pluginlib/class_list_macros.hpp>
+//PLUGINLIB_EXPORT_CLASS(rviz::FixedOrientationOrthoViewController, rviz::ViewController)

@@ -61,7 +61,7 @@ namespace rviz
 {
 class ColorProperty;
 class Display;
-class DisplayFactory;
+//class DisplayFactory;
 class DisplayGroup;
 class FrameManager;
 class Property;

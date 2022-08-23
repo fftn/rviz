@@ -43,6 +43,7 @@
 #include <rviz/default_plugin/tools/focus_tool.h>
 #include <rviz/default_plugin/tools/measure_tool.h>
 #include <rviz/default_plugin/tools/point_tool.h>
+#include <load_resource.h>
 
 namespace rviz
 {

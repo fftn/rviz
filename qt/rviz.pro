@@ -27,6 +27,7 @@ QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/src/utils/mos_time"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/3rdlibs/OGRE/lib/"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/3rdlibs/lib"
+QMAKE_LFLAGS += "-Wl,--copy-dt-needed-entries"
 LIBS += -L../3rdlibs/lib
 LIBS += -L../3rdlibs/OGRE/lib/
 LIBS += -L../3rdlibs/yaml-cpp/libs/
@@ -97,7 +98,7 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/visualization_frame.cpp \
     ../src/rviz/visualization_manager.cpp \
     ../src/rviz/visualizer_app.cpp \
-    ../src/rviz/wait_for_master_dialog.cpp \
+#    ../src/rviz/wait_for_master_dialog.cpp \
     ../src/rviz/widget_geometry_change_detector.cpp \
     ../src/rviz/yaml_config_reader.cpp \
     ../src/rviz/yaml_config_writer.cpp \
@@ -141,7 +142,7 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/properties/property_tree_delegate.cpp \
     ../src/rviz/properties/property_tree_model.cpp \
     ../src/rviz/properties/property_tree_widget.cpp \
-    ../src/rviz/properties/ros_topic_property.cpp \
+#    ../src/rviz/properties/ros_topic_property.cpp \
     ../src/rviz/properties/splitter_handle.cpp \
     ../src/rviz/properties/string_property.cpp \
     \
@@ -175,7 +176,10 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/default_plugin/tools/focus_tool.cpp \
     ../src/rviz/default_plugin/tools/point_tool.cpp \
     ../src/rviz/default_plugin/tools/measure_tool.cpp \
-    ../src/rviz/default_plugin/grid_display.cpp
+    ../src/rviz/default_plugin/grid_display.cpp \
+    ../src/utils/mos_console.cpp \
+    ../src/utils/mos_console_backend.cpp \
+    ../src/utils/impl/mos_console_print.cpp
 
 HEADERS += \
     ../src/rviz/add_display_dialog.h \
@@ -207,7 +211,7 @@ HEADERS += \
     ../src/rviz/visualization_frame.h \
     ../src/rviz/visualization_manager.h \
     ../src/rviz/visualizer_app.h \
-    ../src/rviz/wait_for_master_dialog.h \
+#    ../src/rviz/wait_for_master_dialog.h \
     ../src/rviz/widget_geometry_change_detector.h \
     ../src/rviz/image/image_display_base.h \
     ../src/rviz/properties/bool_property.h \
@@ -244,7 +248,7 @@ HEADERS += \
     ../src/rviz/properties/property_tree_delegate.h \
     ../src/rviz/properties/property_tree_model.h \
     ../src/rviz/properties/property_tree_widget.h \
-    ../src/rviz/properties/ros_topic_property.h \
+#    ../src/rviz/properties/ros_topic_property.h \
     ../src/rviz/properties/splitter_handle.h \
     ../src/rviz/properties/string_property.h \
     \

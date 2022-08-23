@@ -52,7 +52,7 @@
 #include <rviz/ogre_helpers/ogre_logging.h>
 #include <rviz/visualization_frame.h>
 #include <rviz/visualization_manager.h>
-#include <rviz/wait_for_master_dialog.h>
+//#include <rviz/wait_for_master_dialog.h>
 #include <rviz/ogre_helpers/render_system.h>
 
 #include <rviz/visualizer_app.h>

@@ -30,7 +30,8 @@
 #include <OgreLogManager.h>
 #include <OgreLog.h>
 
-#include <ros/ros.h>
+//#include <ros/ros.h>
+#include "mos_console.h"
 
 #include <rviz/ogre_helpers/version_check.h>
 #include <rviz/ogre_helpers/ogre_logging.h>
@@ -55,7 +56,7 @@ public:
     {
       if (lml >= min_lml)
       {
-        ROS_LOG((ros::console::levels::Level)(lml - 1), ROSCONSOLE_DEFAULT_NAME, "%s", message.c_str());
+        MOS_LOG((mos::console::levels::Level)(lml - 1), MOSCONSOLE_DEFAULT_NAME, "%s", message.c_str());
       }
     }
   }

@@ -53,7 +53,7 @@
 #include <platform.h>
 #include <iostream>
 #include <cmath>
-#include <exception.h>
+#include <mos_exception.h>
 #include <mos_duration.h>
 #include <boost/math/special_functions/round.hpp>
 

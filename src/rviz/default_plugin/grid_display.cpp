@@ -229,5 +229,5 @@ void GridDisplay::updatePlane()
 
 } // namespace rviz
 
-#include <pluginlib/class_list_macros.hpp>
-PLUGINLIB_EXPORT_CLASS(rviz::GridDisplay, rviz::Display)
+//#include <pluginlib/class_list_macros.hpp>
+//PLUGINLIB_EXPORT_CLASS(rviz::GridDisplay, rviz::Display)

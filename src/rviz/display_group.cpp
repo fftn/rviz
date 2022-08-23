@@ -32,7 +32,7 @@
 #include <QColor>
 
 #include <rviz/display_context.h>
-#include <rviz/display_factory.h>
+//#include <rviz/display_factory.h>
 #include <rviz/failed_display.h>
 #include <rviz/properties/property_tree_model.h>
 

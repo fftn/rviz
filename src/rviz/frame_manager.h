@@ -36,7 +36,7 @@
 
 #include <mos_time.h>
 //#include <tf2_ros/buffer.h>
-#include <geometry_msgs/Pose.h>
+#include "mos_geometry_msgs/Pose.h"
 
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>

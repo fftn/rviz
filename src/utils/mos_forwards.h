@@ -41,8 +41,8 @@
 
 #include <mos_time.h>
 #include <mos_macros.h>
-#include "exceptions.h"
-#include "datatypes.h"
+#include "mos_exception.h"
+#include "mos_datatypes.h"
 
 namespace mos
 {

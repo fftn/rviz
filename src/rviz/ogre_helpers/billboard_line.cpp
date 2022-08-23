@@ -39,7 +39,7 @@
 
 #include <sstream>
 
-#include <ros/assert.h>
+#include <mos_assert.h>
 
 #define MAX_ELEMENTS (65536 / 4)
 
@@ -175,7 +175,7 @@ void BillboardLine::setMaxPointsPerLine(uint32_t max)
   }
   else // need to split points across several lines
   {
-    ROS_ASSERT(num_lines_ == 1);
+    MOS_ASSERT(num_lines_ == 1);
     max_points_per_line_ = MAX_ELEMENTS;
     num_lines_ = max / MAX_ELEMENTS;
     if (max % MAX_ELEMENTS != 0)
@@ -202,7 +202,7 @@ void BillboardLine::newLine()
 {
   ++current_line_;
 
-  ROS_ASSERT(current_line_ < num_lines_);
+  MOS_ASSERT(current_line_ < num_lines_);
 }
 
 void BillboardLine::addPoint(const Ogre::Vector3& point)
@@ -225,7 +225,7 @@ void BillboardLine::addPoint(const Ogre::Vector3& point, const Ogre::ColourValue
   ++num_elements_[current_line_];
   ++total_elements_;
 
-  ROS_ASSERT(num_elements_[current_line_] <= max_points_per_line_);
+  MOS_ASSERT(num_elements_[current_line_] <= max_points_per_line_);
 
   Ogre::BillboardChain::Element e;
   e.position = point;

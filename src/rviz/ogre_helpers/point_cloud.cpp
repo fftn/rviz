@@ -28,7 +28,7 @@
  */
 
 #include "point_cloud.h"
-#include <ros/assert.h>
+#include <mos_assert.h>
 #include <qglobal.h>
 
 #include <OgreSceneManager.h>
@@ -247,8 +247,8 @@ void PointCloud::setRenderMode(RenderMode mode)
 
   current_material_->load();
 
-  // ROS_INFO("Best technique [%s] [gp=%s]", current_material_->getBestTechnique()->getName().c_str(),
-  // current_material_->getBestTechnique()->getPass(0)->getGeometryProgramName().c_str());
+  MOS_INFO("Best technique [%s] [gp=%s]", current_material_->getBestTechnique()->getName().c_str(),
+   current_material_->getBestTechnique()->getPass(0)->getGeometryProgramName().c_str());
 
   bool geom_support_changed = false;
   Ogre::Technique* best = current_material_->getBestTechnique();
@@ -263,7 +263,7 @@ void PointCloud::setRenderMode(RenderMode mode)
 
       current_mode_supports_geometry_shader_ = true;
 
-      // ROS_INFO("Using geometry shader");
+      MOS_INFO("Using geometry shader");
     }
     else
     {
@@ -280,7 +280,7 @@ void PointCloud::setRenderMode(RenderMode mode)
     geom_support_changed = true;
     current_mode_supports_geometry_shader_ = false;
 
-    ROS_ERROR("No techniques available for material [%s]", current_material_->getName().c_str());
+    MOS_ERROR("No techniques available for material [%s]", current_material_->getName().c_str());
   }
 
   if (geom_support_changed)
@@ -486,10 +486,10 @@ void PointCloud::addPoints(Point* points, uint32_t num_points)
     {
       if (rend)
       {
-        ROS_ASSERT(current_vertex_count == buffer_size);
+        MOS_ASSERT(current_vertex_count == buffer_size);
 
         op->vertexData->vertexCount = rend->getBuffer()->getNumVertices() - op->vertexData->vertexStart;
-        ROS_ASSERT(op->vertexData->vertexCount + op->vertexData->vertexStart <=
+        MOS_ASSERT(op->vertexData->vertexCount + op->vertexData->vertexStart <=
                    rend->getBuffer()->getNumVertices());
         vbuf->unlock();
         rend->setBoundingBox(aabb);
@@ -556,7 +556,7 @@ void PointCloud::addPoints(Point* points, uint32_t num_points)
       *iptr = color;
       ++fptr;
 
-      ROS_ASSERT((uint8_t*)fptr <= (uint8_t*)vdata + rend->getBuffer()->getNumVertices() * vertex_size);
+      MOS_ASSERT((uint8_t*)fptr <= (uint8_t*)vdata + rend->getBuffer()->getNumVertices() * vertex_size);
       Q_UNUSED(vertex_size);
     }
   }
@@ -564,7 +564,7 @@ void PointCloud::addPoints(Point* points, uint32_t num_points)
   op->vertexData->vertexCount = current_vertex_count - op->vertexData->vertexStart;
   rend->setBoundingBox(aabb);
   bounding_box_.merge(aabb);
-  ROS_ASSERT(op->vertexData->vertexCount + op->vertexData->vertexStart <=
+  MOS_ASSERT(op->vertexData->vertexCount + op->vertexData->vertexStart <=
              rend->getBuffer()->getNumVertices());
 
   vbuf->unlock();
@@ -583,7 +583,7 @@ void PointCloud::popPoints(uint32_t num_points)
 {
   uint32_t vpp = getVerticesPerPoint();
 
-  ROS_ASSERT(num_points <= point_count_);
+  MOS_ASSERT(num_points <= point_count_);
   points_.erase(points_.begin(), points_.begin() + num_points);
 
   point_count_ -= num_points;
@@ -609,7 +609,7 @@ void PointCloud::popPoints(uint32_t num_points)
       renderables_.push_back(rend);
     }
   }
-  ROS_ASSERT(popped_count == num_points * vpp);
+  MOS_ASSERT(popped_count == num_points * vpp);
 
   // reset bounds
   bounding_box_.setNull();

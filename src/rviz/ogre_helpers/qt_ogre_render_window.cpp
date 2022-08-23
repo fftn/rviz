@@ -39,8 +39,8 @@
 #include <OgreGpuProgramManager.h>
 #include <OgreRenderTargetListener.h>
 
-#include <ros/console.h>
-#include <ros/assert.h>
+#include <mos_console.h>
+#include <mos_assert.h>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
 #include <stdlib.h>
@@ -182,7 +182,7 @@ void QtOgreRenderWindow::preViewportUpdate(const Ogre::RenderTargetViewportEvent
   }
   else
   {
-    ROS_WARN("Begin rendering to unknown viewport.");
+    MOS_WARN("Begin rendering to unknown viewport.");
   }
 }
 
@@ -200,7 +200,7 @@ void QtOgreRenderWindow::postViewportUpdate(const Ogre::RenderTargetViewportEven
   }
   else
   {
-    ROS_WARN("End rendering to unknown viewport.");
+    MOS_WARN("End rendering to unknown viewport.");
   }
 
   if (!right_camera_->isCustomProjectionMatrixEnabled())

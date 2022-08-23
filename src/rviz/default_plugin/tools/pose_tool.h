@@ -34,7 +34,9 @@
 
 #include <QCursor>
 
-#include <ros/ros.h>
+//#include <ros/ros.h>
+#include "mos_console.h"
+#include "mos_assert.h"
 
 #include <rviz/tool.h>
 

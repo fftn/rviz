@@ -95,11 +95,11 @@ void InitialPoseTool::onPoseSet(double x, double y, double theta)
   pose.pose.covariance[6 * 0 + 0] = std::pow(std_dev_x_->getFloat(), 2);
   pose.pose.covariance[6 * 1 + 1] = std::pow(std_dev_y_->getFloat(), 2);
   pose.pose.covariance[6 * 5 + 5] = std::pow(std_dev_theta_->getFloat(), 2);
-  ROS_INFO("Setting pose: %.3f %.3f %.3f [frame=%s]", x, y, theta, fixed_frame.c_str());
+  MOS_INFO("Setting pose: %.3f %.3f %.3f [frame=%s]", x, y, theta, fixed_frame.c_str());
 //  pub_.publish(pose);
 }
 
 } // end namespace rviz
 
-#include <pluginlib/class_list_macros.hpp>
-PLUGINLIB_EXPORT_CLASS(rviz::InitialPoseTool, rviz::Tool)
+//#include <pluginlib/class_list_macros.hpp>
+//PLUGINLIB_EXPORT_CLASS(rviz::InitialPoseTool, rviz::Tool)

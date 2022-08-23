@@ -33,7 +33,7 @@
 #include <QObject>
 #include <QStringList>
 
-#include <rviz/pluginlib_factory.h>
+//#include <rviz/pluginlib_factory.h>
 #include <rviz/tool.h>
 #include <rviz/rviz_export.h>
 
@@ -128,10 +128,10 @@ public:
 
   void handleChar(QKeyEvent* event, RenderPanel* panel);
 
-  PluginlibFactory<Tool>* getFactory()
-  {
-    return factory_;
-  }
+//  PluginlibFactory<Tool>* getFactory()
+//  {
+//    return factory_;
+//  }
 
 Q_SIGNALS:
   /** @brief Emitted when anything changes which will change the saved config file contents. */
@@ -159,7 +159,7 @@ private Q_SLOTS:
 
 private:
   bool toKey(QString const& str, uint& key_out);
-  PluginlibFactory<Tool>* factory_;
+//  PluginlibFactory<Tool>* factory_;
   PropertyTreeModel* property_tree_model_;
   QList<Tool*> tools_;
   DisplayContext* context_;

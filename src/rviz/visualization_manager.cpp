@@ -54,7 +54,7 @@
 
 #include <mos_time.h>
 #include <rviz/display.h>
-#include <rviz/display_factory.h>
+//#include <rviz/display_factory.h>
 #include <rviz/display_group.h>
 #include <rviz/displays_panel.h>
 #include <rviz/frame_manager.h>

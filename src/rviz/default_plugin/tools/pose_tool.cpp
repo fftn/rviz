@@ -75,7 +75,7 @@ int PoseTool::processMouseEvent(ViewportMouseEvent& event)
 
   if (event.leftDown())
   {
-    ROS_ASSERT(state_ == Position);
+    MOS_ASSERT(state_ == Position);
 
     Ogre::Vector3 intersection;
     Ogre::Plane ground_plane(Ogre::Vector3::UNIT_Z, 0.0f);

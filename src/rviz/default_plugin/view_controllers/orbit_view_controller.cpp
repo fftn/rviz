@@ -336,5 +336,5 @@ void OrbitViewController::move(float x, float y, float z)
 
 #include <cmath>
 
-#include <pluginlib/class_list_macros.hpp>
-PLUGINLIB_EXPORT_CLASS(rviz::OrbitViewController, rviz::ViewController)
+//#include <pluginlib/class_list_macros.hpp>
+//PLUGINLIB_EXPORT_CLASS(rviz::OrbitViewController, rviz::ViewController)

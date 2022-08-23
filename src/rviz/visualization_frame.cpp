@@ -120,11 +120,11 @@ VisualizationFrame::VisualizationFrame(QWidget* parent)
   , frame_count_(0)
   , toolbar_visible_(true)
 {
-    try {
-      panel_factory_ = new PanelFactory();
-    } catch (...) {
-        printf("init panel factory error;\n");
-    }
+//    try {
+//      panel_factory_ = new PanelFactory();
+//    } catch (...) {
+//        printf("init panel factory error;\n");
+//    }
 
   installEventFilter(geom_change_detector_);
   connect(geom_change_detector_, SIGNAL(changed()), this, SLOT(setDisplayConfigModified()));
@@ -132,7 +132,8 @@ VisualizationFrame::VisualizationFrame(QWidget* parent)
   post_load_timer_->setSingleShot(true);
   connect(post_load_timer_, SIGNAL(timeout()), this, SLOT(markLoadingDone()));
 
-  package_path_ = ros::package::getPath("rviz");
+//  package_path_ = ros::package::getPath("rviz");
+  package_path_ = "/opt/ros/noetic/share/rviz";
   help_path_ = QString::fromStdString((fs::path(package_path_) / "help/help.html").string());
   splash_path_ = QString::fromStdString((fs::path(package_path_) / "images/splash.png").string());
 
@@ -162,7 +163,7 @@ VisualizationFrame::~VisualizationFrame()
     delete custom_panels_[i].dock;
   }
 
-  delete panel_factory_;
+//  delete panel_factory_;
   delete render_panel_;
   delete manager_;
 }
@@ -391,7 +392,7 @@ void VisualizationFrame::initConfigs()
 
   if (fs::is_regular_file(config_dir_))
   {
-    ROS_ERROR("Moving file [%s] out of the way to recreate it as a directory.", config_dir_.c_str());
+//    ROS_ERROR("Moving file [%s] out of the way to recreate it as a directory.", config_dir_.c_str());
     std::string backup_file = config_dir_ + ".bak";
 
     fs::rename(config_dir_, backup_file);
@@ -623,13 +624,13 @@ void VisualizationFrame::onDockPanelVisibilityChange(bool visible)
 void VisualizationFrame::openPreferencesDialog()
 {
   Preferences temp_preferences(*preferences_);
-  PreferencesDialog dialog(panel_factory_, &temp_preferences, this);
-  manager_->stopUpdate();
-  if (dialog.exec() == QDialog::Accepted)
-  {
-    // Apply preferences.
-    preferences_ = boost::make_shared<Preferences>(temp_preferences);
-  }
+//  PreferencesDialog dialog(panel_factory_, &temp_preferences, this);
+//  manager_->stopUpdate();
+//  if (dialog.exec() == QDialog::Accepted)
+//  {
+//    // Apply preferences.
+//    preferences_ = boost::make_shared<Preferences>(temp_preferences);
+//  }
   manager_->startUpdate();
 }
 
@@ -639,18 +640,18 @@ void VisualizationFrame::openNewPanelDialog()
   QString display_name;
   QStringList empty;
 
-  NewObjectDialog* dialog =
-      new NewObjectDialog(panel_factory_, "Panel", empty, empty, &class_id, &display_name, this);
-  manager_->stopUpdate();
-  if (dialog->exec() == QDialog::Accepted)
-  {
-    QDockWidget* dock = addPanelByName(display_name, class_id);
-    if (dock)
-    {
-      connect(dock, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)), this, SLOT(onDockPanelChange()));
-    }
-  }
-  manager_->startUpdate();
+//  NewObjectDialog* dialog =
+//      new NewObjectDialog(panel_factory_, "Panel", empty, empty, &class_id, &display_name, this);
+//  manager_->stopUpdate();
+//  if (dialog->exec() == QDialog::Accepted)
+//  {
+//    QDockWidget* dock = addPanelByName(display_name, class_id);
+//    if (dock)
+//    {
+//      connect(dock, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)), this, SLOT(onDockPanelChange()));
+//    }
+//  }
+//  manager_->startUpdate();
 }
 
 void VisualizationFrame::openNewToolDialog()
@@ -659,13 +660,13 @@ void VisualizationFrame::openNewToolDialog()
   QStringList empty;
   ToolManager* tool_man = manager_->getToolManager();
 
-  NewObjectDialog* dialog =
-      new NewObjectDialog(tool_man->getFactory(), "Tool", empty, tool_man->getToolClasses(), &class_id);
-  manager_->stopUpdate();
-  if (dialog->exec() == QDialog::Accepted)
-  {
-    tool_man->addTool(class_id);
-  }
+//  NewObjectDialog* dialog =
+//      new NewObjectDialog(tool_man->getFactory(), "Tool", empty, tool_man->getToolClasses(), &class_id);
+//  manager_->stopUpdate();
+//  if (dialog->exec() == QDialog::Accepted)
+//  {
+//    tool_man->addTool(class_id);
+//  }
   manager_->startUpdate();
   activateWindow(); // Force keyboard focus back on main window.
 }
@@ -1381,7 +1382,9 @@ QDockWidget* VisualizationFrame::addPanelByName(const QString& name,
                                                 bool floating)
 {
   QString error;
-  Panel* panel = panel_factory_->make(class_id, &error);
+//  Panel* panel = panel_factory_->make(class_id, &error);
+  Panel* panel = nullptr;
+  return nullptr;
   if (!panel)
   {
     panel = new FailedPanel(class_id, error);
@@ -1399,7 +1402,7 @@ QDockWidget* VisualizationFrame::addPanelByName(const QString& name,
 
   record.panel->initialize(manager_);
 
-  record.dock->setIcon(panel_factory_->getIcon(class_id));
+//  record.dock->setIcon(panel_factory_->getIcon(class_id));
 
   return record.dock;
 }

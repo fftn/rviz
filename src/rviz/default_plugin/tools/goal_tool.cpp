@@ -79,15 +79,15 @@ void GoalTool::onPoseSet(double x, double y, double theta)
   goal.header.frame_id = fixed_frame;
   //TODO
 //  goal.header.stamp = ros::Time::now();
-  ROS_INFO("Setting goal: Frame:%s, Position(%.3f, %.3f, %.3f), Orientation(%.3f, %.3f, %.3f, %.3f) = "
-           "Angle: %.3f\n",
-           fixed_frame.c_str(), goal.pose.position.x, goal.pose.position.y, goal.pose.position.z,
-           goal.pose.orientation.x, goal.pose.orientation.y, goal.pose.orientation.z,
-           goal.pose.orientation.w, theta);
+//  MOS_INFO("Setting goal: Frame:%s, Position(%.3f, %.3f, %.3f), Orientation(%.3f, %.3f, %.3f, %.3f) = "
+//           "Angle: %.3f\n",
+//           fixed_frame.c_str(), goal.pose.position.x, goal.pose.position.y, goal.pose.position.z,
+//           goal.pose.orientation.x, goal.pose.orientation.y, goal.pose.orientation.z,
+//           goal.pose.orientation.w, theta);
 //  pub_.publish(goal);
 }
 
 } // end namespace rviz
 
-#include <pluginlib/class_list_macros.hpp>
-PLUGINLIB_EXPORT_CLASS(rviz::GoalTool, rviz::Tool)
+//#include <pluginlib/class_list_macros.hpp>
+//PLUGINLIB_EXPORT_CLASS(rviz::GoalTool, rviz::Tool)

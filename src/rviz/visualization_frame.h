@@ -55,7 +55,7 @@ class QToolButton;
 
 namespace rviz
 {
-class PanelFactory;
+//class PanelFactory;
 struct Preferences;
 class RenderPanel;
 class VisualizationManager;
@@ -370,7 +370,7 @@ protected:
   QToolButton* hide_left_dock_button_;
   QToolButton* hide_right_dock_button_;
 
-  PanelFactory* panel_factory_;
+//  PanelFactory* panel_factory_;
 
   struct PanelRecord
   {

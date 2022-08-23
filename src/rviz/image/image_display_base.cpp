@@ -92,7 +92,7 @@ void ImageDisplayBase::setTopic(const QString& topic, const QString& datatype)
     int index = topic.lastIndexOf("/");
     if (index == -1)
     {
-      ROS_WARN("ImageDisplayBase::setTopic() Invalid topic name: %s", topic.toStdString().c_str());
+//      ROS_WARN("ImageDisplayBase::setTopic() Invalid topic name: %s", topic.toStdString().c_str());
       return;
     }
     QString transport = topic.mid(index + 1);
@@ -198,7 +198,7 @@ void ImageDisplayBase::subscribe()
 //    }
     setStatus(StatusProperty::Ok, "Topic", "OK");
   }
-  catch (ros::Exception& e)
+  catch (mos::Exception& e)
   {
     setStatus(StatusProperty::Error, "Topic", QString("Error subscribing: ") + e.what());
   }
