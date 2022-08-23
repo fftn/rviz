@@ -67,7 +67,7 @@ OgreLogging::Preference OgreLogging::preference_ = OgreLogging::NoLogging;
 QString OgreLogging::filename_;
 
 /** @brief Configure Ogre to write output to standard out. */
-void OgreLogging::useRosLog()
+void OgreLogging::useMosLog()
 {
   preference_ = StandardOut;
 }

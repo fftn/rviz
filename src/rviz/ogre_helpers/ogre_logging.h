@@ -45,8 +45,8 @@ namespace rviz
 class OgreLogging
 {
 public:
-  /** @brief Configure Ogre to write output to the ROS logger. */
-  static void useRosLog();
+  /** @brief Configure Ogre to write output to the MOS logger. */
+  static void useMosLog();
 
   /** @brief Configure Ogre to write output to the given log file
    * name.  If file name is a relative path, it will be relative to

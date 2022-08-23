@@ -1,12 +1,12 @@
 TEMPLATE = app
 CONFIG += console c++14
 CONFIG -= app_bundle
-#QT += widgets
+QT += widgets
 
-INCLUDEPATH += $$(HOME)/qt5/qtbase/include
-INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtWidgets
-INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtGui
-INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtCore
+#INCLUDEPATH += $$(HOME)/qt5/qtbase/include
+#INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtWidgets
+#INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtGui
+#INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtCore
 
 INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/include
@@ -23,7 +23,7 @@ INCLUDEPATH += /usr/include/python3.8/
 
 
 #QMAKE_LFLAGS += "-Wl,--disable-new-dtags"
-QMAKE_LFLAGS += "-Wl,-rpath,$$(HOME)/qt5/qtbase/lib"
+#QMAKE_LFLAGS += "-Wl,-rpath,$$(HOME)/qt5/qtbase/lib"
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/src/utils/mos_time"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/3rdlibs/OGRE/lib/"
@@ -34,7 +34,6 @@ LIBS += -L../3rdlibs/OGRE/lib/
 LIBS += -L../3rdlibs/yaml-cpp/libs/
 LIBS += -L../3rdlibs/image-transport/lib/
 LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
-#LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
 LIBS += -lmostime -L../src/utils/mos_time
 LIBS += -lactionlib
 LIBS += -limage_transport
@@ -45,13 +44,11 @@ LIBS += -L../lib/cmake -limage_transport -ltf2_ros
 LIBS += -lX11
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
 LIBS += -ltinyxml -ltinyxml2
-LIBS += -lOgreOverlay_d -lOgreMain_d -lOgreProperty_d
-#-lOgreRTShaderSystem_d -lOgreTerrain_d -lOgreVolume_d -lOgrePaging_d
-#LIBS += -lOgreOverlay -lOgreMain -lOgreProperty -lOgreRTShaderSystem -lOgreTerrain -lOgreVolume -lOgrePaging
+LIBS += -lOgreOverlay -lOgreMain -lOgreProperty
 LIBS += -lassimp -lyaml-cpp
 LIBS += -ljpegxr -ljxrglue -L../3rdlibs/jxr/lib/
 LIBS += -lzzip  -L../3rdlibs/zzip/lib/
-LIBS += -L$$(HOME)/qt5/qtbase/lib -lQt5Gui -lQt5Widgets -lQt5Core
+#LIBS += -L$$(HOME)/qt5/qtbase/lib -lQt5Gui -lQt5Widgets -lQt5Core
 #LIBS += -L$$(HOME)/Qt5.14.2/5.14.2/gcc_64/lib/
 
 

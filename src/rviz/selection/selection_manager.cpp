@@ -49,9 +49,9 @@
 #include <OgreTechnique.h>
 #include <OgreRectangle2D.h>
 
-//#include <sensor_msgs/image_encodings.h>
-//#include <sensor_msgs/Image.h>
-//#include <ros/assert.h>
+#include "sensor_msgs/mos_image_encodings.h"
+#include "sensor_msgs/mos_Image.h"
+#include "mos_assert.h"
 //#include <ros/node_handle.h>
 //#include <ros/publisher.h>
 
@@ -455,7 +455,7 @@ void SelectionManager::addObject(CollObjectHandle obj, SelectionHandler* handler
 {
   if (!obj)
   {
-    //    ROS_BREAK();
+//        MOS_BREAK();
     return;
   }
 
@@ -736,8 +736,7 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
   // make sure the same objects are visible as in the original viewport
   render_viewport->setVisibilityMask(viewport->getVisibilityMask());
 
-  //ros::WallTime start = ros::WallTime::now();
-  double dStartTime = 10;//ewayos::Time::GetCurTime();
+  mos::WallTime start = mos::WallTime::now();
 
   // update & force ogre to render the scene
   Ogre::MaterialManager::getSingleton().addListener(this);
@@ -757,10 +756,10 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
   vis_manager_->getSceneManager()->_renderScene(main_view->getCamera(), main_view, false);
   vis_manager_->getSceneManager()->removeRenderQueueListener(this);
 
-  double dEndTime = 10;//ewayos::Time::GetCurTime();//ros::WallTime::now();
-  double dTimeDif = dEndTime - dStartTime;
-  //  ROS_DEBUG("Render took [%f] msec", d.toSec() * 1000.0f);
-  Q_UNUSED(dTimeDif);
+  mos::WallTime end =  mos::WallTime::now();
+  mos::WallDuration d = end - start;
+  //  MOS_DEBUG("Render took [%f] msec", d.toSec() * 1000.0f);
+  Q_UNUSED(d);
 
   Ogre::MaterialManager::getSingleton().removeListener(this);
 
@@ -789,22 +788,21 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
 
 void SelectionManager::publishDebugImage(const Ogre::PixelBox& pixel_box, const std::string& label)
 {
-    /*
-  ros::Publisher pub;
-  ros::NodeHandle nh;
-  PublisherMap::const_iterator iter = debug_publishers_.find(label);
-  if (iter == debug_publishers_.end())
-  {
-    pub = nh.advertise<sensor_msgs::Image>("/rviz_debug/" + label, 2);
-    debug_publishers_[label] = pub;
-  }
-  else
-  {
-    pub = iter->second;
-  }
+//  ros::Publisher pub;
+//  ros::NodeHandle nh;
+//  PublisherMap::const_iterator iter = debug_publishers_.find(label);
+//  if (iter == debug_publishers_.end())
+//  {
+//    pub = nh.advertise<sensor_msgs::Image>("/rviz_debug/" + label, 2);
+//    debug_publishers_[label] = pub;
+//  }
+//  else
+//  {
+//    pub = iter->second;
+//  }
 
   sensor_msgs::Image msg;
-  msg.header.stamp = ros::Time::now();
+  msg.header.stamp = mos::Time::now();
   msg.width = pixel_box.getWidth();
   msg.height = pixel_box.getHeight();
   msg.encoding = sensor_msgs::image_encodings::RGB8;
@@ -828,7 +826,7 @@ void SelectionManager::publishDebugImage(const Ogre::PixelBox& pixel_box, const 
     pre_pixel_padding = 1;
     break;
   default:
-    ROS_ERROR("SelectionManager::publishDebugImage(): Incompatible pixel format [%d]", pixel_box.format);
+    MOS_ERROR("SelectionManager::publishDebugImage(): Incompatible pixel format [%d]", pixel_box.format);
     return;
   }
   uint8_t r, g, b;
@@ -844,7 +842,7 @@ void SelectionManager::publishDebugImage(const Ogre::PixelBox& pixel_box, const 
     msg.data[dest_index++] = b;
   }
 
-  pub.publish(msg);*/
+//  pub.publish(msg);
 }
 
 void SelectionManager::renderQueueStarted(uint8_t /*queueGroupId*/,
@@ -854,7 +852,7 @@ void SelectionManager::renderQueueStarted(uint8_t /*queueGroupId*/,
   // This render queue listener function tells the scene manager to
   // skip every render step, so nothing actually gets drawn.
 
-  //  ROS_DEBUG("SelectionManager renderQueueStarted(%d, '%s') returning skip = true.",
+  //  MOS_DEBUG("SelectionManager renderQueueStarted(%d, '%s') returning skip = true.",
   //  (int)queueGroupId, invocation.c_str());
   skipThisInvocation = true;
 }

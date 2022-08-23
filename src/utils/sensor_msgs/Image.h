@@ -10,12 +10,12 @@
 #include <vector>
 #include <map>
 
-#include <mos_types.h>
-#include <mos_serialization.h>
-#include <mos_builtin_message_traits.h>
-#include <mos_message_operations.h>
+#include <ros/types.h>
+#include <ros/serialization.h>
+#include <ros/builtin_message_traits.h>
+#include <ros/message_operations.h>
 
-#include "std_msgs/mos_Header.h"
+#include <std_msgs/Header.h>
 
 namespace sensor_msgs
 {
@@ -88,13 +88,13 @@ typedef boost::shared_ptr< ::sensor_msgs::Image const> ImageConstPtr;
 template<typename ContainerAllocator>
 std::ostream& operator<<(std::ostream& s, const ::sensor_msgs::Image_<ContainerAllocator> & v)
 {
-mos::message_operations::Printer< ::sensor_msgs::Image_<ContainerAllocator> >::stream(s, "", v);
+ros::message_operations::Printer< ::sensor_msgs::Image_<ContainerAllocator> >::stream(s, "", v);
 return s;
 }
 
 } // namespace sensor_msgs
 
-namespace mos
+namespace ros
 {
 namespace message_traits
 {
@@ -187,7 +187,7 @@ struct Definition< ::sensor_msgs::Image_<ContainerAllocator> >
 "\n"
 "# The legal values for encoding are in file src/image_encodings.cpp\n"
 "# If you want to standardize a new string format, join\n"
-"# mos-users@lists.sourceforge.net and send an email proposing a new encoding.\n"
+"# ros-users@lists.sourceforge.net and send an email proposing a new encoding.\n"
 "\n"
 "string encoding       # Encoding of pixels -- channel meaning, ordering, size\n"
 "                      # taken from the list of strings in include/sensor_msgs/image_encodings.h\n"
@@ -218,9 +218,9 @@ struct Definition< ::sensor_msgs::Image_<ContainerAllocator> >
 };
 
 } // namespace message_traits
-} // namespace mos
+} // namespace ros
 
-namespace mos
+namespace ros
 {
 namespace serialization
 {
@@ -238,13 +238,13 @@ namespace serialization
       stream.next(m.data);
     }
 
-    MOS_DECLARE_ALLINONE_SERIALIZER
+    ROS_DECLARE_ALLINONE_SERIALIZER
   }; // struct Image_
 
 } // namespace serialization
-} // namespace mos
+} // namespace ros
 
-namespace mos
+namespace ros
 {
 namespace message_operations
 {
@@ -277,6 +277,6 @@ struct Printer< ::sensor_msgs::Image_<ContainerAllocator> >
 };
 
 } // namespace message_operations
-} // namespace mos
+} // namespace ros
 
 #endif // SENSOR_MSGS_MESSAGE_IMAGE_H

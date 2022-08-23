@@ -44,15 +44,13 @@
 #undef check
 #endif
 
-#include <ros/console.h>
-#include <ros/ros.h>
+#include "mos_console.h"
 
 #include <rviz/selection/selection_manager.h>
 #include <rviz/env_config.h>
 #include <rviz/ogre_helpers/ogre_logging.h>
 #include <rviz/visualization_frame.h>
 #include <rviz/visualization_manager.h>
-//#include <rviz/wait_for_master_dialog.h>
 #include <rviz/ogre_helpers/render_system.h>
 
 #include <rviz/visualizer_app.h>
@@ -67,7 +65,7 @@ namespace rviz
 //bool reloadShaders(std_srvs::Empty::Request& /*unused*/, std_srvs::Empty::Response& /*unused*/)
 bool reloadShaders()
 {
-  //ROS_INFO("Reloading materials.");
+  MOS_INFO("Reloading materials.");
   {
     Ogre::ResourceManager::ResourceMapIterator it =
         Ogre::MaterialManager::getSingleton().getResourceIterator();
@@ -77,7 +75,7 @@ bool reloadShaders()
       resource->reload();
     }
   }
-  //ROS_INFO("Reloading high-level gpu shaders.");
+  MOS_INFO("Reloading high-level gpu shaders.");
   {
     Ogre::ResourceManager::ResourceMapIterator it =
         Ogre::HighLevelGpuProgramManager::getSingleton().getResourceIterator();
@@ -87,7 +85,7 @@ bool reloadShaders()
       resource->reload();
     }
   }
-  //ROS_INFO("Reloading gpu shaders.");
+  MOS_INFO("Reloading gpu shaders.");
   {
     Ogre::ResourceManager::ResourceMapIterator it =
         Ogre::GpuProgramManager::getSingleton().getResourceIterator();
@@ -111,10 +109,10 @@ void VisualizerApp::setApp(QApplication* app)
 
 bool VisualizerApp::init(int argc, char** argv)
 {
-  //ROS_INFO("rviz version %s", get_version().c_str());
-  //ROS_INFO("compiled against Qt version " QT_VERSION_STR);
-  //ROS_INFO("compiled against OGRE version %d.%d.%d%s (%s)", OGRE_VERSION_MAJOR, OGRE_VERSION_MINOR,
-           //OGRE_VERSION_PATCH, OGRE_VERSION_SUFFIX, OGRE_VERSION_NAME);
+  MOS_INFO("rviz version %s", get_version().c_str());
+  MOS_INFO("compiled against Qt version " QT_VERSION_STR);
+  MOS_INFO("compiled against OGRE version %d.%d.%d%s (%s)", OGRE_VERSION_MAJOR, OGRE_VERSION_MINOR,
+           OGRE_VERSION_PATCH, OGRE_VERSION_SUFFIX, OGRE_VERSION_NAME);
 
 #ifdef Q_OS_MAC
   ProcessSerialNumber PSN;
@@ -149,7 +147,7 @@ bool VisualizerApp::init(int argc, char** argv)
         "Force OpenGL version (use '--opengl 210' for OpenGL 2.1 compatibility mode)")
       ("disable-anti-aliasing", "Prevent rviz from trying to use anti-aliasing when rendering.")
       ("no-stereo", "Disable the use of stereo rendering.")("verbose,v", "Enable debug visualizations")
-      ("log-level-debug", "Sets the ROS logger level to debug.");
+      ("log-level-debug", "Sets the MOS logger level to debug.");
     // clang-format on
     po::variables_map vm;
     try
@@ -170,7 +168,7 @@ bool VisualizerApp::init(int argc, char** argv)
     }
 
     if (vm.count("ogre-log"))
-      OgreLogging::useRosLog();
+      OgreLogging::useMosLog();
 
     RenderSystem::forceGlVersion(force_gl_version);
 
@@ -205,7 +203,7 @@ bool VisualizerApp::init(int argc, char** argv)
   }
   catch (std::exception& e)
   {
-    ROS_ERROR("Caught exception while loading: %s", e.what());
+    MOS_ERROR("Caught exception while loading: %s", e.what());
     return false;
   }
 #endif
