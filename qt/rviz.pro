@@ -35,12 +35,8 @@ LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
 #LIBS += -L/home/fft/Downloads/ogre-1-9-0/buildqt/lib
 LIBS += -lmostime -L../src/utils/mos_time
 LIBS += -lactionlib
-LIBS += -lrosconsole
-LIBS += -lroscpp_serialization
-LIBS += -lroscpp
-LIBS += -lroslib
 LIBS += -limage_transport
-LIBS += -lclass_loader
+#LIBS += -lclass_loader
 LIBS += -lxmlrpcpp
 LIBS += -L../lib/manual
 LIBS += -L../lib/3pl -lresource_retriever -lmessage_filters -lconsole_bridge -ltf2
@@ -52,7 +48,6 @@ LIBS += -lOgreOverlay_d -lOgreMain_d -lOgreProperty_d
 #-lOgreRTShaderSystem_d -lOgreTerrain_d -lOgreVolume_d -lOgrePaging_d
 #LIBS += -lOgreOverlay -lOgreMain -lOgreProperty -lOgreRTShaderSystem -lOgreTerrain -lOgreVolume -lOgrePaging
 LIBS += -lassimp -lyaml-cpp
-LIBS += -ltf2 -ltf2_ros
 LIBS += -ljpegxr -ljxrglue -L../3rdlibs/jxr/lib/
 LIBS += -lzzip  -L../3rdlibs/zzip/lib/
 LIBS += -L$$(HOME)/qt5/qtbase/lib -lQt5Gui -lQt5Widgets -lQt5Core
@@ -65,7 +60,9 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/config.cpp \
     ../src/rviz/add_display_dialog.cpp \
     ../src/rviz/display.cpp \
-    ../src/rviz/display_factory.cpp \
+#    ../src/rviz/display_factory.cpp \
+#    ../src/rviz/pluginlib_factory.cpp \
+#    ../src/rviz/class_id_recording_factory.cpp \
     ../src/rviz/display_group.cpp \
     ../src/rviz/displays_panel.cpp \
     ../src/rviz/failed_display.cpp \
@@ -82,7 +79,7 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/new_object_dialog.cpp \
     ../src/rviz/panel.cpp \
     ../src/rviz/panel_dock_widget.cpp \
-    ../src/rviz/panel_factory.cpp \
+#    ../src/rviz/panel_factory.cpp \
     ../src/rviz/preferences_dialog.cpp \
     ../src/rviz/render_panel.cpp \
     ../src/rviz/scaled_image_widget.cpp \
@@ -193,6 +190,7 @@ HEADERS += \
     ../src/rviz/new_object_dialog.h \
     ../src/rviz/panel.h \
     ../src/rviz/panel_dock_widget.h \
+#    ../src/rviz/panel_factory.h \
     ../src/rviz/preferences_dialog.h \
     ../src/rviz/render_panel.h \
     ../src/rviz/scaled_image_widget.h \
@@ -273,8 +271,8 @@ HEADERS += \
     ../src/rviz/ogre_helpers/render_system.h \
     ../src/rviz/ogre_helpers/render_widget.h \
     ../src/rviz/ogre_helpers/shape.h \
-    ../src/rviz/pluginlib_factory.h \
-    ../src/rviz/class_id_recording_factory.h \
+#    ../src/rviz/pluginlib_factory.h \
+#    ../src/rviz/class_id_recording_factory.h \
     ../src/rviz/default_plugin/tools/move_tool.h \
     ../src/rviz/default_plugin/tools/interaction_tool.h \
     ../src/rviz/default_plugin/tools/selection_tool.h \

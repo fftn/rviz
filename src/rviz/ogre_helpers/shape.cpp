@@ -28,7 +28,7 @@
  */
 
 #include "shape.h"
-#include <ros/assert.h>
+#include <mos_assert.h>
 
 #include <rviz/ogre_helpers/version_check.h>
 #include <OgreSceneManager.h>
@@ -68,7 +68,7 @@ Ogre::Entity* Shape::createEntity(const std::string& name, Type type, Ogre::Scen
     break;
 
   default:
-    ROS_BREAK();
+    MOS_BREAK();
   }
 
   return scene_manager->createEntity(name, mesh_name);
@@ -173,7 +173,7 @@ void Shape::setUserData(const Ogre::Any& data)
   if (entity_)
     entity_->getUserObjectBindings().setUserAny(data);
   else
-    ROS_ERROR("Shape not yet fully constructed. Cannot set user data. Did you add triangles to the mesh "
+    MOS_ERROR("Shape not yet fully constructed. Cannot set user data. Did you add triangles to the mesh "
               "already?");
 }
 

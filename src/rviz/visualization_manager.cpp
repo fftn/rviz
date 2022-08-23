@@ -80,7 +80,7 @@
 #include <rviz/visualization_manager.h>
 #include <rviz/window_manager_interface.h>
 
-#include <ros/callback_queue.h>
+//#include <ros/callback_queue.h>
 
 namespace rviz
 {
@@ -205,7 +205,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
 
   //private_->threaded_queue_threads_.create_thread( boost::bind(&VisualizationManager::threadedQueueThreadFunc, this));
 
-  display_factory_ = new DisplayFactory();
+//  display_factory_ = new DisplayFactory();
 
   ogre_render_queue_clearer_ = new OgreRenderQueueClearer();
   Ogre::Root::getSingletonPtr()->addFrameListener(ogre_render_queue_clearer_);
@@ -226,7 +226,7 @@ VisualizationManager::~VisualizationManager()
 
   delete display_property_tree_model_;
   delete tool_manager_;
-  delete display_factory_;
+//  delete display_factory_;
   delete selection_manager_;
   delete view_manager_;
 

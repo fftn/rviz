@@ -40,7 +40,7 @@
 #ifndef MOSTIME_DECL_HPP_INCLUDED
 #define MOSTIME_DECL_HPP_INCLUDED
 
-#include <utils/macros.h>
+#include <mos_macros.h>
 
 #ifdef MOS_BUILD_SHARED_LIBS // mos is being built around shared libraries
   #ifdef mostime_EXPORTS // we are building a shared lib/dll

@@ -191,8 +191,8 @@ protected:
     }
     catch (pluginlib::PluginlibException& ex)
     {
-      ROS_ERROR("PluginlibFactory: The plugin for class '%s' failed to load.  Error: %s",
-                qPrintable(class_id), ex.what());
+//      ROS_ERROR("PluginlibFactory: The plugin for class '%s' failed to load.  Error: %s",
+//                qPrintable(class_id), ex.what());
       if (error_return)
       {
         *error_return = QString::fromStdString(ex.what());

@@ -53,7 +53,7 @@
 
 #include <tinyxml2.h>
 
-#include <ros/assert.h>
+//#include <ros/assert.h>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -93,7 +93,7 @@ public:
 
   size_t Write(const void* /*buffer*/, size_t /*size*/, size_t /*count*/) override
   {
-    ROS_BREAK();
+//    ROS_BREAK();
     return 0;
   }
 
@@ -112,7 +112,8 @@ public:
       new_pos = res_.data.get() + res_.size - offset; // TODO is this right?
       break;
     default:
-      ROS_BREAK();
+//      ROS_BREAK();
+      break;
     }
 
     if (new_pos < res_.data.get() || new_pos > res_.data.get() + res_.size)
@@ -182,7 +183,7 @@ public:
   // ... and finally a method to open a custom stream
   Assimp::IOStream* Open(const char* file, const char* mode = "rb") override
   {
-    ROS_ASSERT(mode == std::string("r") || mode == std::string("rb"));
+//    ROS_ASSERT(mode == std::string("r") || mode == std::string("rb"));
     (void)mode;
 
     // Ugly -- two retrievals where there should be one (Exists + Open)
@@ -401,7 +402,7 @@ void loadTexture(const std::string& resource_path)
     }
     catch (resource_retriever::Exception& e)
     {
-      ROS_ERROR("%s", e.what());
+//      ROS_ERROR("%s", e.what());
     }
 
     if (res.size != 0)
@@ -423,7 +424,7 @@ void loadTexture(const std::string& resource_path)
       }
       catch (Ogre::Exception& e)
       {
-        ROS_ERROR("Could not load texture [%s]: %s", resource_path.c_str(), e.what());
+//        ROS_ERROR("Could not load texture [%s]: %s", resource_path.c_str(), e.what());
       }
     }
   }
@@ -579,7 +580,7 @@ Ogre::MeshPtr meshFromAssimpScene(const std::string& name, const aiScene* scene)
 {
   if (!scene->HasMeshes())
   {
-    ROS_ERROR("No meshes found in file [%s]", name.c_str());
+//    ROS_ERROR("No meshes found in file [%s]", name.c_str());
     return Ogre::MeshPtr();
   }
 
@@ -627,7 +628,7 @@ Ogre::MeshPtr loadMeshFromResource(const std::string& resource_path)
       }
       catch (resource_retriever::Exception& e)
       {
-        ROS_ERROR("%s", e.what());
+//        ROS_ERROR("%s", e.what());
         return Ogre::MeshPtr();
       }
 
@@ -655,7 +656,7 @@ Ogre::MeshPtr loadMeshFromResource(const std::string& resource_path)
                                                aiProcess_GenUVCoords | aiProcess_FlipUVs);
       if (!scene)
       {
-        ROS_ERROR("Could not load resource [%s]: %s", resource_path.c_str(), importer.GetErrorString());
+//        ROS_ERROR("Could not load resource [%s]: %s", resource_path.c_str(), importer.GetErrorString());
         return Ogre::MeshPtr();
       }
 
@@ -686,7 +687,7 @@ Ogre::SkeletonPtr loadSkeletonFromResource(const std::string& resource_path)
     }
     catch (resource_retriever::Exception& e)
     { // often the .skeleton file will not exist -> debug msg only
-      ROS_DEBUG("%s", e.what());
+//      ROS_DEBUG("%s", e.what());
       return Ogre::SkeletonPtr();
     }
 

@@ -103,13 +103,13 @@ void ViewsPanel::setViewManager(ViewManager* view_man)
   {
     properties_view_->setModel(view_man_->getPropertyModel());
 
-    QStringList ids = view_man_->getFactory()->getDeclaredClassIds();
-    for (int i = 0; i < ids.size(); i++)
-    {
-      const QString& id = ids[i];
-      camera_type_selector_->addItem(ViewController::formatClassId(id),
-                                     id); // send the regular-formatted id as userData.
-    }
+//    QStringList ids = view_man_->getFactory()->getDeclaredClassIds();
+//    for (int i = 0; i < ids.size(); i++)
+//    {
+//      const QString& id = ids[i];
+//      camera_type_selector_->addItem(ViewController::formatClassId(id),
+//                                     id); // send the regular-formatted id as userData.
+//    }
 
     connect(save_button_, SIGNAL(clicked()), view_man_, SLOT(copyCurrentToList()));
     connect(camera_type_selector_, SIGNAL(activated(int)), this, SLOT(onTypeSelectorChanged(int)));

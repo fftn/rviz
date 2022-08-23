@@ -52,10 +52,10 @@ class SceneNode;
 class Light;
 } // namespace Ogre
 
-namespace mos
-{
-class CallbackQueueInterface;
-}
+//namespace mos
+//{
+//class CallbackQueueInterface;
+//}
 
 namespace rviz
 {
@@ -322,10 +322,10 @@ public:
   void notifyConfigChanged();
 
   /** @brief Return a factory for creating Display subclasses based on a class id string. */
-  DisplayFactory* getDisplayFactory() const override
-  {
-    return display_factory_;
-  }
+//  DisplayFactory* getDisplayFactory() const override
+//  {
+//    return display_factory_;
+//  }
 
   PropertyTreeModel* getDisplayTreeModel() const
   {
@@ -448,7 +448,7 @@ private Q_SLOTS:
   void updateDefaultLightVisible();
 
 private:
-  DisplayFactory* display_factory_;
+//  DisplayFactory* display_factory_;
   VisualizationManagerPrivate* private_;
   uint32_t default_visibility_bit_;
   BitAllocator visibility_bit_allocator_;

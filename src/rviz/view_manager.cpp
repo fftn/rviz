@@ -47,7 +47,7 @@ ViewManager::ViewManager(DisplayContext* context)
   : context_(context)
   , root_property_(new ViewControllerContainer)
   , property_model_(new PropertyTreeModel(root_property_))
-  , factory_(new PluginlibFactory<ViewController>("rviz", "rviz::ViewController"))
+//  , factory_(new PluginlibFactory<ViewController>("rviz", "rviz::ViewController"))
   , current_(nullptr)
   , render_panel_(nullptr)
 {
@@ -59,7 +59,7 @@ ViewManager::ViewManager(DisplayContext* context)
 ViewManager::~ViewManager()
 {
   delete property_model_;
-  delete factory_;
+//  delete factory_;
 //  delete orbit_;
 }
 
@@ -175,7 +175,7 @@ void ViewManager::copyCurrentToList()
   if (current)
   {
     ViewController* new_copy = copy(current);
-    new_copy->setName(factory_->getClassName(new_copy->getClassId()));
+//    new_copy->setName(factory_->getClassName(new_copy->getClassId()));
     root_property_->addChild(new_copy);
   }
 }

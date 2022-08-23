@@ -31,8 +31,9 @@
 
 #include <boost/filesystem.hpp>
 
-#include <ros/package.h>
-#include <ros/ros.h>
+#include "mos_master.h"
+#include "mos_names.h"
+#include "mos_macros_generated.h"
 
 #include <QGroupBox>
 #include <QLabel>
@@ -57,7 +58,7 @@ namespace rviz
 
 struct LexicalTopicInfo
 {
-  bool operator()(const ros::master::TopicInfo& a, const ros::master::TopicInfo& b)
+  bool operator()(const mos::master::TopicInfo& a, const mos::master::TopicInfo& b)
   {
     return a.name < b.name;
   }
@@ -70,36 +71,36 @@ struct LexicalTopicInfo
  * other.  For example, /camera/image_raw/compressed is a subtopic of
  * /camera/image_raw but not /camera/image.
  *
- * @param base A valid ROS topic
+ * @param base A valid MOS topic
  *
- * @param topic A valid ROS topic
+ * @param topic A valid MOS topic
  *
  * @return True if topic is a subtopic of base.  False otherwise or if either
- *         argument is an invalid ROS topic.
+ *         argument is an invalid MOS topic.
  */
 bool isSubtopic(const std::string& base, const std::string& topic)
 {
   std::string error;
-  if (!ros::names::validate(base, error))
-  {
-    ROS_ERROR_STREAM("isSubtopic() Invalid basename: " << error);
-    return false;
-  }
-  if (!ros::names::validate(topic, error))
-  {
-    ROS_ERROR_STREAM("isSubtopic() Invalid topic: " << error);
-    return false;
-  }
+//  if (!mos::names::validate(base, error))
+//  {
+////    MOS_ERROR_STREAM("isSubtopic() Invalid basename: " << error);
+//    return false;
+//  }
+//  if (!mos::names::validate(topic, error))
+//  {
+////    MOS_ERROR_STREAM("isSubtopic() Invalid topic: " << error);
+//    return false;
+//  }
 
-  std::string query = topic;
-  while (query != "/")
-  {
-    if (query == base)
-    {
-      return true;
-    }
-    query = ros::names::parentNamespace(query);
-  }
+//  std::string query = topic;
+//  while (query != "/")
+//  {
+//    if (query == base)
+//    {
+//      return true;
+//    }
+//    query = mos::names::parentNamespace(query);
+//  }
   return false;
 }
 
@@ -118,49 +119,49 @@ struct PluginGroup
 
 void getPluginGroups(const QMap<QString, QString>& datatype_plugins,
                      QList<PluginGroup>* groups,
-                     QList<ros::master::TopicInfo>* unvisualizable)
+                     QList<mos::master::TopicInfo>* unvisualizable)
 {
-  ros::master::V_TopicInfo all_topics;
-  ros::master::getTopics(all_topics);
-  std::sort(all_topics.begin(), all_topics.end(), LexicalTopicInfo());
-  ros::master::V_TopicInfo::iterator topic_it;
+//  mos::master::V_TopicInfo all_topics;
+//  mos::master::getTopics(all_topics);
+//  std::sort(all_topics.begin(), all_topics.end(), LexicalTopicInfo());
+//  mos::master::V_TopicInfo::iterator topic_it;
 
-  for (topic_it = all_topics.begin(); topic_it != all_topics.end(); ++topic_it)
-  {
-    QString topic = QString::fromStdString(topic_it->name);
-    QString datatype = QString::fromStdString(topic_it->datatype);
+//  for (topic_it = all_topics.begin(); topic_it != all_topics.end(); ++topic_it)
+//  {
+//    QString topic = QString::fromStdString(topic_it->name);
+//    QString datatype = QString::fromStdString(topic_it->datatype);
 
-    if (datatype_plugins.contains(datatype))
-    {
-      if (groups->empty() || !isSubtopic(groups->back().base_topic.toStdString(), topic.toStdString()))
-      {
-        PluginGroup pi;
-        pi.base_topic = topic;
-        groups->append(pi);
-      }
+//    if (datatype_plugins.contains(datatype))
+//    {
+//      if (groups->empty() || !isSubtopic(groups->back().base_topic.toStdString(), topic.toStdString()))
+//      {
+//        PluginGroup pi;
+//        pi.base_topic = topic;
+//        groups->append(pi);
+//      }
 
-      PluginGroup& group = groups->back();
-      QString topic_suffix("raw");
-      if (topic != group.base_topic)
-      {
-        // Remove base_topic and leading slash
-        topic_suffix = topic.right(topic.size() - group.base_topic.size() - 1);
-      }
+//      PluginGroup& group = groups->back();
+//      QString topic_suffix("raw");
+//      if (topic != group.base_topic)
+//      {
+//        // Remove base_topic and leading slash
+//        topic_suffix = topic.right(topic.size() - group.base_topic.size() - 1);
+//      }
 
-      const QList<QString>& plugin_names = datatype_plugins.values(datatype);
-      for (int i = 0; i < plugin_names.size(); ++i)
-      {
-        const QString& name = plugin_names[i];
-        PluginGroup::Info& info = group.plugins[name];
-        info.topic_suffixes.append(topic_suffix);
-        info.datatypes.append(datatype);
-      }
-    }
-    else
-    {
-      unvisualizable->append(*topic_it);
-    }
-  }
+//      const QList<QString>& plugin_names = datatype_plugins.values(datatype);
+//      for (int i = 0; i < plugin_names.size(); ++i)
+//      {
+//        const QString& name = plugin_names[i];
+//        PluginGroup::Info& info = group.plugins[name];
+//        info.topic_suffixes.append(topic_suffix);
+//        info.datatypes.append(datatype);
+//      }
+//    }
+//    else
+//    {
+//      unvisualizable->append(*topic_it);
+//    }
+//  }
 }
 
 // Dialog implementation
@@ -287,7 +288,7 @@ void AddDisplayDialog::updateDisplay()
   }
   else
   {
-    ROS_WARN("Unknown tab index: %i", tab_widget_->currentIndex());
+//    MOS_WARN("Unknown tab index: %i", tab_widget_->currentIndex());
     return;
   }
 
@@ -503,7 +504,7 @@ void TopicDisplayWidget::fill(DisplayFactory* factory)
   findPlugins(factory);
 
   QList<PluginGroup> groups;
-  QList<ros::master::TopicInfo> unvisualizable;
+  QList<mos::master::TopicInfo> unvisualizable;
   getPluginGroups(datatype_plugins_, &groups, &unvisualizable);
 
   // Insert visualizable topics along with their plugins
@@ -546,7 +547,7 @@ void TopicDisplayWidget::fill(DisplayFactory* factory)
   // Insert unvisualizable topics
   for (int i = 0; i < unvisualizable.size(); ++i)
   {
-    const ros::master::TopicInfo& ti = unvisualizable.at(i);
+    const mos::master::TopicInfo& ti = unvisualizable.at(i);
     insertItem(QString::fromStdString(ti.name), true);
   }
 
@@ -563,12 +564,12 @@ void TopicDisplayWidget::findPlugins(DisplayFactory* factory)
   for (it = lookup_names.begin(); it != lookup_names.end(); ++it)
   {
     const QString& lookup_name = *it;
-    // ROS_INFO("Class: %s", lookup_name.toStdString().c_str());
+    // MOS_INFO("Class: %s", lookup_name.toStdString().c_str());
 
     QSet<QString> topic_types = factory->getMessageTypes(lookup_name);
     Q_FOREACH (QString topic_type, topic_types)
     {
-      // ROS_INFO("Type: %s", topic_type.toStdString().c_str());
+      // MOS_INFO("Type: %s", topic_type.toStdString().c_str());
       datatype_plugins_.insertMulti(topic_type, lookup_name);
     }
   }
