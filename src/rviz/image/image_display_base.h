@@ -32,16 +32,16 @@
 #include <QObject>
 
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
-#include <message_filters/subscriber.h>
+//#include <mos_message_filters/subscriber.h>
 //#include <tf2_ros/message_filter.h>
-#include <sensor_msgs/Image.h>
+#include "mos_sensor_msgs/Image.h"
 
 //#include <image_transport/image_transport.h>
 //#include <image_transport/subscriber_filter.h>
 
 #include "rviz/display_context.h"
 #include "rviz/frame_manager.h"
-#include "rviz/properties/ros_topic_property.h"
+#include "rviz/properties/mos_topic_property.h"
 #include "rviz/properties/enum_property.h"
 #include "rviz/properties/int_property.h"
 
@@ -93,7 +93,7 @@ protected:
     reset();
   }
 
-  /** @brief ROS topic management. */
+  /** @brief MOS topic management. */
   virtual void subscribe();
   virtual void unsubscribe();
 
@@ -122,7 +122,7 @@ protected:
 
   uint32_t messages_received_;
 
-  RosTopicProperty* topic_property_;
+  MosTopicProperty* topic_property_;
   EnumProperty* transport_property_;
   IntProperty* queue_size_property_;
 

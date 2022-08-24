@@ -32,7 +32,7 @@
 #include <string>
 
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
-//#include <ros/ros.h>
+#include <mos.h>
 #endif
 
 #include "mos_time.h"
@@ -109,10 +109,10 @@ public:
    * Overridden from Property::save(). */
   void save(Config config) const override;
 
-  /** @brief Set the ROS topic to listen to for this display.
+  /** @brief Set the MOS topic to listen to for this display.
    *
    *  By default, do nothing.  Subclasses should override this method if they
-   *  subscribe to a single ROS topic.
+   *  subscribe to a single MOS topic.
    *
    *  setTopic() is used by the "New display by topic" window; it is called
    *  with a user selected topic and its type.
@@ -134,11 +134,11 @@ public:
 
   /** @brief Called periodically by the visualization manager.
    * @param wall_dt Wall-clock time, in seconds, since the last time the update list was run through.
-   * @param ros_dt ROS time, in seconds, since the last time the update list was run through. */
-  virtual void update(float wall_dt, float ros_dt)
+   * @param mos_dt MOS time, in seconds, since the last time the update list was run through. */
+  virtual void update(float wall_dt, float mos_dt)
   {
     (void)wall_dt;
-    (void)ros_dt;
+    (void)mos_dt;
   }
 
   /** @brief Called to tell the display to clear its state */
@@ -298,12 +298,12 @@ protected:
   /** @brief A NodeHandle whose CallbackQueue is run from the main GUI thread (the "update" thread).
    *
    * This is configured after the constructor and before onInitialize() is called. */
-  //ros::NodeHandle update_nh_;
+  //mos::NodeHandle update_nh_;
 
   /** @brief A NodeHandle whose CallbackQueue is run from a different thread than the GUI.
    *
    * This is configured after the constructor and before onInitialize() is called. */
-  //ros::NodeHandle threaded_nh_;
+  //mos::NodeHandle threaded_nh_;
 
   /** @brief A convenience variable equal to context_->getFixedFrame().
    *

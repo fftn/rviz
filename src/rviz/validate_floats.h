@@ -32,12 +32,12 @@
 
 #include <cmath>
 
-#include <geometry_msgs/PointStamped.h>
-#include <geometry_msgs/Point32.h>
-#include <geometry_msgs/Vector3.h>
-#include <geometry_msgs/PoseStamped.h>
-#include <geometry_msgs/Twist.h>
-#include <std_msgs/ColorRGBA.h>
+#include <mos_geometry_msgs/PointStamped.h>
+#include <mos_geometry_msgs/Point32.h>
+#include <mos_geometry_msgs/Vector3.h>
+#include <mos_geometry_msgs/PoseStamped.h>
+#include <mos_geometry_msgs/Twist.h>
+#include <mos_std_msgs/ColorRGBA.h>
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
 

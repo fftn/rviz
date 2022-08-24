@@ -43,7 +43,7 @@
 #include <OgreSharedPtr.h>
 #endif
 
-#include <urdf/model.h> // can be replaced later by urdf_model/types.h
+#include "mos_urdf/model.h" // can be replaced later by urdf_model/types.h
 #include <urdf_model/pose.h>
 
 #include <rviz/ogre_helpers/object.h>

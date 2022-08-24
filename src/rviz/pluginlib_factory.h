@@ -36,9 +36,9 @@
 #include <string>
 #include <vector>
 
-//#ifndef Q_MOC_RUN
-//#include <pluginlib/class_loader.hpp>
-//#endif
+#ifndef Q_MOC_RUN
+#include <mos_pluginlib/class_loader.hpp>
+#endif
 
 #include <rviz/class_id_recording_factory.h>
 #include <rviz/load_resource.h>
@@ -191,8 +191,8 @@ protected:
     }
     catch (pluginlib::PluginlibException& ex)
     {
-//      ROS_ERROR("PluginlibFactory: The plugin for class '%s' failed to load.  Error: %s",
-//                qPrintable(class_id), ex.what());
+      MOS_ERROR("PluginlibFactory: The plugin for class '%s' failed to load.  Error: %s",
+                qPrintable(class_id), ex.what());
       if (error_return)
       {
         *error_return = QString::fromStdString(ex.what());

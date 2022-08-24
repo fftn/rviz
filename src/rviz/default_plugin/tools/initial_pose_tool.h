@@ -33,8 +33,8 @@
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
 #include <QObject>
 
-//#include <ros/ros.h>
-#include <mos_time/mos_time.h>
+#include "mos.h"
+#include "mos_time/mos_time.h"
 #include "mos_console.h"
 
 #include "rviz/default_plugin/tools/pose_tool.h"
@@ -64,8 +64,8 @@ private Q_SLOTS:
   void updateTopic();
 
 private:
-//  ros::NodeHandle nh_;
-//  ros::Publisher pub_;
+  mos::NodeHandle nh_;
+  mos::Publisher pub_;
 
   StringProperty* topic_property_;
   FloatProperty* std_dev_x_;

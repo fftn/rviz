@@ -29,7 +29,7 @@
 
 #include <stdint.h>
 
-#include <ros/ros.h>
+#include "mos.h"
 
 #include <OgreCamera.h>
 #include <OgrePlane.h>

@@ -38,7 +38,7 @@
 #include <sstream>
 #include <mos_time.h>
 #include <cstdarg>
-#include <mos_macros.h>
+#include "mos_macros.h"
 #include <map>
 #include <vector>
 

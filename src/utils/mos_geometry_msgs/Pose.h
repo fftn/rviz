@@ -10,13 +10,13 @@
 #include <vector>
 #include <map>
 
-#include <mos_types.h>
-#include <mos_serialization.h>
-#include <mos_builtin_message_traits.h>
+#include "mos_types.h"
+#include "mos_serialization.h"
+#include "mos_builtin_message_traits.h"
 #include "mos_message_operations.h"
 
-#include <mos_geometry_msgs/Point.h>
-#include <mos_geometry_msgs/Quaternion.h>
+#include "mos_geometry_msgs/Point.h"
+#include "mos_geometry_msgs/Quaternion.h"
 
 namespace geometry_msgs
 {

@@ -30,8 +30,8 @@
 #include "load_resource.h"
 
 #include <boost/filesystem.hpp>
-#include <ros/package.h>
-#include <ros/ros.h>
+#include "mos_package.h"
+#include "mos.h"
 
 #include <QPixmapCache>
 #include <QPainter>

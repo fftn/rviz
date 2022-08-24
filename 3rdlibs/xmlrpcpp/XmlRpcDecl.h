@@ -40,15 +40,15 @@
 #ifndef XMLRPCPP_DECL_H_INCLUDED
 #define XMLRPCPP_DECL_H_INCLUDED
 
-#include <ros/macros.h>
+#include "mos_macros.h"
 
-#ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
+#ifdef MOS_BUILD_SHARED_LIBS // ros is being built around shared libraries
   #ifdef xmlrpcpp_EXPORTS // we are building a shared lib/dll
-    #define XMLRPCPP_DECL ROS_HELPER_EXPORT
+    #define XMLRPCPP_DECL MOS_HELPER_EXPORT
   #else // we are using shared lib/dll
-    #define XMLRPCPP_DECL ROS_HELPER_IMPORT
+    #define XMLRPCPP_DECL MOS_HELPER_IMPORT
   #endif
-#else // ros is being built around static libraries
+#else // mos is being built around static libraries
   #define XMLRPCPP_DECL
 #endif
 

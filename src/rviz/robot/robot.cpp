@@ -48,8 +48,8 @@
 #include <OgreMaterial.h>
 #include <OgreResourceGroupManager.h>
 
-//#include <ros/console.h>
-//#include <ros/assert.h>
+#include <mos_console.h>
+#include <mos_assert.h>
 
 namespace rviz
 {

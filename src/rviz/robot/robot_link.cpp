@@ -40,9 +40,9 @@
 #include <OgreSharedPtr.h>
 #include <OgreTechnique.h>
 
-//#include <ros/console.h>
+#include "mos_console.h"
 
-#include <resource_retriever/retriever.h>
+#include "mos_resource_retriever/retriever.h"
 #include <urdf_model/model.h>
 #include <urdf_model/link.h>
 

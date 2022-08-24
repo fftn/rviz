@@ -36,7 +36,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-//#include <rviz/factory.h>
+#include <rviz/factory.h>
 
 class QTextBrowser;
 class QLineEdit;
@@ -46,7 +46,7 @@ class QCheckBox;
 
 namespace rviz
 {
-//class DisplayFactory;
+class DisplayFactory;
 class Display;
 
 /**
@@ -80,7 +80,7 @@ public:
    * @param display_name_output Pointer to a string where dialog will
    *        put the display name entered, or NULL (default) if display
    *        name entry field should not be shown. */
-  AddDisplayDialog(//DisplayFactory* factory,
+  AddDisplayDialog(DisplayFactory* factory,
                    const QString& object_type,
                    const QStringList& disallowed_display_names,
                    const QStringList& disallowed_class_lookup_names,
@@ -116,7 +116,7 @@ private:
   /** Populate text boxes based on current tab and selection */
   void updateDisplay();
 
-//  Factory* factory_;
+  Factory* factory_;
   const QStringList& disallowed_display_names_;
   const QStringList& disallowed_class_lookup_names_;
 
@@ -157,7 +157,7 @@ class DisplayTypeTree : public QTreeWidget
 public:
   DisplayTypeTree();
 
-//  void fillTree(Factory* factory);
+  void fillTree(Factory* factory);
 
 Q_SIGNALS:
   void itemChanged(SelectionData* selection);
@@ -172,7 +172,7 @@ class TopicDisplayWidget : public QWidget
   Q_OBJECT
 public:
   TopicDisplayWidget();
-//  void fill(DisplayFactory* factory);
+  void fill(DisplayFactory* factory);
 
 Q_SIGNALS:
   void itemChanged(SelectionData* selection);
@@ -184,7 +184,7 @@ private Q_SLOTS:
   void onComboBoxClicked(QTreeWidgetItem* curr);
 
 private:
-//  void findPlugins(DisplayFactory* /*factory*/);
+  void findPlugins(DisplayFactory* /*factory*/);
 
   /** Insert a topic into the tree
    *

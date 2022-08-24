@@ -89,7 +89,7 @@
  * Currently implemented for Windows (any platform), powerpc64, and x86
  */
 
-#include <ros/platform.h>
+#include "mos_platform.h"
 
 #ifdef WIN32
 # if defined (__MINGW32__)

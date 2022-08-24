@@ -50,7 +50,7 @@
 #include "add_display_dialog.h"
 #include <rviz/load_resource.h>
 
-//#include "display_factory.h"
+#include "display_factory.h"
 
 namespace rviz
 {
@@ -81,26 +81,26 @@ struct LexicalTopicInfo
 bool isSubtopic(const std::string& base, const std::string& topic)
 {
   std::string error;
-//  if (!mos::names::validate(base, error))
-//  {
-////    MOS_ERROR_STREAM("isSubtopic() Invalid basename: " << error);
-//    return false;
-//  }
-//  if (!mos::names::validate(topic, error))
-//  {
-////    MOS_ERROR_STREAM("isSubtopic() Invalid topic: " << error);
-//    return false;
-//  }
+  if (!mos::names::validate(base, error))
+  {
+    MOS_ERROR_STREAM("isSubtopic() Invalid basename: " << error);
+    return false;
+  }
+  if (!mos::names::validate(topic, error))
+  {
+    MOS_ERROR_STREAM("isSubtopic() Invalid topic: " << error);
+    return false;
+  }
 
-//  std::string query = topic;
-//  while (query != "/")
-//  {
-//    if (query == base)
-//    {
-//      return true;
-//    }
-//    query = mos::names::parentNamespace(query);
-//  }
+  std::string query = topic;
+  while (query != "/")
+  {
+    if (query == base)
+    {
+      return true;
+    }
+    query = mos::names::parentNamespace(query);
+  }
   return false;
 }
 
@@ -121,51 +121,51 @@ void getPluginGroups(const QMap<QString, QString>& datatype_plugins,
                      QList<PluginGroup>* groups,
                      QList<mos::master::TopicInfo>* unvisualizable)
 {
-//  mos::master::V_TopicInfo all_topics;
-//  mos::master::getTopics(all_topics);
-//  std::sort(all_topics.begin(), all_topics.end(), LexicalTopicInfo());
-//  mos::master::V_TopicInfo::iterator topic_it;
+  mos::master::V_TopicInfo all_topics;
+  mos::master::getTopics(all_topics);
+  std::sort(all_topics.begin(), all_topics.end(), LexicalTopicInfo());
+  mos::master::V_TopicInfo::iterator topic_it;
 
-//  for (topic_it = all_topics.begin(); topic_it != all_topics.end(); ++topic_it)
-//  {
-//    QString topic = QString::fromStdString(topic_it->name);
-//    QString datatype = QString::fromStdString(topic_it->datatype);
+  for (topic_it = all_topics.begin(); topic_it != all_topics.end(); ++topic_it)
+  {
+    QString topic = QString::fromStdString(topic_it->name);
+    QString datatype = QString::fromStdString(topic_it->datatype);
 
-//    if (datatype_plugins.contains(datatype))
-//    {
-//      if (groups->empty() || !isSubtopic(groups->back().base_topic.toStdString(), topic.toStdString()))
-//      {
-//        PluginGroup pi;
-//        pi.base_topic = topic;
-//        groups->append(pi);
-//      }
+    if (datatype_plugins.contains(datatype))
+    {
+      if (groups->empty() || !isSubtopic(groups->back().base_topic.toStdString(), topic.toStdString()))
+      {
+        PluginGroup pi;
+        pi.base_topic = topic;
+        groups->append(pi);
+      }
 
-//      PluginGroup& group = groups->back();
-//      QString topic_suffix("raw");
-//      if (topic != group.base_topic)
-//      {
-//        // Remove base_topic and leading slash
-//        topic_suffix = topic.right(topic.size() - group.base_topic.size() - 1);
-//      }
+      PluginGroup& group = groups->back();
+      QString topic_suffix("raw");
+      if (topic != group.base_topic)
+      {
+        // Remove base_topic and leading slash
+        topic_suffix = topic.right(topic.size() - group.base_topic.size() - 1);
+      }
 
-//      const QList<QString>& plugin_names = datatype_plugins.values(datatype);
-//      for (int i = 0; i < plugin_names.size(); ++i)
-//      {
-//        const QString& name = plugin_names[i];
-//        PluginGroup::Info& info = group.plugins[name];
-//        info.topic_suffixes.append(topic_suffix);
-//        info.datatypes.append(datatype);
-//      }
-//    }
-//    else
-//    {
-//      unvisualizable->append(*topic_it);
-//    }
-//  }
+      const QList<QString>& plugin_names = datatype_plugins.values(datatype);
+      for (int i = 0; i < plugin_names.size(); ++i)
+      {
+        const QString& name = plugin_names[i];
+        PluginGroup::Info& info = group.plugins[name];
+        info.topic_suffixes.append(topic_suffix);
+        info.datatypes.append(datatype);
+      }
+    }
+    else
+    {
+      unvisualizable->append(*topic_it);
+    }
+  }
 }
 
 // Dialog implementation
-AddDisplayDialog::AddDisplayDialog(//DisplayFactory* factory,
+AddDisplayDialog::AddDisplayDialog(DisplayFactory* factory,
                                    const QString& /*object_type*/,
                                    const QStringList& disallowed_display_names,
                                    const QStringList& disallowed_class_lookup_names,
@@ -175,7 +175,7 @@ AddDisplayDialog::AddDisplayDialog(//DisplayFactory* factory,
                                    QString* datatype_output,
                                    QWidget* parent)
   : QDialog(parent)
-//  , factory_(factory)
+  , factory_(factory)
   , disallowed_display_names_(disallowed_display_names)
   , disallowed_class_lookup_names_(disallowed_class_lookup_names)
   , lookup_name_output_(lookup_name_output)
@@ -194,10 +194,10 @@ AddDisplayDialog::AddDisplayDialog(//DisplayFactory* factory,
   description_->setOpenExternalLinks(true);
 
   DisplayTypeTree* display_tree = new DisplayTypeTree;
-//  display_tree->fillTree(factory);
+  display_tree->fillTree(factory);
 
   TopicDisplayWidget* topic_widget = new TopicDisplayWidget;
-//  topic_widget->fill(factory);
+  topic_widget->fill(factory);
 
   tab_widget_ = new QTabWidget;
   display_tab_ = tab_widget_->addTab(display_tree, tr("By display type"));
@@ -288,7 +288,7 @@ void AddDisplayDialog::updateDisplay()
   }
   else
   {
-//    MOS_WARN("Unknown tab index: %i", tab_widget_->currentIndex());
+    MOS_WARN("Unknown tab index: %i", tab_widget_->currentIndex());
     return;
   }
 
@@ -377,50 +377,50 @@ void DisplayTypeTree::onCurrentItemChanged(QTreeWidgetItem* curr, QTreeWidgetIte
   Q_EMIT itemChanged(&sd);
 }
 
-//void DisplayTypeTree::fillTree(Factory* factory)
-//{
-//  QIcon default_package_icon = loadPixmap("package://rviz/icons/default_package_icon.png");
+void DisplayTypeTree::fillTree(Factory* factory)
+{
+  QIcon default_package_icon = loadPixmap("package://rviz/icons/default_package_icon.png");
 
-//  QStringList classes = factory->getDeclaredClassIds();
-//  classes.sort();
+  QStringList classes = factory->getDeclaredClassIds();
+  classes.sort();
 
-//  // Map from package names to the corresponding top-level tree widget items.
-//  std::map<QString, QTreeWidgetItem*> package_items;
+  // Map from package names to the corresponding top-level tree widget items.
+  std::map<QString, QTreeWidgetItem*> package_items;
 
-//  for (int i = 0; i < classes.size(); i++)
-//  {
-//    QString lookup_name = classes[i];
-//    QString package = factory->getClassPackage(lookup_name);
-//    QString description = factory->getClassDescription(lookup_name);
-//    QString name = factory->getClassName(lookup_name);
+  for (int i = 0; i < classes.size(); i++)
+  {
+    QString lookup_name = classes[i];
+    QString package = factory->getClassPackage(lookup_name);
+    QString description = factory->getClassDescription(lookup_name);
+    QString name = factory->getClassName(lookup_name);
 
-//    QTreeWidgetItem* package_item;
+    QTreeWidgetItem* package_item;
 
-//    std::map<QString, QTreeWidgetItem*>::iterator mi;
-//    mi = package_items.find(package);
-//    if (mi == package_items.end())
-//    {
-//      package_item = new QTreeWidgetItem(this);
-//      package_item->setText(0, package);
-//      package_item->setIcon(0, default_package_icon);
+    std::map<QString, QTreeWidgetItem*>::iterator mi;
+    mi = package_items.find(package);
+    if (mi == package_items.end())
+    {
+      package_item = new QTreeWidgetItem(this);
+      package_item->setText(0, package);
+      package_item->setIcon(0, default_package_icon);
 
-//      package_item->setExpanded(true);
-//      package_items[package] = package_item;
-//    }
-//    else
-//    {
-//      package_item = (*mi).second;
-//    }
-//    QTreeWidgetItem* class_item = new QTreeWidgetItem(package_item);
+      package_item->setExpanded(true);
+      package_items[package] = package_item;
+    }
+    else
+    {
+      package_item = (*mi).second;
+    }
+    QTreeWidgetItem* class_item = new QTreeWidgetItem(package_item);
 
-//    class_item->setIcon(0, factory->getIcon(lookup_name));
+    class_item->setIcon(0, factory->getIcon(lookup_name));
 
-//    class_item->setText(0, name);
-//    class_item->setWhatsThis(0, description);
-//    // Store the lookup name for each class in the UserRole of the item.
-//    class_item->setData(0, Qt::UserRole, lookup_name);
-//  }
-//}
+    class_item->setText(0, name);
+    class_item->setWhatsThis(0, description);
+    // Store the lookup name for each class in the UserRole of the item.
+    class_item->setData(0, Qt::UserRole, lookup_name);
+  }
+}
 
 TopicDisplayWidget::TopicDisplayWidget()
 {
@@ -499,81 +499,81 @@ void TopicDisplayWidget::stateChanged(int state)
   }
 }
 
-//void TopicDisplayWidget::fill(DisplayFactory* factory)
-//{
-//  findPlugins(factory);
+void TopicDisplayWidget::fill(DisplayFactory* factory)
+{
+  findPlugins(factory);
 
-//  QList<PluginGroup> groups;
-//  QList<mos::master::TopicInfo> unvisualizable;
-//  getPluginGroups(datatype_plugins_, &groups, &unvisualizable);
+  QList<PluginGroup> groups;
+  QList<mos::master::TopicInfo> unvisualizable;
+  getPluginGroups(datatype_plugins_, &groups, &unvisualizable);
 
-//  // Insert visualizable topics along with their plugins
-//  QList<PluginGroup>::const_iterator pg_it;
-//  for (pg_it = groups.begin(); pg_it < groups.end(); ++pg_it)
-//  {
-//    const PluginGroup& pg = *pg_it;
+  // Insert visualizable topics along with their plugins
+  QList<PluginGroup>::const_iterator pg_it;
+  for (pg_it = groups.begin(); pg_it < groups.end(); ++pg_it)
+  {
+    const PluginGroup& pg = *pg_it;
 
-//    QTreeWidgetItem* item = insertItem(pg.base_topic, false);
-//    item->setData(0, Qt::UserRole, pg.base_topic);
+    QTreeWidgetItem* item = insertItem(pg.base_topic, false);
+    item->setData(0, Qt::UserRole, pg.base_topic);
 
-//    QMap<QString, PluginGroup::Info>::const_iterator it;
-//    for (it = pg.plugins.begin(); it != pg.plugins.end(); ++it)
-//    {
-//      const QString& plugin_name = it.key();
-//      const PluginGroup::Info& info = it.value();
-//      QTreeWidgetItem* row = new QTreeWidgetItem(item);
+    QMap<QString, PluginGroup::Info>::const_iterator it;
+    for (it = pg.plugins.begin(); it != pg.plugins.end(); ++it)
+    {
+      const QString& plugin_name = it.key();
+      const PluginGroup::Info& info = it.value();
+      QTreeWidgetItem* row = new QTreeWidgetItem(item);
 
-//      row->setText(0, factory->getClassName(plugin_name));
-//      row->setIcon(0, factory->getIcon(plugin_name));
-//      row->setWhatsThis(0, factory->getClassDescription(plugin_name));
-//      row->setData(0, Qt::UserRole, plugin_name);
-//      row->setData(1, Qt::UserRole, info.datatypes[0]);
+      row->setText(0, factory->getClassName(plugin_name));
+      row->setIcon(0, factory->getIcon(plugin_name));
+      row->setWhatsThis(0, factory->getClassDescription(plugin_name));
+      row->setData(0, Qt::UserRole, plugin_name);
+      row->setData(1, Qt::UserRole, info.datatypes[0]);
 
-//      if (info.topic_suffixes.size() > 1)
-//      {
-//        EmbeddableComboBox* box = new EmbeddableComboBox(row, 1);
-//        connect(box, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this,
-//                SLOT(onComboBoxClicked(QTreeWidgetItem*)));
-//        for (int i = 0; i < info.topic_suffixes.size(); ++i)
-//        {
-//          box->addItem(info.topic_suffixes[i], info.datatypes[i]);
-//        }
-//        tree_->setItemWidget(row, 1, box);
-//        tree_->setColumnWidth(1, std::max(tree_->columnWidth(1), box->width()));
-//      }
-//    }
-//  }
+      if (info.topic_suffixes.size() > 1)
+      {
+        EmbeddableComboBox* box = new EmbeddableComboBox(row, 1);
+        connect(box, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this,
+                SLOT(onComboBoxClicked(QTreeWidgetItem*)));
+        for (int i = 0; i < info.topic_suffixes.size(); ++i)
+        {
+          box->addItem(info.topic_suffixes[i], info.datatypes[i]);
+        }
+        tree_->setItemWidget(row, 1, box);
+        tree_->setColumnWidth(1, std::max(tree_->columnWidth(1), box->width()));
+      }
+    }
+  }
 
-//  // Insert unvisualizable topics
-//  for (int i = 0; i < unvisualizable.size(); ++i)
-//  {
-//    const mos::master::TopicInfo& ti = unvisualizable.at(i);
-//    insertItem(QString::fromStdString(ti.name), true);
-//  }
+  // Insert unvisualizable topics
+  for (int i = 0; i < unvisualizable.size(); ++i)
+  {
+    const mos::master::TopicInfo& ti = unvisualizable.at(i);
+    insertItem(QString::fromStdString(ti.name), true);
+  }
 
-//  // Hide unvisualizable topics if necessary
-//  stateChanged(enable_hidden_box_->isChecked());
-//}
+  // Hide unvisualizable topics if necessary
+  stateChanged(enable_hidden_box_->isChecked());
+}
 
-//void TopicDisplayWidget::findPlugins(DisplayFactory* factory)
-//{
-//  // Build map from topic type to plugin by instantiating every plugin we have.
-//  QStringList lookup_names = factory->getDeclaredClassIds();
+void TopicDisplayWidget::findPlugins(DisplayFactory* factory)
+{
+  // Build map from topic type to plugin by instantiating every plugin we have.
+  QStringList lookup_names = factory->getDeclaredClassIds();
 
-//  QStringList::iterator it;
-//  for (it = lookup_names.begin(); it != lookup_names.end(); ++it)
-//  {
-//    const QString& lookup_name = *it;
-//    // MOS_INFO("Class: %s", lookup_name.toStdString().c_str());
+  QStringList::iterator it;
+  for (it = lookup_names.begin(); it != lookup_names.end(); ++it)
+  {
+    const QString& lookup_name = *it;
+    MOS_INFO("Class: %s", lookup_name.toStdString().c_str());
 
-//    QSet<QString> topic_types = factory->getMessageTypes(lookup_name);
-//    Q_FOREACH (QString topic_type, topic_types)
-//    {
-//      // MOS_INFO("Type: %s", topic_type.toStdString().c_str());
-//      datatype_plugins_.insertMulti(topic_type, lookup_name);
-//    }
-//  }
-//}
+    QSet<QString> topic_types = factory->getMessageTypes(lookup_name);
+    Q_FOREACH (QString topic_type, topic_types)
+    {
+      MOS_INFO("Type: %s", topic_type.toStdString().c_str());
+      datatype_plugins_.insertMulti(topic_type, lookup_name);
+    }
+  }
+}
 
 QTreeWidgetItem* TopicDisplayWidget::insertItem(const QString& topic, bool disabled)
 {

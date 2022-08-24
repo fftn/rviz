@@ -61,7 +61,7 @@ class Buffer;
 namespace rviz
 {
 class BitAllocator;
-//class DisplayFactory;
+class DisplayFactory;
 class DisplayGroup;
 class RenderPanel;
 class SelectionManager;
@@ -111,7 +111,7 @@ public:
   virtual uint64_t getFrameCount() const = 0;
 
 //  /** @brief Return a factory for creating Display subclasses based on a class id string. */
-//  virtual DisplayFactory* getDisplayFactory() const = 0;
+  virtual DisplayFactory* getDisplayFactory() const = 0;
 
   /** @brief Return the CallbackQueue using the main GUI thread. */
   //virtual ros::CallbackQueueInterface* getUpdateQueue() = 0;

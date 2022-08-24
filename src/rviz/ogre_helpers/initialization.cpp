@@ -6,7 +6,7 @@
 #include <exception>
 #include <stdexcept>
 
-#include <ros/package.h>
+#include "mos_package.h"
 
 namespace rviz
 {

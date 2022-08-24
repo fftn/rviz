@@ -392,7 +392,7 @@ void VisualizationFrame::initConfigs()
 
   if (fs::is_regular_file(config_dir_))
   {
-//    ROS_ERROR("Moving file [%s] out of the way to recreate it as a directory.", config_dir_.c_str());
+    MOS_ERROR("Moving file [%s] out of the way to recreate it as a directory.", config_dir_.c_str());
     std::string backup_file = config_dir_ + ".bak";
 
     fs::rename(config_dir_, backup_file);

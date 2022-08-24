@@ -39,8 +39,8 @@
 #include <boost/weak_ptr.hpp>
 #include <boost/function.hpp>
 
-#include <mos_time.h>
-#include <mos_macros.h>
+#include "mos_time.h"
+#include "mos_macros.h"
 #include "mos_exception.h"
 #include "mos_datatypes.h"
 

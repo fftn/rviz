@@ -42,7 +42,7 @@
 #include <OgreMaterial.h>
 #endif
 
-#include <urdf/model.h>
+#include "mos_urdf/model.h"
 #include <urdf_model/pose.h>
 
 #include <rviz/ogre_helpers/object.h>

@@ -49,11 +49,11 @@
 #include <OgreTechnique.h>
 #include <OgreRectangle2D.h>
 
-#include "sensor_msgs/mos_image_encodings.h"
-#include "sensor_msgs/mos_Image.h"
+#include "mos_sensor_msgs/image_encodings.h"
+#include "mos_sensor_msgs/Image.h"
 #include "mos_assert.h"
-//#include <ros/node_handle.h>
-//#include <ros/publisher.h>
+#include "mos_node_handle.h"
+#include "mos_publisher.h"
 
 #include <rviz/ogre_helpers/arrow.h>
 #include <rviz/ogre_helpers/axes.h>
@@ -143,7 +143,7 @@ void SelectionManager::initialize()
   Ogre::MaterialPtr material = Ogre::MaterialManager::getSingleton().create(
       ss.str(), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
   material->setLightingEnabled(false);
-  // material->getTechnique(0)->getPass(0)->setPolygonMode(Ogre::PM_WIREFRAME);
+   material->getTechnique(0)->getPass(0)->setPolygonMode(Ogre::PM_WIREFRAME);
   setMaterial(*highlight_rectangle_, material);
   Ogre::AxisAlignedBox aabInf;
   aabInf.setInfinite();
@@ -455,7 +455,7 @@ void SelectionManager::addObject(CollObjectHandle obj, SelectionHandler* handler
 {
   if (!obj)
   {
-//        MOS_BREAK();
+    MOS_BREAK();
     return;
   }
 
@@ -758,7 +758,7 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
 
   mos::WallTime end =  mos::WallTime::now();
   mos::WallDuration d = end - start;
-  //  MOS_DEBUG("Render took [%f] msec", d.toSec() * 1000.0f);
+  MOS_DEBUG("Render took [%f] msec", d.toSec() * 1000.0f);
   Q_UNUSED(d);
 
   Ogre::MaterialManager::getSingleton().removeListener(this);
@@ -788,18 +788,18 @@ bool SelectionManager::render(Ogre::Viewport* viewport,
 
 void SelectionManager::publishDebugImage(const Ogre::PixelBox& pixel_box, const std::string& label)
 {
-//  ros::Publisher pub;
-//  ros::NodeHandle nh;
-//  PublisherMap::const_iterator iter = debug_publishers_.find(label);
-//  if (iter == debug_publishers_.end())
-//  {
-//    pub = nh.advertise<sensor_msgs::Image>("/rviz_debug/" + label, 2);
-//    debug_publishers_[label] = pub;
-//  }
-//  else
-//  {
-//    pub = iter->second;
-//  }
+  mos::Publisher pub;
+  mos::NodeHandle nh;
+  PublisherMap::const_iterator iter = debug_publishers_.find(label);
+  if (iter == debug_publishers_.end())
+  {
+    pub = nh.advertise<sensor_msgs::Image>("/rviz_debug/" + label, 2);
+    debug_publishers_[label] = pub;
+  }
+  else
+  {
+    pub = iter->second;
+  }
 
   sensor_msgs::Image msg;
   msg.header.stamp = mos::Time::now();

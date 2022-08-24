@@ -30,7 +30,7 @@
 #define DISPLAY_FACTORY_H
 
 #include <rviz/display.h>
-//#include <rviz/pluginlib_factory.h>
+#include <rviz/pluginlib_factory.h>
 
 #include <QIcon>
 #include <QSet>
@@ -39,7 +39,7 @@
 
 namespace rviz
 {
-class DisplayFactory : //public PluginlibFactory<Display>
+class DisplayFactory : public PluginlibFactory<Display>
 {
 public:
   DisplayFactory();

@@ -25,8 +25,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef MOSLIB_MACROS_H_INCLUDED
-#define MOSLIB_MACROS_H_INCLUDED
+#ifndef MOSLIB_MACMOS_H_INCLUDED
+#define MOSLIB_MACMOS_H_INCLUDED
 
 #if defined(__GNUC__)
 #define MOS_DEPRECATED __attribute__((deprecated))

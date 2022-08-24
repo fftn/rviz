@@ -30,8 +30,8 @@
 
 #include "moscpp_serialization_macros.h"
 
-#include <mos_types.h>
-#include <mos_time.h>
+#include "mos_types.h"
+#include "mos_time.h"
 
 #include "mos_serialized_message.h"
 #include "mos_message_traits.h"

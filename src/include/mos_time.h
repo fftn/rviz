@@ -50,12 +50,13 @@
  ** Headers
  *********************************************************************/
 
-#include <platform.h>
+#include "mos_platform.h"
 #include <iostream>
 #include <cmath>
-#include <mos_exception.h>
-#include <mos_duration.h>
+#include "mos_exception.h"
+#include "mos_duration.h"
 #include <boost/math/special_functions/round.hpp>
+#include "mostime_decl.h"
 
 /*********************************************************************
  ** Cross Platform Headers
@@ -84,7 +85,7 @@ namespace mos
   /**
    * @brief Thrown if the mos subsystem hasn't been initialised before use.
    */
-  class TimeNotInitializedException : public Exception
+  class MOSTIME_DECL TimeNotInitializedException : public Exception
   {
   public:
     TimeNotInitializedException()
@@ -98,7 +99,7 @@ namespace mos
    *
    * @sa getWallTime
    */
-  class NoHighPerformanceTimersException : public Exception
+  class MOSTIME_DECL NoHighPerformanceTimersException : public Exception
   {
   public:
     NoHighPerformanceTimersException()
@@ -111,11 +112,11 @@ namespace mos
    ** Functions
    *********************************************************************/
 
-  void normalizeSecNSec(uint64_t& sec, uint64_t& nsec);
-  void normalizeSecNSec(uint32_t& sec, uint32_t& nsec);
-  void normalizeSecNSecUnsigned(int64_t& sec, int64_t& nsec);
-  void mos_walltime(uint32_t& sec, uint32_t& nsec);
-  void mos_steadytime(uint32_t& sec, uint32_t& nsec);
+  MOSTIME_DECL void normalizeSecNSec(uint64_t& sec, uint64_t& nsec);
+  MOSTIME_DECL void normalizeSecNSec(uint32_t& sec, uint32_t& nsec);
+  MOSTIME_DECL void normalizeSecNSecUnsigned(int64_t& sec, int64_t& nsec);
+  MOSTIME_DECL void mos_walltime(uint32_t& sec, uint32_t& nsec);
+  MOSTIME_DECL void mos_steadytime(uint32_t& sec, uint32_t& nsec);
 
   /*********************************************************************
    ** Time Classes
@@ -166,7 +167,7 @@ namespace mos
    *
    * mos::TimeBase provides most of its functionality.
    */
-  class Time : public TimeBase<Time, Duration>
+  class MOSTIME_DECL Time : public TimeBase<Time, Duration>
   {
   public:
     Time()
@@ -214,15 +215,15 @@ namespace mos
     static Time fromBoost(const boost::posix_time::time_duration& d);
   };
 
-  extern const Time TIME_MAX;
-  extern const Time TIME_MIN;
+  extern MOSTIME_DECL const Time TIME_MAX;
+  extern MOSTIME_DECL const Time TIME_MIN;
 
   /**
    * \brief Time representation.  Always wall-clock time.
    *
    * mos::TimeBase provides most of its functionality.
    */
-  class WallTime : public TimeBase<WallTime, WallDuration>
+  class MOSTIME_DECL WallTime : public TimeBase<WallTime, WallDuration>
   {
   public:
     WallTime()
@@ -256,7 +257,7 @@ namespace mos
    *
    * mos::TimeBase provides most of its functionality.
    */
-  class SteadyTime : public TimeBase<SteadyTime, WallDuration>
+  class MOSTIME_DECL SteadyTime : public TimeBase<SteadyTime, WallDuration>
   {
     public:
       SteadyTime()
@@ -283,9 +284,10 @@ namespace mos
       static bool isSystemTime() { return true; }
   };
 
-  std::ostream &operator <<(std::ostream &os, const Time &rhs);
-  std::ostream &operator <<(std::ostream &os, const WallTime &rhs);
-  std::ostream &operator <<(std::ostream &os, const SteadyTime &rhs);
+  MOSTIME_DECL std::ostream &operator <<(std::ostream &os, const Time &rhs);
+  MOSTIME_DECL std::ostream &operator <<(std::ostream &os, const WallTime &rhs);
+  MOSTIME_DECL std::ostream &operator <<(std::ostream &os, const SteadyTime &rhs);
 }
 
 #endif // MOS_TIME_H
+

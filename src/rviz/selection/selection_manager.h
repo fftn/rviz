@@ -54,10 +54,10 @@
 #include <vector>
 #include <set>
 
-//namespace ros
-//{
-//class Publisher;
-//}
+namespace ros
+{
+class Publisher;
+}
 
 namespace Ogre
 {
@@ -337,8 +337,8 @@ private:
 
   PropertyTreeModel* property_model_;
 
-  //typedef std::map<std::string, ros::Publisher> PublisherMap;
-  //PublisherMap debug_publishers_;
+  typedef std::map<std::string, ros::Publisher> PublisherMap;
+  PublisherMap debug_publishers_;
 };
 
 } // namespace rviz

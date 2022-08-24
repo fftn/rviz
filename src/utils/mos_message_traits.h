@@ -30,7 +30,7 @@
 
 #include "mos_message_forward.h"
 
-#include <mos_time.h>
+#include "mos_time.h"
 
 #include <string>
 #include <boost/utility/enable_if.hpp>

@@ -31,9 +31,9 @@
 #include <boost/foreach.hpp>
 #include <boost/shared_ptr.hpp>
 
-//#include <pluginlib/class_loader.hpp>
+#include "mos_pluginlib/class_loader.hpp"
 
-//#include <image_transport/subscriber_plugin.h>
+#include "mos_image_transport/subscriber_plugin.h"
 
 #include <rviz/validate_floats.h>
 
@@ -44,10 +44,10 @@ namespace rviz
 //ImageDisplayBase::ImageDisplayBase() : Display(), sub_(), tf_filter_(), messages_received_(0)
 ImageDisplayBase::ImageDisplayBase() : Display(), messages_received_(0)
 {
-//  topic_property_ =
-//      new RosTopicProperty("Image Topic", "",
-//                           QString::fromStdString(ros::message_traits::datatype<sensor_msgs::Image>()),
-//                           "sensor_msgs::Image topic to subscribe to.", this, SLOT(updateTopic()));
+  topic_property_ =
+      new MosTopicProperty("Image Topic", "",
+                           QString::fromStdString(mos::message_traits::datatype<sensor_msgs::Image>()),
+                           "sensor_msgs::Image topic to subscribe to.", this, SLOT(updateTopic()));
 
   transport_property_ = new EnumProperty("Transport Hint", "raw", "Preferred method of sending images.",
                                          this, SLOT(updateTopic()));
@@ -82,7 +82,7 @@ void ImageDisplayBase::onInitialize()
 
 void ImageDisplayBase::setTopic(const QString& topic, const QString& datatype)
 {
-  if (datatype == ros::message_traits::datatype<sensor_msgs::Image>())
+  if (datatype == mos::message_traits::datatype<sensor_msgs::Image>())
   {
     transport_property_->setStdString("raw");
     topic_property_->setString(topic);
@@ -92,7 +92,7 @@ void ImageDisplayBase::setTopic(const QString& topic, const QString& datatype)
     int index = topic.lastIndexOf("/");
     if (index == -1)
     {
-//      ROS_WARN("ImageDisplayBase::setTopic() Invalid topic name: %s", topic.toStdString().c_str());
+      MOS_WARN("ImageDisplayBase::setTopic() Invalid topic name: %s", topic.toStdString().c_str());
       return;
     }
     QString transport = topic.mid(index + 1);

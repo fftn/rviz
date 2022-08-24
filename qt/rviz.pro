@@ -56,6 +56,7 @@ SOURCES +=  ../src/rviz/main.cpp \
     \
     ../src/rviz/bit_allocator.cpp \
     ../src/rviz/config.cpp \
+    ../src/rviz/display_factory.cpp \
     ../src/rviz/add_display_dialog.cpp \
     ../src/rviz/display.cpp \
     ../src/rviz/display_group.cpp \
@@ -178,8 +179,12 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/utils/mospack/mospack_cmdline.cpp \
     ../src/utils/mospack/mos_pack.cpp \
     ../src/utils/mospack/mospack_utils.cpp \
+    \
+    ../src/utils/mos_class_loader/multi_library_class_loader.hpp \
+
 
 HEADERS += \
+    ../src/rviz/display_factory.h \
     ../src/rviz/add_display_dialog.h \
     ../src/rviz/display.h \
     ../src/rviz/display_group.h \
@@ -282,3 +287,4 @@ HEADERS += \
     ../src/rviz/default_plugin/tools/measure_tool.h \
     ../src/rviz/default_plugin/grid_display.h \
     ../src/utils/mos_retriever.h \
+    \

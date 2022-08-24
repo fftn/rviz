@@ -39,7 +39,7 @@
 #include <OgreQuaternion.h>
 #include <OgreAny.h>
 
-#include <urdf/model.h> // can be replaced later by urdf_model/types.h
+#include "mos_urdf/model.h" // can be replaced later by urdf_model/types.h
 
 #include <OgrePrerequisites.h>
 

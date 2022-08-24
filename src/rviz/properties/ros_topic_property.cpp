@@ -27,16 +27,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ros/master.h"
+#include "mos_master.h"
 
-#include <rviz/properties/ros_topic_property.h>
+#include <rviz/properties/mos_topic_property.h>
 
 #include <QApplication>
 
 
 namespace rviz
 {
-RosTopicProperty::RosTopicProperty(const QString& name,
+MosTopicProperty::MosTopicProperty(const QString& name,
                                    const QString& default_value,
                                    const QString& message_type,
                                    const QString& description,
@@ -49,26 +49,26 @@ RosTopicProperty::RosTopicProperty(const QString& name,
   connect(this, SIGNAL(requestOptions(EditableEnumProperty*)), this, SLOT(fillTopicList()));
 }
 
-void RosTopicProperty::setMessageType(const QString& message_type)
+void MosTopicProperty::setMessageType(const QString& message_type)
 {
   message_type_ = message_type;
 }
 
-void RosTopicProperty::fillTopicList()
+void MosTopicProperty::fillTopicList()
 {
   QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
   clearOptions();
 
   std::string std_message_type = message_type_.toStdString();
 
-  ros::master::V_TopicInfo topics;
-  ros::master::getTopics(topics);
+  mos::master::V_TopicInfo topics;
+  mos::master::getTopics(topics);
 
   // Loop through all published topics
-  ros::master::V_TopicInfo::iterator it;
+  mos::master::V_TopicInfo::iterator it;
   for (it = topics.begin(); it != topics.end(); ++it)
   {
-    const ros::master::TopicInfo& topic = *it;
+    const mos::master::TopicInfo& topic = *it;
 
     // Only add topics whose type matches.
     if (topic.datatype == std_message_type)
