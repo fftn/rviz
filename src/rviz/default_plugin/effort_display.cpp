@@ -115,7 +115,7 @@ void EffortDisplay::onInitialize()
   MFDClass::onInitialize();
   // skip tf_filter_ (resetting it)
   delete tf_filter_;
-  tf_filter_ = new tf2_ros::MessageFilter<sensor_msgs::JointState>(*context_->getTF2BufferPtr(),
+  tf_filter_ = new tf2_mos::MessageFilter<sensor_msgs::JointState>(*context_->getTF2BufferPtr(),
                                                                    std::string(), 1, update_nh_);
 
   // but directly process messages

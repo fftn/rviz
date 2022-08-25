@@ -10,13 +10,13 @@
 #include <vector>
 #include <map>
 
-#include <mos_types.h>
-#include <mos_serialization.h>
-#include <mos_builtin_message_traits.h>
-#include <mos_message_operations.h>
+#include "mos_types.h"
+#include "mos_serialization.h"
+#include "mos_builtin_message_traits.h"
+#include "mos_message_operations.h"
 
-#include <std_msgs/Header.h>
-#include <sensor_msgs/RegionOfInterest.h>
+#include "mos_std_msgs/Header.h"
+#include "mos_sensor_msgs/RegionOfInterest.h"
 
 namespace sensor_msgs
 {

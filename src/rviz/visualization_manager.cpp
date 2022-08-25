@@ -80,7 +80,7 @@
 #include <rviz/visualization_manager.h>
 #include <rviz/window_manager_interface.h>
 
-//#include <ros/callback_queue.h>
+#include "mos_callback_queue.h"
 
 namespace rviz
 {
@@ -111,17 +111,17 @@ private:
 class VisualizationManagerPrivate
 {
 public:
-//  mos::CallbackQueue threaded_queue_;
+  mos::CallbackQueue threaded_queue_;
   boost::thread_group threaded_queue_threads_;
-//  mos::NodeHandle update_nh_;
-//  mos::NodeHandle threaded_nh_;
+  mos::NodeHandle update_nh_;
+  mos::NodeHandle threaded_nh_;
   boost::mutex render_mutex_;
 };
 
 VisualizationManager::VisualizationManager(RenderPanel* render_panel,
-                                           WindowManagerInterface* wm/*,
-                                           std::shared_ptr<tf2_ros::Buffer> tf_buffer,
-                                           std::shared_ptr<tf2_ros::TransformListener> tf_listener*/)
+                                           WindowManagerInterface* wm,
+                                           std::shared_ptr<tf2_mos::Buffer> tf_buffer,
+                                           std::shared_ptr<tf2_mos::TransformListener> tf_listener)
   : ogre_root_(Ogre::Root::getSingletonPtr())
   , update_timer_(nullptr)
   , shutting_down_(false)
@@ -137,11 +137,11 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
   // default):
   default_visibility_bit_ = visibility_bit_allocator_.allocBit();
 
-  frame_manager_ = new FrameManager(/*std::move(tf_buffer), std::move(tf_listener)*/);
+  frame_manager_ = new FrameManager(std::move(tf_buffer), std::move(tf_listener));
 
   render_panel->setAutoRender(false);
 
-  //private_->threaded_nh_.setCallbackQueue(&private_->threaded_queue_);
+  private_->threaded_nh_.setCallbackQueue(&private_->threaded_queue_);
 
   scene_manager_ = ogre_root_->createSceneManager(Ogre::ST_GENERIC);
 
@@ -149,7 +149,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
 
   directional_light_ = scene_manager_->createLight("MainDirectional");
   directional_light_->setType(Ogre::Light::LT_DIRECTIONAL);
-  //directional_light_->setDirection(Ogre::Vector3(-1, 0, -1));
+  directional_light_->setDirection(Ogre::Vector3(-1, 0, -1));
   directional_light_->setDiffuseColour(Ogre::ColourValue(1.0f, 1.0f, 1.0f));
 
   root_display_group_ = new DisplayGroup();
@@ -203,7 +203,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
   update_timer_ = new QTimer;
   connect(update_timer_, SIGNAL(timeout()), this, SLOT(onUpdate()));
 
-  //private_->threaded_queue_threads_.create_thread( boost::bind(&VisualizationManager::threadedQueueThreadFunc, this));
+  private_->threaded_queue_threads_.create_thread( boost::bind(&VisualizationManager::threadedQueueThreadFunc, this));
 
   display_factory_ = new DisplayFactory();
 
@@ -253,10 +253,10 @@ void VisualizationManager::initialize()
   last_update_wall_time_ = mos::WallTime::now();
 }
 
-/*mos::CallbackQueueInterface* VisualizationManager::getThreadedQueue()
+mos::CallbackQueueInterface* VisualizationManager::getThreadedQueue()
 {
   return &private_->threaded_queue_;
-}*/
+}
 
 void VisualizationManager::lockRender()
 {
@@ -266,6 +266,11 @@ void VisualizationManager::lockRender()
 void VisualizationManager::unlockRender()
 {
   private_->render_mutex_.unlock();
+}
+
+mos::CallbackQueueInterface* VisualizationManager::getUpdateQueue()
+{
+  return mos::getGlobalCallbackQueue();
 }
 
 void VisualizationManager::startUpdate()
@@ -326,7 +331,7 @@ void VisualizationManager::onUpdate()
     resetTime();
   }
 
-  //ros::spinOnce();
+  mos::spinOnce();
 
   Q_EMIT preUpdate();
 
@@ -363,7 +368,7 @@ void VisualizationManager::onUpdate()
 
   if (view_manager_ && view_manager_->getCurrent() && view_manager_->getCurrent()->getCamera())
   {
-    //directional_light_->setDirection(view_manager_->getCurrent()->getCamera()->getDerivedDirection());
+    directional_light_->setDirection(view_manager_->getCurrent()->getCamera()->getDerivedDirection());
   }
 
   frame_count_++;
@@ -371,7 +376,7 @@ void VisualizationManager::onUpdate()
   if (render_requested_ || wall_dt > 0.01)
   {
     render_requested_ = 0;
-    //boost::mutex::scoped_lock lock(private_->render_mutex_);
+    boost::mutex::scoped_lock lock(private_->render_mutex_);
     ogre_root_->renderOneFrame();
   }
 }
@@ -395,28 +400,28 @@ void VisualizationManager::updateTime()
 
 void VisualizationManager::updateFrames()
 {
-//  if (!frame_manager_->getTF2BufferPtr()->_frameExists(getFixedFrame().toStdString()))
-//  {
-//    bool no_frames = frame_manager_->getTF2BufferPtr()->allFramesAsString().empty();
-//    global_status_->setStatus(no_frames ? StatusProperty::Warn : StatusProperty::Error, "Fixed Frame",
-//                              no_frames ? QString("No TF data") :
-//                                          QString("Unknown frame %1").arg(getFixedFrame()));
-//  }
-//  else
+  if (!frame_manager_->getTF2BufferPtr()->_frameExists(getFixedFrame().toStdString()))
+  {
+    bool no_frames = frame_manager_->getTF2BufferPtr()->allFramesAsString().empty();
+    global_status_->setStatus(no_frames ? StatusProperty::Warn : StatusProperty::Error, "Fixed Frame",
+                              no_frames ? QString("No TF data") :
+                                          QString("Unknown frame %1").arg(getFixedFrame()));
+  }
+  else
   {
     global_status_->setStatus(StatusProperty::Ok, "Fixed Frame", "OK");
   }
 }
 
-//std::shared_ptr<tf2_ros::Buffer> VisualizationManager::getTF2BufferPtr() const
-//{
-//  return frame_manager_->getTF2BufferPtr();
-//}
+std::shared_ptr<tf2_mos::Buffer> VisualizationManager::getTF2BufferPtr() const
+{
+  return frame_manager_->getTF2BufferPtr();
+}
 
 void VisualizationManager::resetTime()
 {
   root_display_group_->reset();
-//  frame_manager_->getTF2BufferPtr()->clear();
+  frame_manager_->getTF2BufferPtr()->clear();
   mos_time_begin_ = mos::Time();
   wall_clock_begin_ = mos::WallTime();
 
@@ -563,9 +568,9 @@ void VisualizationManager::threadedQueueThreadFunc()
   mos::WallDuration timeout(0.1);
   while (!shutting_down_)
   {
-//    if (update_timer_->isActive())
-//      private_->threaded_queue_.callOne(timeout);
-//    else
+    if (update_timer_->isActive())
+      private_->threaded_queue_.callOne(timeout);
+    else
       timeout.sleep();
   }
 }

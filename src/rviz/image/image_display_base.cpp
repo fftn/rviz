@@ -121,7 +121,7 @@ void ImageDisplayBase::setTopic(const QString& topic, const QString& datatype)
 
 
 //void ImageDisplayBase::failedMessage(const sensor_msgs::Image::ConstPtr& msg,
-//                                     tf2_ros::FilterFailureReason reason)
+//                                     tf2_mos::FilterFailureReason reason)
 //{
 //  setStatusStd(StatusProperty::Error, "Image",
 //               context_->getFrameManager()->discoverFailureReason(msg->header.frame_id,
@@ -187,7 +187,7 @@ void ImageDisplayBase::subscribe()
 //      }
 //      else
 //      {
-//        tf_filter_.reset(new tf2_ros::MessageFilter<sensor_msgs::Image>(
+//        tf_filter_.reset(new tf2_mos::MessageFilter<sensor_msgs::Image>(
 //            *sub_, *context_->getTF2BufferPtr(), targetFrame_, queue_size_property_->getInt(),
 //            update_nh_));
 //        tf_filter_->registerCallback(

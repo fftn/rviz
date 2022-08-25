@@ -3,11 +3,6 @@ CONFIG += console c++14
 CONFIG -= app_bundle
 QT += widgets
 
-#INCLUDEPATH += $$(HOME)/qt5/qtbase/include
-#INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtWidgets
-#INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtGui
-#INCLUDEPATH += $$(HOME)/qt5/qtbase/include/QtCore
-
 INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/include
 INCLUDEPATH += ../src/rviz
@@ -23,7 +18,6 @@ INCLUDEPATH += /usr/include/python3.8/
 
 
 #QMAKE_LFLAGS += "-Wl,--disable-new-dtags"
-#QMAKE_LFLAGS += "-Wl,-rpath,$$(HOME)/qt5/qtbase/lib"
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/src/utils/mos_time"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/3rdlibs/OGRE/lib/"
@@ -32,15 +26,12 @@ QMAKE_LFLAGS += "-Wl,--copy-dt-needed-entries"
 LIBS += -L../3rdlibs/lib
 LIBS += -L../3rdlibs/OGRE/lib/
 LIBS += -L../3rdlibs/yaml-cpp/libs/
-LIBS += -L../3rdlibs/image-transport/lib/
 LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
 LIBS += -lmostime -L../src/utils/mos_time
 LIBS += -lactionlib
-LIBS += -limage_transport
 LIBS += -lxmlrpcpp -lboost_regex -lcurl -lpython3.8
 LIBS += -L../lib/manual
-LIBS += -L../lib/3pl -ltf2
-LIBS += -L../lib/cmake -limage_transport -ltf2_ros
+LIBS += -L../lib/cmake -ltf2_ros
 LIBS += -lX11
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
 LIBS += -ltinyxml -ltinyxml2
@@ -48,8 +39,6 @@ LIBS += -lOgreOverlay -lOgreMain -lOgreProperty
 LIBS += -lassimp -lyaml-cpp
 LIBS += -ljpegxr -ljxrglue -L../3rdlibs/jxr/lib/
 LIBS += -lzzip  -L../3rdlibs/zzip/lib/
-#LIBS += -L$$(HOME)/qt5/qtbase/lib -lQt5Gui -lQt5Widgets -lQt5Core
-#LIBS += -L$$(HOME)/Qt5.14.2/5.14.2/gcc_64/lib/
 
 
 SOURCES +=  ../src/rviz/main.cpp \
@@ -181,6 +170,7 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/utils/mospack/mospack_utils.cpp \
     \
     ../src/utils/mos_class_loader/multi_library_class_loader.hpp \
+    ../src/utils/mos_node_handle.cpp
 
 
 HEADERS += \

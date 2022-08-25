@@ -53,7 +53,7 @@ namespace tf
 class TransformListener;
 }
 
-namespace tf2_ros
+namespace tf2_mos
 {
 class Buffer;
 }
@@ -95,10 +95,10 @@ public:
   virtual FrameManager* getFrameManager() const = 0;
 
   /** @brief Convenience function: returns getFrameManager()->getTF2BufferPtr(). */
-//  std::shared_ptr<tf2_ros::Buffer> getTF2BufferPtr() const
-//  {
-//    return getFrameManager()->getTF2BufferPtr();
-//  }
+  std::shared_ptr<tf2_mos::Buffer> getTF2BufferPtr() const
+  {
+    return getFrameManager()->getTF2BufferPtr();
+  }
 
   /** @brief Return the fixed frame name. */
   virtual QString getFixedFrame() const = 0;
@@ -114,10 +114,10 @@ public:
   virtual DisplayFactory* getDisplayFactory() const = 0;
 
   /** @brief Return the CallbackQueue using the main GUI thread. */
-  //virtual ros::CallbackQueueInterface* getUpdateQueue() = 0;
+  virtual mos::CallbackQueueInterface* getUpdateQueue() = 0;
 
   /** @brief Return a CallbackQueue using a different thread than the main GUI one. */
-  //virtual ros::CallbackQueueInterface* getThreadedQueue() = 0;
+  virtual mos::CallbackQueueInterface* getThreadedQueue() = 0;
 
   /** @brief Handle a single key event for a given RenderPanel. */
   virtual void handleChar(QKeyEvent* event, RenderPanel* panel) = 0;

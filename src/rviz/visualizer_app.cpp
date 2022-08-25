@@ -36,6 +36,7 @@
 #include <OgreMaterialManager.h>
 #include <OgreGpuProgramManager.h>
 #include <OgreHighLevelGpuProgramManager.h>
+#include "mos_std_srvs/Empty.h"
 
 #ifdef Q_OS_MAC
 #include <ApplicationServices/ApplicationServices.h>
@@ -45,6 +46,7 @@
 #endif
 
 #include "mos_console.h"
+#include "mos.h"
 
 #include <rviz/selection/selection_manager.h>
 #include <rviz/env_config.h>
@@ -62,8 +64,7 @@ namespace fs = boost::filesystem;
 
 namespace rviz
 {
-//bool reloadShaders(std_srvs::Empty::Request& /*unused*/, std_srvs::Empty::Response& /*unused*/)
-bool reloadShaders()
+bool reloadShaders(std_srvs::Empty::Request& /*unused*/, std_srvs::Empty::Response& /*unused*/)
 {
   MOS_INFO("Reloading materials.");
   {

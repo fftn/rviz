@@ -30,11 +30,11 @@
 #define PANEL_FACTORY_H
 
 #include <rviz/panel.h>
-//#include <rviz/pluginlib_factory.h>
+#include <rviz/pluginlib_factory.h>
 
 namespace rviz
 {
-class PanelFactory //: public PluginlibFactory<Panel>
+class PanelFactory : public PluginlibFactory<Panel>
 {
 public:
   PanelFactory();

@@ -31,7 +31,7 @@
 
 #ifndef Q_MOC_RUN
 #include <message_filters/subscriber.h>
-#include <tf2_ros/message_filter.h>
+#include <tf2_mos/message_filter.h>
 #endif
 
 #include <rviz/display_context.h>
@@ -80,10 +80,10 @@ protected:
   IntProperty* queue_size_property_;
 };
 
-/** @brief Display subclass using a tf2_ros::MessageFilter, templated on the ROS message type.
+/** @brief Display subclass using a tf2_mos::MessageFilter, templated on the ROS message type.
  *
  * This class brings together some common things used in many Display
- * types.  It has a tf2_ros::MessageFilter to filter incoming messages, and
+ * types.  It has a tf2_mos::MessageFilter to filter incoming messages, and
  * it handles subscribing and unsubscribing when the display is
  * enabled or disabled.  It also has an Ogre::SceneNode which  */
 template <class MessageType>
@@ -105,7 +105,7 @@ public:
   void onInitialize() override
   {
     tf_filter_ =
-        new tf2_ros::MessageFilter<MessageType>(*context_->getTF2BufferPtr(), fixed_frame_.toStdString(),
+        new tf2_mos::MessageFilter<MessageType>(*context_->getTF2BufferPtr(), fixed_frame_.toStdString(),
                                                 static_cast<uint32_t>(queue_size_property_->getInt()),
                                                 update_nh_);
 
@@ -226,7 +226,7 @@ protected:
   virtual void processMessage(const typename MessageType::ConstPtr& msg) = 0;
 
   message_filters::Subscriber<MessageType> sub_;
-  tf2_ros::MessageFilter<MessageType>* tf_filter_;
+  tf2_mos::MessageFilter<MessageType>* tf_filter_;
   uint32_t messages_received_;
 };
 

@@ -27,8 +27,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <geometry_msgs/PoseStamped.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include "mos_geometry_msgs/PoseStamped.h"
+#include "mos_tf2_geometry_msgs/tf2_geometry_msgs.h"
 
 #include <rviz/display_context.h>
 #include <rviz/ogre_helpers/arrow.h>
@@ -57,14 +57,14 @@ void GoalTool::onInitialize()
 
 void GoalTool::updateTopic()
 {
-//  try
-//  {
-//    pub_ = nh_.advertise<geometry_msgs::PoseStamped>(topic_property_->getStdString(), 1);
-//  }
-//  catch (const ros::Exception& e)
-//  {
-//    ROS_ERROR_STREAM_NAMED("GoalTool", e.what());
-//  }
+  try
+  {
+    pub_ = nh_.advertise<geometry_msgs::PoseStamped>(topic_property_->getStdString(), 1);
+  }
+  catch (const mos::Exception& e)
+  {
+    MOS_ERROR_STREAM_NAMED("GoalTool", e.what());
+  }
 }
 
 void GoalTool::onPoseSet(double x, double y, double theta)
@@ -77,17 +77,16 @@ void GoalTool::onPoseSet(double x, double y, double theta)
   goal.pose.position.x = x;
   goal.pose.position.y = y;
   goal.header.frame_id = fixed_frame;
-  //TODO
-//  goal.header.stamp = ros::Time::now();
-//  MOS_INFO("Setting goal: Frame:%s, Position(%.3f, %.3f, %.3f), Orientation(%.3f, %.3f, %.3f, %.3f) = "
-//           "Angle: %.3f\n",
-//           fixed_frame.c_str(), goal.pose.position.x, goal.pose.position.y, goal.pose.position.z,
-//           goal.pose.orientation.x, goal.pose.orientation.y, goal.pose.orientation.z,
-//           goal.pose.orientation.w, theta);
-//  pub_.publish(goal);
+  goal.header.stamp = mos::Time::now();
+  MOS_INFO("Setting goal: Frame:%s, Position(%.3f, %.3f, %.3f), Orientation(%.3f, %.3f, %.3f, %.3f) = "
+           "Angle: %.3f\n",
+           fixed_frame.c_str(), goal.pose.position.x, goal.pose.position.y, goal.pose.position.z,
+           goal.pose.orientation.x, goal.pose.orientation.y, goal.pose.orientation.z,
+           goal.pose.orientation.w, theta);
+  pub_.publish(goal);
 }
 
 } // end namespace rviz
 
-//#include <pluginlib/class_list_macros.hpp>
-//PLUGINLIB_EXPORT_CLASS(rviz::GoalTool, rviz::Tool)
+#include "mos_pluginlib/class_list_macros.hpp"
+PLUGINLIB_EXPORT_CLASS(rviz::GoalTool, rviz::Tool)

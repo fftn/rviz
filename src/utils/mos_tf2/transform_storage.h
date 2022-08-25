@@ -32,16 +32,16 @@
 #ifndef TF2_TRANSFORM_STORAGE_H
 #define TF2_TRANSFORM_STORAGE_H
 
-#include <tf2/LinearMath/Vector3.h>
-#include <tf2/LinearMath/Quaternion.h>
+#include "mos_tf2/LinearMath/Vector3.h"
+#include "mos_tf2/LinearMath/Quaternion.h"
 
-#include <ros/message_forward.h>
-#include <ros/time.h>
-#include <ros/types.h>
+#include "mos_message_forward.h"
+#include "mos_time.h"
+#include "mos_types.h"
 
 namespace geometry_msgs
 {
-ROS_DECLARE_MESSAGE(TransformStamped)
+MOS_DECLARE_MESSAGE(TransformStamped)
 }
 
 namespace tf2
@@ -75,7 +75,7 @@ public:
 
   tf2::Quaternion rotation_;
   tf2::Vector3 translation_;
-  ros::Time stamp_;
+  mos::Time stamp_;
   CompactFrameID frame_id_;
   CompactFrameID child_frame_id_;
 };

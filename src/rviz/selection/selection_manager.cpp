@@ -842,7 +842,7 @@ void SelectionManager::publishDebugImage(const Ogre::PixelBox& pixel_box, const 
     msg.data[dest_index++] = b;
   }
 
-//  pub.publish(msg);
+  pub.publish(msg);
 }
 
 void SelectionManager::renderQueueStarted(uint8_t /*queueGroupId*/,

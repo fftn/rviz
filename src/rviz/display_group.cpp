@@ -32,7 +32,7 @@
 #include <QColor>
 
 #include <rviz/display_context.h>
-//#include <rviz/display_factory.h>
+#include <rviz/display_factory.h>
 #include <rviz/failed_display.h>
 #include <rviz/properties/property_tree_model.h>
 
@@ -119,23 +119,23 @@ void DisplayGroup::load(const Config& config)
 
 Display* DisplayGroup::createDisplay(const QString& class_id)
 {
-//  DisplayFactory* factory = context_->getDisplayFactory();
-//  QString error;
-//  Display* disp = factory->make(class_id, &error);
-//  if (!disp)
-//  {
-//    return new FailedDisplay(class_id, error);
+  DisplayFactory* factory = context_->getDisplayFactory();
+  QString error;
+  Display* disp = factory->make(class_id, &error);
+  if (!disp)
+  {
+    return new FailedDisplay(class_id, error);
+  }
+//  if("rviz/Grid" == class_id){
+//      Display* disp = new GridDisplay();
+//      disp->setClassId(class_id);
+//      disp->setDescription("\n      Displays a grid along the ground plane, centered at the origin of the target frame of reference.\n   ");
+//      return disp;
 //  }
-  if("rviz/Grid" == class_id){
-      Display* disp = new GridDisplay();
-      disp->setClassId(class_id);
-      disp->setDescription("\n      Displays a grid along the ground plane, centered at the origin of the target frame of reference.\n   ");
-      return disp;
-  }
-  else{
-      printf("CreateDisplay ERROR![%s][%s][%d]", qPrintable(class_id), __FILE__, __LINE__);
-  }
-  return nullptr;
+//  else{
+//      printf("CreateDisplay ERROR![%s][%s][%d]", qPrintable(class_id), __FILE__, __LINE__);
+//  }
+  return disp;
 }
 
 void DisplayGroup::onEnableChanged()
@@ -267,7 +267,7 @@ void DisplayGroup::reset()
 
 void DisplayGroup::addDisplayWithoutSignallingModel(Display* child)
 {
-  //  printf("  displaygroup4 displays_.append( child )\n" );
+//    printf("  displaygroup4 displays_.append( child )\n" );
   displays_.append(child);
   child_indexes_valid_ = false;
   child->setModel(model_);

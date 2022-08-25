@@ -153,7 +153,7 @@ struct Definition< ::geometry_msgs::TransformStamped_<ContainerAllocator> >
 "# to the coordinate frame child_frame_id\n"
 "#\n"
 "# This message is mostly used by the \n"
-"# <a href=\"http://wiki.ros.org/tf\">tf</a> package. \n"
+"# <a href=\"http://wiki.mos.org/tf\">tf</a> package. \n"
 "# See its documentation for more information.\n"
 "\n"
 "Header header\n"

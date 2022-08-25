@@ -27,8 +27,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef RVIZ_ROS_IMAGE_TEXTURE_H
-#define RVIZ_ROS_IMAGE_TEXTURE_H
+#ifndef RVIZ_MOS_IMAGE_TEXTURE_H
+#define RVIZ_MOS_IMAGE_TEXTURE_H
 
 #include <sensor_msgs/Image.h>
 
@@ -39,7 +39,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 
-#include <ros/ros.h>
+#include "mos.h"
 
 #include <stdexcept>
 
@@ -54,11 +54,11 @@ public:
   }
 };
 
-class ROSImageTexture
+class MOSImageTexture
 {
 public:
-  ROSImageTexture();
-  ~ROSImageTexture();
+  MOSImageTexture();
+  ~MOSImageTexture();
 
   void addMessage(const sensor_msgs::Image::ConstPtr& image);
   bool update();

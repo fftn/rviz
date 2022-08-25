@@ -25,12 +25,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "resource_retriever/retriever.h"
+#include "mos_resource_retriever/retriever.h"
 
 #include <string.h>
 
-#include <mos_package.h>
-#include <mos_console.h>
+#include "mos_package.h"
+#include "mos_console.h"
 
 #include <curl/curl.h>
 

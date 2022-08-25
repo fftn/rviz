@@ -41,7 +41,7 @@
 #include <OgreTechnique.h>
 #include <OgreCamera.h>
 
-#include <tf2_ros/message_filter.h>
+#include <tf2_mos/message_filter.h>
 
 #include <rviz/bit_allocator.h>
 #include <rviz/frame_manager.h>

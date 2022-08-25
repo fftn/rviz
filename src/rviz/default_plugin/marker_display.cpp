@@ -72,7 +72,7 @@ MarkerDisplay::MarkerDisplay() : Display(), tf_filter_(nullptr)
 void MarkerDisplay::onInitialize()
 {
   tf_filter_ =
-      new tf2_ros::MessageFilter<visualization_msgs::Marker>(*context_->getTF2BufferPtr(),
+      new tf2_mos::MessageFilter<visualization_msgs::Marker>(*context_->getTF2BufferPtr(),
                                                              fixed_frame_.toStdString(),
                                                              queue_size_property_->getInt(), update_nh_);
 
@@ -266,7 +266,7 @@ void MarkerDisplay::incomingMarker(const visualization_msgs::Marker::ConstPtr& m
 }
 
 void MarkerDisplay::failedMarker(const ros::MessageEvent<visualization_msgs::Marker>& marker_evt,
-                                 tf2_ros::FilterFailureReason reason)
+                                 tf2_mos::FilterFailureReason reason)
 {
   const visualization_msgs::Marker::ConstPtr& marker = marker_evt.getConstMessage();
   if (marker->action == visualization_msgs::Marker::DELETE ||

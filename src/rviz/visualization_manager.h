@@ -31,10 +31,10 @@
 #ifndef RVIZ_VISUALIZATION_MANAGER_H_
 #define RVIZ_VISUALIZATION_MANAGER_H_
 
-//#include <deque>
+#include <deque>
 
-#include <mos_time.h>
-//#include <tf2_ros/transform_listener.h>
+#include "mos_time.h"
+#include "mos_tf2/transform_listener.h"
 
 #include <rviz/bit_allocator.h>
 #include <rviz/config.h>
@@ -52,10 +52,10 @@ class SceneNode;
 class Light;
 } // namespace Ogre
 
-//namespace mos
-//{
-//class CallbackQueueInterface;
-//}
+namespace mos
+{
+class CallbackQueueInterface;
+}
 
 namespace rviz
 {
@@ -103,17 +103,17 @@ public:
    * @param render_panel a pointer to the main render panel widget of the app.
    * @param wm a pointer to the window manager
    *        (which is really just a VisualizationFrame, the top-level container widget of rviz).
-   * @param tf_buffer an (optional) pointer to the tf2_ros::Buffer to be used by the FrameManager
-   * @param tf_listener an (optional) pointer to the tf2_ros::TransformListener to be used
+   * @param tf_buffer an (optional) pointer to the tf2_mos::Buffer to be used by the FrameManager
+   * @param tf_listener an (optional) pointer to the tf2_mos::TransformListener to be used
    *        This listener's tf buffer needs to be the same as the passed tf_buffer!
    *        Both tf_buffer and tf_listener are automatically created if not provided.
    */
   explicit VisualizationManager(
       RenderPanel* render_panel,
-      WindowManagerInterface* wm = nullptr/*,
-      std::shared_ptr<tf2_ros::Buffer> tf_buffer = std::shared_ptr<tf2_ros::Buffer>(),
-      std::shared_ptr<tf2_ros::TransformListener> tf_listener =
-          std::shared_ptr<tf2_ros::TransformListener>()*/);
+      WindowManagerInterface* wm = nullptr,
+      std::shared_ptr<tf2_mos::Buffer> tf_buffer = std::shared_ptr<tf2_mos::Buffer>(),
+      std::shared_ptr<tf2_mos::TransformListener> tf_listener =
+          std::shared_ptr<tf2_mos::TransformListener>());
 
   /**
    * \brief Destructor
@@ -191,7 +191,7 @@ public:
   /**
    * @brief Convenience function: returns getFrameManager()->getTF2BufferPtr().
    */
-  std::shared_ptr<tf2_ros::Buffer> getTF2BufferPtr() const;
+  std::shared_ptr<tf2_mos::Buffer> getTF2BufferPtr() const;
 
   /**
    * @brief Returns the Ogre::SceneManager used for the main RenderPanel.
@@ -297,9 +297,14 @@ public:
   }
 
   /**
+   * @brief Return the CallbackQueue using the main GUI thread.
+   */
+  mos::CallbackQueueInterface* getUpdateQueue() override;
+
+  /**
    * @brief Return a CallbackQueue using a different thread than the main GUI one.
    */
-  //mos::CallbackQueueInterface* getThreadedQueue() override;
+  mos::CallbackQueueInterface* getThreadedQueue() override;
 
   /** @brief Return the FrameManager instance. */
   FrameManager* getFrameManager() const override

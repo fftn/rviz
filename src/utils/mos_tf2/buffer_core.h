@@ -38,10 +38,10 @@
 
 #include <string>
 
-#include "ros/duration.h"
-#include "ros/time.h"
-//#include "geometry_msgs/TwistStamped.h"
-#include "geometry_msgs/TransformStamped.h"
+#include "mos_duration.h"
+#include "mos_time.h"
+#include "mos_geometry_msgs/TwistStamped.h"
+#include "mos_geometry_msgs/TransformStamped.h"
 
 //////////////////////////backwards startup for porting
 //#include "tf/tf.h"
@@ -54,7 +54,7 @@
 namespace tf2
 {
 
-typedef std::pair<ros::Time, CompactFrameID> P_TimeAndFrameID;
+typedef std::pair<mos::Time, CompactFrameID> P_TimeAndFrameID;
 typedef uint32_t TransformableCallbackHandle;
 typedef uint64_t TransformableRequestHandle;
 
@@ -97,7 +97,7 @@ public:
    * \param cache_time How long to keep a history of transforms in nanoseconds
    *
    */
-  BufferCore(ros::Duration cache_time_ = ros::Duration(DEFAULT_CACHE_TIME));
+  BufferCore(mos::Duration cache_time_ = mos::Duration(DEFAULT_CACHE_TIME));
   virtual ~BufferCore(void);
 
   /** \brief Clear all data */
@@ -124,7 +124,7 @@ public:
    */
   geometry_msgs::TransformStamped 
     lookupTransform(const std::string& target_frame, const std::string& source_frame,
-		    const ros::Time& time) const;
+                    const mos::Time& time) const;
 
   /** \brief Get the transform between two frames by frame ID assuming fixed frame.
    * \param target_frame The frame to which data should be transformed
@@ -139,8 +139,8 @@ public:
    */
 
   geometry_msgs::TransformStamped
-    lookupTransform(const std::string& target_frame, const ros::Time& target_time,
-		    const std::string& source_frame, const ros::Time& source_time,
+    lookupTransform(const std::string& target_frame, const mos::Time& target_time,
+                    const std::string& source_frame, const mos::Time& source_time,
 		    const std::string& fixed_frame) const;
   
   /* \brief Lookup the twist of the tracking_frame with respect to the observation frame in the reference_frame using the reference point
@@ -167,7 +167,7 @@ public:
   geometry_msgs::Twist
     lookupTwist(const std::string& tracking_frame, const std::string& observation_frame, const std::string& reference_frame,
 		const tf::Point & reference_point, const std::string& reference_point_frame, 
-		const ros::Time& time, const ros::Duration& averaging_interval) const;
+                const mos::Time& time, const mos::Duration& averaging_interval) const;
   */
   /* \brief lookup the twist of the tracking frame with respect to the observational frame
    * 
@@ -184,7 +184,7 @@ public:
   /*
   geometry_msgs::Twist
     lookupTwist(const std::string& tracking_frame, const std::string& observation_frame, 
-		const ros::Time& time, const ros::Duration& averaging_interval) const;
+                const mos::Time& time, const mos::Duration& averaging_interval) const;
   */
   /** \brief Test if a transform is possible
    * \param target_frame The frame into which to transform
@@ -194,7 +194,7 @@ public:
    * \return True if the transform is possible, false otherwise 
    */
   bool canTransform(const std::string& target_frame, const std::string& source_frame,
-                    const ros::Time& time, std::string* error_msg = NULL) const;
+                    const mos::Time& time, std::string* error_msg = NULL) const;
   
   /** \brief Test if a transform is possible
    * \param target_frame The frame into which to transform
@@ -205,8 +205,8 @@ public:
    * \param error_msg A pointer to a string which will be filled with why the transform failed, if not NULL
    * \return True if the transform is possible, false otherwise 
    */
-  bool canTransform(const std::string& target_frame, const ros::Time& target_time,
-                    const std::string& source_frame, const ros::Time& source_time,
+  bool canTransform(const std::string& target_frame, const mos::Time& target_time,
+                    const std::string& source_frame, const mos::Time& source_time,
                     const std::string& fixed_frame, std::string* error_msg = NULL) const;
 
   /** \brief A way to see what frames have been cached in yaml format
@@ -224,14 +224,14 @@ public:
   std::string allFramesAsString() const;
   
   typedef boost::function<void(TransformableRequestHandle request_handle, const std::string& target_frame, const std::string& source_frame,
-                               ros::Time time, TransformableResult result)> TransformableCallback;
+                               mos::Time time, TransformableResult result)> TransformableCallback;
 
   /// \brief Internal use only
   TransformableCallbackHandle addTransformableCallback(const TransformableCallback& cb);
   /// \brief Internal use only
   void removeTransformableCallback(TransformableCallbackHandle handle);
   /// \brief Internal use only
-  TransformableRequestHandle addTransformableRequest(TransformableCallbackHandle handle, const std::string& target_frame, const std::string& source_frame, ros::Time time);
+  TransformableRequestHandle addTransformableRequest(TransformableCallbackHandle handle, const std::string& target_frame, const std::string& source_frame, mos::Time time);
   /// \brief Internal use only
   void cancelTransformableRequest(TransformableRequestHandle handle);
 
@@ -269,7 +269,7 @@ public:
    * @param frame_id The frame id of the frame in question
    * @param parent The reference to the string to fill the parent
    * Returns true unless "NO_PARENT" */
-  bool _getParent(const std::string& frame_id, ros::Time time, std::string& parent) const;
+  bool _getParent(const std::string& frame_id, mos::Time time, std::string& parent) const;
 
   /** \brief A way to get a std::vector of available frame ids */
   void _getFrameStrings(std::vector<std::string>& ids) const;
@@ -282,7 +282,7 @@ public:
     return lookupOrInsertFrameNumber(frameid_str); 
   }
 
-  int _getLatestCommonTime(CompactFrameID target_frame, CompactFrameID source_frame, ros::Time& time, std::string* error_string) const {
+  int _getLatestCommonTime(CompactFrameID target_frame, CompactFrameID source_frame, mos::Time& time, std::string* error_string) const {
     boost::mutex::scoped_lock lock(frame_mutex_);
     return getLatestCommonTime(target_frame, source_frame, time, error_string);
   }
@@ -292,7 +292,7 @@ public:
   }
 
   /**@brief Get the duration over which this transformer will cache */
-  ros::Duration getCacheLength() { return cache_time_;}
+  mos::Duration getCacheLength() { return cache_time_;}
 
   /** \brief Backwards compatabilityA way to see what frames have been cached
    * Useful for debugging
@@ -303,7 +303,7 @@ public:
   /** \brief Backwards compatabilityA way to see what frames are in a chain
    * Useful for debugging
    */
-  void _chainAsVector(const std::string & target_frame, ros::Time target_time, const std::string & source_frame, ros::Time source_time, const std::string & fixed_frame, std::vector<std::string>& output) const;
+  void _chainAsVector(const std::string & target_frame, mos::Time target_time, const std::string & source_frame, mos::Time source_time, const std::string & fixed_frame, std::vector<std::string>& output) const;
 
 private:
 
@@ -333,7 +333,7 @@ private:
 
 
   /// How long to cache transform history
-  ros::Duration cache_time_;
+  mos::Duration cache_time_;
 
   typedef boost::unordered_map<TransformableCallbackHandle, TransformableCallback> M_TransformableCallback;
   M_TransformableCallback transformable_callbacks_;
@@ -342,7 +342,7 @@ private:
 
   struct TransformableRequest
   {
-    ros::Time time;
+    mos::Time time;
     TransformableRequestHandle request_handle;
     TransformableCallbackHandle cb_handle;
     CompactFrameID target_id;
@@ -391,23 +391,23 @@ private:
 
   void createConnectivityErrorString(CompactFrameID source_frame, CompactFrameID target_frame, std::string* out) const;
 
-  /**@brief Return the latest rostime which is common across the spanning set
+  /**@brief Return the latest mostime which is common across the spanning set
    * zero if fails to cross */
-  int getLatestCommonTime(CompactFrameID target_frame, CompactFrameID source_frame, ros::Time& time, std::string* error_string) const;
+  int getLatestCommonTime(CompactFrameID target_frame, CompactFrameID source_frame, mos::Time& time, std::string* error_string) const;
 
   template<typename F>
-  int walkToTopParent(F& f, ros::Time time, CompactFrameID target_id, CompactFrameID source_id, std::string* error_string) const;
+  int walkToTopParent(F& f, mos::Time time, CompactFrameID target_id, CompactFrameID source_id, std::string* error_string) const;
 
   /**@brief Traverse the transform tree. If frame_chain is not NULL, store the traversed frame tree in vector frame_chain.
    * */
   template<typename F>
-  int walkToTopParent(F& f, ros::Time time, CompactFrameID target_id, CompactFrameID source_id, std::string* error_string, std::vector<CompactFrameID> *frame_chain) const;
+  int walkToTopParent(F& f, mos::Time time, CompactFrameID target_id, CompactFrameID source_id, std::string* error_string, std::vector<CompactFrameID> *frame_chain) const;
 
   void testTransformableRequests();
   bool canTransformInternal(CompactFrameID target_id, CompactFrameID source_id,
-                    const ros::Time& time, std::string* error_msg) const;
+                    const mos::Time& time, std::string* error_msg) const;
   bool canTransformNoLock(CompactFrameID target_id, CompactFrameID source_id,
-                      const ros::Time& time, std::string* error_msg) const;
+                      const mos::Time& time, std::string* error_msg) const;
 
 
   //Whether it is safe to use canTransform with a timeout. (If another thread is not provided it will always timeout.)
@@ -422,7 +422,7 @@ public:
 class TestBufferCore
 {
 public:
-  int _walkToTopParent(BufferCore& buffer, ros::Time time, CompactFrameID target_id, CompactFrameID source_id, std::string* error_string, std::vector<CompactFrameID> *frame_chain) const;
+  int _walkToTopParent(BufferCore& buffer, mos::Time time, CompactFrameID target_id, CompactFrameID source_id, std::string* error_string, std::vector<CompactFrameID> *frame_chain) const;
   const std::string& _lookupFrameString(BufferCore& buffer, CompactFrameID frame_id_num) const
   {
     return buffer.lookupFrameString(frame_id_num);

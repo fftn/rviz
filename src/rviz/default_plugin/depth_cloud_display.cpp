@@ -39,7 +39,7 @@
 #include <rviz/properties/int_property.h>
 #include <rviz/frame_manager.h>
 
-#include <tf2_ros/buffer.h>
+#include <tf2_mos/buffer.h>
 
 #include <boost/bind/bind.hpp>
 #include <boost/algorithm/string/erase.hpp>
@@ -295,7 +295,7 @@ void DepthCloudDisplay::subscribe()
       depthmap_sub_->subscribe(*depthmap_it_, depthmap_topic, queue_size_,
                                image_transport::TransportHints(depthmap_transport));
 
-      depthmap_tf_filter_.reset(new tf2_ros::MessageFilter<sensor_msgs::Image>(
+      depthmap_tf_filter_.reset(new tf2_mos::MessageFilter<sensor_msgs::Image>(
           *depthmap_sub_, *context_->getTF2BufferPtr(), fixed_frame_.toStdString(), queue_size_,
           threaded_nh_));
 

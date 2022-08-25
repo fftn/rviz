@@ -32,12 +32,12 @@
 #include <QObject>
 
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
-//#include <mos_message_filters/subscriber.h>
-//#include <tf2_ros/message_filter.h>
+#include "mos_message_filters/subscriber.h"
+#include "mos_tf2/message_filter.h"
 #include "mos_sensor_msgs/Image.h"
 
-//#include <image_transport/image_transport.h>
-//#include <image_transport/subscriber_filter.h>
+#include "mos_image_transport/image_transport.h"
+#include "mos_image_transport/subscriber_filter.h"
 
 #include "rviz/display_context.h"
 #include "rviz/frame_manager.h"
@@ -55,7 +55,7 @@ namespace rviz
  *
  * This class brings together some common things used for subscribing and displaying image messages in
  * Display
- * types.  It has a tf2_ros::MessageFilter and image_tranport::SubscriberFilter to filter incoming image
+ * types.  It has a tf2_mos::MessageFilter and image_tranport::SubscriberFilter to filter incoming image
  * messages, and
  * it handles subscribing and unsubscribing when the display is
  * enabled or disabled.  */
@@ -105,7 +105,7 @@ protected:
   //void incomingMessage(const sensor_msgs::Image::ConstPtr& msg);
 
   /** @brief Callback for messages, whose frame_id cannot resolved */
-  //void failedMessage(const sensor_msgs::Image::ConstPtr& msg, tf2_ros::FilterFailureReason reason);
+  //void failedMessage(const sensor_msgs::Image::ConstPtr& msg, tf2_mos::FilterFailureReason reason);
 
   /** @brief Implement this to process the contents of a message.
    *
@@ -114,9 +114,9 @@ protected:
 
   void scanForTransportSubscriberPlugins();
 
-  //boost::scoped_ptr<image_transport::ImageTransport> it_;
-  // boost::shared_ptr<image_transport::SubscriberFilter> sub_;
-  // boost::shared_ptr<tf2_ros::MessageFilter<sensor_msgs::Image> > tf_filter_;
+  boost::scoped_ptr<image_transport::ImageTransport> it_;
+  boost::shared_ptr<image_transport::SubscriberFilter> sub_;
+  boost::shared_ptr<tf2_mos::MessageFilter<sensor_msgs::Image> > tf_filter_;
 
   std::string targetFrame_;
 

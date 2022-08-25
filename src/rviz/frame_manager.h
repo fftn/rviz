@@ -34,8 +34,8 @@
 
 #include <QObject>
 
-#include <mos_time.h>
-//#include <tf2_ros/buffer.h>
+#include "mos_time.h"
+#include "mos_tf2/buffer.h"
 #include "mos_geometry_msgs/Pose.h"
 
 #include <OgreVector3.h>
@@ -44,13 +44,13 @@
 #include <boost/thread/mutex.hpp>
 
 #ifndef Q_MOC_RUN
-//#include <tf2_ros/message_filter.h>
+#include "mos_tf2/message_filter.h"
 #endif
 
-//namespace tf2_ros
-//{
-//class TransformListener;
-//}
+namespace tf2_mos
+{
+class TransformListener;
+}
 
 namespace rviz
 {
@@ -73,9 +73,9 @@ public:
   };
 
   /// Constructor, will create a TransformListener (and Buffer) automatically if not provided
-  explicit FrameManager(/*std::shared_ptr<tf2_ros::Buffer> tf_buffer = std::shared_ptr<tf2_ros::Buffer>(),
-                        std::shared_ptr<tf2_ros::TransformListener> tf_listener =
-                            std::shared_ptr<tf2_ros::TransformListener>()*/);
+  explicit FrameManager(std::shared_ptr<tf2_mos::Buffer> tf_buffer = std::shared_ptr<tf2_mos::Buffer>(),
+                        std::shared_ptr<tf2_mos::TransformListener> tf_listener =
+                            std::shared_ptr<tf2_mos::TransformListener>());
 
   /** @brief Destructor.
    *
@@ -182,21 +182,21 @@ public:
    * @return true if the transform is not known, false if it is. */
   bool transformHasProblems(const std::string& frame, mos::Time time, std::string& error);
 
-  /** Connect success and failure callbacks to a tf2_ros::MessageFilter.
-   * @param filter The tf2_ros::MessageFilter to connect to.
+  /** Connect success and failure callbacks to a tf2_mos::MessageFilter.
+   * @param filter The tf2_mos::MessageFilter to connect to.
    * @param display The Display using the filter.
    *
-   * FrameManager has internal functions for handling success and failure of tf2_ros::MessageFilters,
+   * FrameManager has internal functions for handling success and failure of tf2_mos::MessageFilters,
    * which call Display::setStatus() based on success or failure of the filter, including appropriate
    * error messages. */
   template <class M>
-  void registerFilterForTransformStatusCheck(/*tf2_ros::MessageFilter<M>* filter, */Display* display)
+  void registerFilterForTransformStatusCheck(tf2_mos::MessageFilter<M>* filter, Display* display)
   {
-//    filter->registerCallback(
-//        boost::bind(&FrameManager::messageCallback<M>, this, boost::placeholders::_1, display));
-//    filter->registerFailureCallback(
-//        boost::bind(&FrameManager::failureCallback<M, tf2_ros::FilterFailureReason>, this,
-//                    boost::placeholders::_1, boost::placeholders::_2, display));
+    filter->registerCallback(
+        boost::bind(&FrameManager::messageCallback<M>, this, boost::placeholders::_1, display));
+    filter->registerFailureCallback(
+        boost::bind(&FrameManager::failureCallback<M, tf2_mos::FilterFailureReason>, this,
+                    boost::placeholders::_1, boost::placeholders::_2, display));
   }
 
   /** @brief Return the current fixed frame name. */
@@ -205,24 +205,24 @@ public:
     return fixed_frame_;
   }
 
-//  const std::shared_ptr<tf2_ros::Buffer> getTF2BufferPtr()
-//  {
-//    return tf_buffer_;
-//  }
+  const std::shared_ptr<tf2_mos::Buffer> getTF2BufferPtr()
+  {
+    return tf_buffer_;
+  }
 
   /** Create a description of a transform problem.
    * @param frame_id The name of the frame with issues.
    * @param stamp The time for which the problem was detected.
    * @param caller_id Dummy parameter, not used.
-   * @param reason The reason given by the tf2_ros::MessageFilter in its failure callback.
+   * @param reason The reason given by the tf2_mos::MessageFilter in its failure callback.
    * @return An error message describing the problem.
    *
    * Once a problem has been detected with a given frame or transform,
    * call this to get an error message describing the problem. */
   std::string discoverFailureReason(const std::string& frame_id,
                                     const mos::Time &stamp,
-                                    const std::string& caller_id/*,
-                                    tf2_ros::FilterFailureReason reason*/);
+                                    const std::string& caller_id,
+                                    tf2_mos::FilterFailureReason reason);
 
 Q_SIGNALS:
   /** @brief Emitted whenever the fixed frame changes. */
@@ -231,25 +231,25 @@ Q_SIGNALS:
 private:
   bool adjustTime(const std::string& frame, mos::Time& time);
 
-//  template <class M>
-//  void messageCallback(const ros::MessageEvent<M const>& msg_evt, Display* display)
-//  {
-//    boost::shared_ptr<M const> const& msg = msg_evt.getConstMessage();
-//    const std::string& authority = msg_evt.getPublisherName();
+  template <class M>
+  void messageCallback(const mos::MessageEvent<M const>& msg_evt, Display* display)
+  {
+    boost::shared_ptr<M const> const& msg = msg_evt.getConstMessage();
+    const std::string& authority = msg_evt.getPublisherName();
 
-//    messageArrived(msg->header.frame_id, msg->header.stamp, authority, display);
-//  }
+    messageArrived(msg->header.frame_id, msg->header.stamp, authority, display);
+  }
 
-//  template <class M, class TfFilterFailureReasonType>
-//  void failureCallback(const ros::MessageEvent<M const>& msg_evt,
-//                       TfFilterFailureReasonType reason,
-//                       Display* display)
-//  {
-//    boost::shared_ptr<M const> const& msg = msg_evt.getConstMessage();
-//    const std::string& authority = msg_evt.getPublisherName();
+  template <class M, class TfFilterFailureReasonType>
+  void failureCallback(const mos::MessageEvent<M const>& msg_evt,
+                       TfFilterFailureReasonType reason,
+                       Display* display)
+  {
+    boost::shared_ptr<M const> const& msg = msg_evt.getConstMessage();
+    const std::string& authority = msg_evt.getPublisherName();
 
-//    messageFailed(msg->header.frame_id, msg->header.stamp, authority, reason, display);
-//  }
+    messageFailed(msg->header.frame_id, msg->header.stamp, authority, reason, display);
+  }
 
   void messageArrived(const std::string& frame_id,
                       const double &stamp,
@@ -303,16 +303,16 @@ private:
   boost::mutex cache_mutex_;
   M_Cache cache_;
 
-  //std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
-  //std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
+  std::shared_ptr<tf2_mos::Buffer> tf_buffer_;
+  std::shared_ptr<tf2_mos::TransformListener> tf_listener_;
   std::string fixed_frame_;
-  //tf2::CompactFrameID fixed_frame_id_;
+  tf2::CompactFrameID fixed_frame_id_;
 
   bool pause_;
 
   SyncMode sync_mode_;
 
-  // the current synchronized time, used to overwrite ros:Time(0)
+  // the current synchronized time, used to overwrite mos:Time(0)
   mos::Time sync_time_;
 
   // used for approx. syncing

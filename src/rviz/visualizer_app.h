@@ -33,7 +33,7 @@
 #include <QObject>
 
 #ifndef Q_MOC_RUN // See: https://bugreports.qt-project.org/browse/QTBUG-22829
-//#include <ros/ros.h>
+#include "mos.h"
 #include <rviz/rviz_export.h>
 #endif
 

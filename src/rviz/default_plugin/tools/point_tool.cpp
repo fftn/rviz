@@ -42,7 +42,7 @@
 #include <rviz/properties/bool_property.h>
 #include <rviz/properties/string_property.h>
 
-#include <geometry_msgs/PointStamped.h>
+#include "mos_geometry_msgs/PointStamped.h"
 
 #include <sstream>
 
@@ -140,5 +140,5 @@ int PointTool::processMouseEvent(ViewportMouseEvent& event)
 
 } // namespace rviz
 
-//#include <pluginlib/class_list_macros.hpp>
-//PLUGINLIB_EXPORT_CLASS(rviz::PointTool, rviz::Tool)
+#include "mos_pluginlib/class_list_macros.hpp"
+PLUGINLIB_EXPORT_CLASS(rviz::PointTool, rviz::Tool)

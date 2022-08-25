@@ -10,13 +10,13 @@
 #include <vector>
 #include <map>
 
-#include <ros/types.h>
-#include <ros/serialization.h>
-#include <ros/builtin_message_traits.h>
-#include <ros/message_operations.h>
+#include "mos_types.h"
+#include "mos_serialization.h"
+#include "mos_builtin_message_traits.h"
+#include "mos_message_operations.h"
 
-#include <std_msgs/Header.h>
-#include <geometry_msgs/Twist.h>
+#include "mos_std_msgs/Header.h"
+#include "mos_geometry_msgs/Twist.h"
 
 namespace geometry_msgs
 {
@@ -64,13 +64,13 @@ typedef boost::shared_ptr< ::geometry_msgs::TwistStamped const> TwistStampedCons
 template<typename ContainerAllocator>
 std::ostream& operator<<(std::ostream& s, const ::geometry_msgs::TwistStamped_<ContainerAllocator> & v)
 {
-ros::message_operations::Printer< ::geometry_msgs::TwistStamped_<ContainerAllocator> >::stream(s, "", v);
+mos::message_operations::Printer< ::geometry_msgs::TwistStamped_<ContainerAllocator> >::stream(s, "", v);
 return s;
 }
 
 } // namespace geometry_msgs
 
-namespace ros
+namespace mos
 {
 namespace message_traits
 {
@@ -189,9 +189,9 @@ struct Definition< ::geometry_msgs::TwistStamped_<ContainerAllocator> >
 };
 
 } // namespace message_traits
-} // namespace ros
+} // namespace mos
 
-namespace ros
+namespace mos
 {
 namespace serialization
 {
@@ -204,13 +204,13 @@ namespace serialization
       stream.next(m.twist);
     }
 
-    ROS_DECLARE_ALLINONE_SERIALIZER
+    MOS_DECLARE_ALLINONE_SERIALIZER
   }; // struct TwistStamped_
 
 } // namespace serialization
-} // namespace ros
+} // namespace mos
 
-namespace ros
+namespace mos
 {
 namespace message_operations
 {
@@ -230,6 +230,6 @@ struct Printer< ::geometry_msgs::TwistStamped_<ContainerAllocator> >
 };
 
 } // namespace message_operations
-} // namespace ros
+} // namespace mos
 
 #endif // GEOMETRY_MSGS_MESSAGE_TWISTSTAMPED_H

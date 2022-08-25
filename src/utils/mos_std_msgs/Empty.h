@@ -10,10 +10,10 @@
 #include <vector>
 #include <map>
 
-#include <ros/types.h>
-#include <ros/serialization.h>
-#include <ros/builtin_message_traits.h>
-#include <ros/message_operations.h>
+#include "mos_types.h"
+#include "mos_serialization.h"
+#include "mos_builtin_message_traits.h"
+#include "mos_message_operations.h"
 
 
 namespace std_msgs
@@ -54,13 +54,13 @@ typedef boost::shared_ptr< ::std_msgs::Empty const> EmptyConstPtr;
 template<typename ContainerAllocator>
 std::ostream& operator<<(std::ostream& s, const ::std_msgs::Empty_<ContainerAllocator> & v)
 {
-ros::message_operations::Printer< ::std_msgs::Empty_<ContainerAllocator> >::stream(s, "", v);
+mos::message_operations::Printer< ::std_msgs::Empty_<ContainerAllocator> >::stream(s, "", v);
 return s;
 }
 
 } // namespace std_msgs
 
-namespace ros
+namespace mos
 {
 namespace message_traits
 {
@@ -142,9 +142,9 @@ struct Definition< ::std_msgs::Empty_<ContainerAllocator> >
 };
 
 } // namespace message_traits
-} // namespace ros
+} // namespace mos
 
-namespace ros
+namespace mos
 {
 namespace serialization
 {
@@ -154,13 +154,13 @@ namespace serialization
     template<typename Stream, typename T> inline static void allInOne(Stream&, T)
     {}
 
-    ROS_DECLARE_ALLINONE_SERIALIZER
+    MOS_DECLARE_ALLINONE_SERIALIZER
   }; // struct Empty_
 
 } // namespace serialization
-} // namespace ros
+} // namespace mos
 
-namespace ros
+namespace mos
 {
 namespace message_operations
 {
@@ -173,6 +173,6 @@ struct Printer< ::std_msgs::Empty_<ContainerAllocator> >
 };
 
 } // namespace message_operations
-} // namespace ros
+} // namespace mos
 
 #endif // STD_MSGS_MESSAGE_EMPTY_H

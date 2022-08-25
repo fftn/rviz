@@ -54,7 +54,7 @@
 #include <vector>
 #include <set>
 
-namespace ros
+namespace mos
 {
 class Publisher;
 }
@@ -337,7 +337,7 @@ private:
 
   PropertyTreeModel* property_model_;
 
-  typedef std::map<std::string, ros::Publisher> PublisherMap;
+  typedef std::map<std::string, mos::Publisher> PublisherMap;
   PublisherMap debug_publishers_;
 };
 
