@@ -156,9 +156,9 @@ void RenderSystem::loadOgrePlugins()
   plugin_prefix += "lib";
 #endif
 #ifdef QT_DEBUG
-  ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL_d");
-  ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager_d");
-  ogre_root_->loadPlugin(plugin_prefix + "Plugin_ParticleFX_d");
+  ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
+  ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");
+  ogre_root_->loadPlugin(plugin_prefix + "Plugin_ParticleFX");
 #else
   ogre_root_->loadPlugin(plugin_prefix + "RenderSystem_GL");
   ogre_root_->loadPlugin(plugin_prefix + "Plugin_OctreeSceneManager");

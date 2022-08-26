@@ -11,28 +11,18 @@ INCLUDEPATH += ../src/rviz/robot
 INCLUDEPATH += /usr/include/python3.8/
 INCLUDEPATH += /usr/include/OGRE/
 INCLUDEPATH += /usr/include/eigen3/
-#INCLUDEPATH += ../3rdlibs/
-#INCLUDEPATH += ../3rdlibs/tinyxml
-#INCLUDEPATH += ../3rdlibs/tinyxml2
-#INCLUDEPATH += ../3rdlibs/eigen3
-#INCLUDEPATH += ../3rdlibs/OGRE/include/
-#INCLUDEPATH += ../3rdlibs/yaml-cpp/include/
 
-
-#QMAKE_LFLAGS += "-Wl,--disable-new-dtags"
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
 QMAKE_LFLAGS += "-Wl,--copy-dt-needed-entries"
-LIBS += -L../3rdlibs/lib
 LIBS += -L../lib/manual
 LIBS += -L../lib/cmake
 LIBS += -lboost_chrono -lboost_regex
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
 LIBS += -lconsole_bridge -lPocoFoundation
-LIBS += -lfreeimage -lactionlib
+LIBS += -lfreeimage -ljpegxr -ljxrglue
 LIBS += -lcurl -lpython3.8 -lX11
 LIBS += -lassimp -lyaml-cpp -lzzip
 LIBS += -ltinyxml -ltinyxml2
-LIBS += -ljpegxr -ljxrglue
 LIBS += -lOgreOverlay -lOgreMain -lOgreProperty
 
 SOURCES +=  ../src/rviz/main.cpp \
