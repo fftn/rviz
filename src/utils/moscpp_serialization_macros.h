@@ -40,7 +40,7 @@
 #ifndef MOSCPP_SERIALIZATION_MACMOS_HPP_
 #define MOSCPP_SERIALIZATION_MACMOS_HPP_
 
-#include <mos_macros.h>
+#include "mos_macros.h"
 
 #ifdef MOS_BUILD_SHARED_LIBS // mos is being built around shared libraries
   #ifdef moscpp_serialization_EXPORTS // we are building a shared lib/dll

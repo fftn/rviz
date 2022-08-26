@@ -39,10 +39,10 @@
 ** Headers
 *********************************************************************/
 
-#include <utils/platform.h>
+#include <utils/mos_platform.h>
 #include <iostream>
 #include <cmath>
-#include <utils/exception.h>
+#include <utils/mos_exception.h>
 #include <mos_time.h>
 #include <boost/date_time/posix_time/posix_time.hpp>
 

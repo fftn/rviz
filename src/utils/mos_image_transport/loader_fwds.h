@@ -38,6 +38,7 @@
 // Forward-declare some classes most users shouldn't care about so that
 // image_transport.h doesn't bring them in.
 
+#include "mos_forwards.h"
 namespace pluginlib {
   template<class T> class ClassLoader;
 }

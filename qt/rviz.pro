@@ -3,43 +3,43 @@ CONFIG += console c++14
 CONFIG -= app_bundle
 QT += widgets
 
+INCLUDEPATH += /usr/include/
 INCLUDEPATH += ../src/
 INCLUDEPATH += ../src/include
 INCLUDEPATH += ../src/rviz
 INCLUDEPATH += ../src/utils
 INCLUDEPATH += ../src/rviz/robot
+INCLUDEPATH += /usr/include/python3.8/
 INCLUDEPATH += ../3rdlibs/
 INCLUDEPATH += ../3rdlibs/tinyxml
 INCLUDEPATH += ../3rdlibs/tinyxml2
 INCLUDEPATH += ../3rdlibs/eigen3
 INCLUDEPATH += ../3rdlibs/OGRE/include/
 INCLUDEPATH += ../3rdlibs/yaml-cpp/include/
-INCLUDEPATH += /usr/include/python3.8/
 
 
 #QMAKE_LFLAGS += "-Wl,--disable-new-dtags"
 QMAKE_LFLAGS += "-Wl,-rpath,../lib/share"
-QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/src/utils/mos_time"
+QMAKE_LFLAGS += "-Wl,--copy-dt-needed-entries"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/3rdlibs/OGRE/lib/"
 QMAKE_LFLAGS += "-Wl,-rpath,/home/fft/git/rviz-prune/3rdlibs/lib"
-QMAKE_LFLAGS += "-Wl,--copy-dt-needed-entries"
 LIBS += -L../3rdlibs/lib
 LIBS += -L../3rdlibs/OGRE/lib/
 LIBS += -L../3rdlibs/yaml-cpp/libs/
-LIBS += -lfreeimage -L../3rdlibs/freeimage/lib
-LIBS += -lmostime -L../src/utils/mos_time
-LIBS += -lactionlib
-LIBS += -lxmlrpcpp -lboost_regex -lcurl -lpython3.8
+LIBS += -L../3rdlibs/freeimage/lib
+LIBS += -L../3rdlibs/jxr/lib/
+LIBS += -L../3rdlibs/zzip/lib/
 LIBS += -L../lib/manual
-LIBS += -L../lib/cmake -ltf2_ros
-LIBS += -lX11
+LIBS += -L../lib/cmake
+LIBS += -lboost_chrono -lboost_regex
 LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
+LIBS += -lconsole_bridge -lPocoFoundation
+LIBS += -lfreeimage -lactionlib
+LIBS += -lcurl -lpython3.8 -lX11
+LIBS += -lassimp -lyaml-cpp -lzzip
 LIBS += -ltinyxml -ltinyxml2
+LIBS += -ljpegxr -ljxrglue
 LIBS += -lOgreOverlay -lOgreMain -lOgreProperty
-LIBS += -lassimp -lyaml-cpp
-LIBS += -ljpegxr -ljxrglue -L../3rdlibs/jxr/lib/
-LIBS += -lzzip  -L../3rdlibs/zzip/lib/
-
 
 SOURCES +=  ../src/rviz/main.cpp \
     \
@@ -81,10 +81,11 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/visualization_frame.cpp \
     ../src/rviz/visualization_manager.cpp \
     ../src/rviz/visualizer_app.cpp \
-#    ../src/rviz/wait_for_master_dialog.cpp \
     ../src/rviz/widget_geometry_change_detector.cpp \
     ../src/rviz/yaml_config_reader.cpp \
     ../src/rviz/yaml_config_writer.cpp \
+    ../src/rviz/env_config.cpp \
+    ../src/rviz/panel_factory.cpp \
     \
     ../src/rviz/image/image_display_base.cpp \
     ../src/rviz/properties/bool_property.cpp \
@@ -98,20 +99,7 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/properties/property.cpp \
     ../src/rviz/properties/status_property.cpp \
     ../src/rviz/properties/status_list.cpp \
-    \
-    ../src/rviz/robot/robot.cpp \
-    ../src/rviz/robot/robot_joint.cpp \
-    ../src/rviz/robot/robot_link.cpp \
-    ../src/rviz/robot/tf_link_updater.cpp \
-    ../src/rviz/selection/selection_handler.cpp \
-    ../src/rviz/selection/selection_manager.cpp \
-    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/fps_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/frame_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.cpp \
-    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.cpp \
-    \
+    ../src/rviz/properties/mos_topic_property.cpp \
     ../src/rviz/properties/color_property.cpp \
     ../src/rviz/properties/combo_box.cpp \
     ../src/rviz/properties/display_visibility_property.cpp \
@@ -128,7 +116,29 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/properties/splitter_handle.cpp \
     ../src/rviz/properties/string_property.cpp \
     \
-    ../src/rviz/env_config.cpp \
+    ../src/rviz/robot/robot.cpp \
+    ../src/rviz/robot/robot_joint.cpp \
+    ../src/rviz/robot/robot_link.cpp \
+    ../src/rviz/robot/tf_link_updater.cpp \
+    ../src/rviz/selection/selection_handler.cpp \
+    ../src/rviz/selection/selection_manager.cpp \
+    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/fps_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/frame_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.cpp \
+    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.cpp \
+    ../src/rviz/default_plugin/tools/move_tool.cpp \
+    ../src/rviz/default_plugin/tools/interaction_tool.cpp \
+    ../src/rviz/default_plugin/tools/selection_tool.cpp \
+    ../src/rviz/default_plugin/tools/initial_pose_tool.cpp \
+    ../src/rviz/default_plugin/tools/goal_tool.cpp \
+    ../src/rviz/default_plugin/tools/pose_tool.cpp \
+    ../src/rviz/default_plugin/tools/focus_tool.cpp \
+    ../src/rviz/default_plugin/tools/point_tool.cpp \
+    ../src/rviz/default_plugin/tools/measure_tool.cpp \
+    ../src/rviz/default_plugin/grid_display.cpp \
+    \
     ../src/rviz/ogre_helpers/apply_visibility_bits.cpp \
     ../src/rviz/ogre_helpers/arrow.cpp \
     ../src/rviz/ogre_helpers/axes.cpp \
@@ -149,16 +159,6 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/rviz/ogre_helpers/render_system.cpp \
     ../src/rviz/ogre_helpers/render_widget.cpp \
     ../src/rviz/ogre_helpers/shape.cpp \
-    ../src/rviz/default_plugin/tools/move_tool.cpp \
-    ../src/rviz/default_plugin/tools/interaction_tool.cpp \
-    ../src/rviz/default_plugin/tools/selection_tool.cpp \
-    ../src/rviz/default_plugin/tools/initial_pose_tool.cpp \
-    ../src/rviz/default_plugin/tools/goal_tool.cpp \
-    ../src/rviz/default_plugin/tools/pose_tool.cpp \
-    ../src/rviz/default_plugin/tools/focus_tool.cpp \
-    ../src/rviz/default_plugin/tools/point_tool.cpp \
-    ../src/rviz/default_plugin/tools/measure_tool.cpp \
-    ../src/rviz/default_plugin/grid_display.cpp \
     ../src/utils/mos_console.cpp \
     ../src/utils/mos_console_backend.cpp \
     ../src/utils/impl/mos_console_print.cpp \
@@ -170,8 +170,87 @@ SOURCES +=  ../src/rviz/main.cpp \
     ../src/utils/mospack/mospack_utils.cpp \
     \
     ../src/utils/mos_class_loader/multi_library_class_loader.hpp \
-    ../src/utils/mos_node_handle.cpp
-
+    ../src/utils/mos_node_handle.cpp \
+    ../src/utils/mos_class_loader/class_loader.cpp \
+    ../src/utils/mos_class_loader/class_loader_core.cpp \
+    ../src/utils/mos_class_loader/meta_object.cpp \
+    ../src/utils/mos_class_loader/multi_library_class_loader.cpp \
+    ../src/utils/mos_console_bridge/bridge.cpp \
+    ../src/utils/mos_common_header.cpp \
+    ../src/utils/mos_common_debug.cpp \
+    ../src/utils/libmos/names.cpp \
+    ../src/utils/libmos/master.cpp \
+    ../src/utils/libmos/init.cpp \
+    ../src/utils/libmos/callback_queue.cpp \
+    ../src/utils/libmos/publisher.cpp \
+    ../src/utils/mos_tf2/buffer_core.cpp \
+    ../src/utils/mos_tf2/buffer.cpp \
+    ../src/utils/mos_tf2/transform_listener.cpp \
+    ../src/utils/mos_image_transport/image_transport.cpp \
+    ../src/utils/mos_image_transport/image_publisher.cpp \
+    ../src/utils/mos_image_transport/image_subscriber.cpp \
+    ../src/utils/mos_image_transport/camera_publisher.cpp \
+    ../src/utils/mos_image_transport/camera_subscriber.cpp \
+    ../src/utils/mos_image_transport/image_single_subscriber_publisher.cpp \
+    ../src/utils/mos_image_transport/camera_common.cpp \
+    ../src/utils/mos_serialization.cpp \
+    ../src/utils/libmos/this_node.cpp \
+    ../src/utils/libmos/topic_manager.cpp \
+    ../src/utils/libmos/subscriber.cpp \
+    ../src/utils/libmos/service_manager.cpp \
+    ../src/utils/libmos/service_server.cpp \
+    ../src/utils/libmos/service_client.cpp \
+    ../src/utils/libmos/service_server_link.cpp \
+    ../src/utils/libmos/timer.cpp \
+    ../src/utils/libmos/wall_timer.cpp \
+    ../src/utils/libmos/steady_timer.cpp \
+    ../src/utils/libmos/param.cpp \
+    ../src/utils/libmos/network.cpp \
+    ../src/utils/libmos/xmlrpc_manager.cpp \
+    ../src/utils/libmos/connection_manager.cpp \
+    ../src/utils/xmlrpcpp/XmlRpcValue.cpp \
+    ../src/utils/xmlrpcpp/XmlRpcClient.cpp \
+    ../src/utils/xmlrpcpp/XmlRpcSocket.cpp \
+    ../src/utils/xmlrpcpp/XmlRpcDispatch.cpp \
+    ../src/utils/xmlrpcpp/XmlRpcServer.cpp \
+    ../src/utils/xmlrpcpp/XmlRpcServerMethod.cpp \
+    ../src/utils/xmlrpcpp/XmlRpcSource.cpp \
+    ../src/utils/xmlrpcpp/XmlRpcUtil.cpp \
+    ../src/utils/libmos/transport_subscriber_link.cpp \
+    ../src/utils/libmos/transport_publisher_link.cpp \
+    ../src/utils/libmos/common.cpp \
+    ../src/utils/mos_transport/transport_tcp.cpp \
+    ../src/utils/libmos/poll_manager.cpp \
+    ../src/utils/libmos/internal_timer_manager.cpp \
+    ../src/utils/libmos/mosout_appender.cpp \
+    ../src/utils/libmos/file_log.cpp \
+    ../src/utils/libmos/spinner.cpp \
+    ../src/utils/mos_tf2/cache.cpp \
+    ../src/utils/mos_tf2/static_cache.cpp \
+    ../src/utils/libmos/service.cpp \
+    ../src/utils/mos_message_filters/msg_connection.cpp \
+    ../src/utils/libmos/publication.cpp \
+    ../src/utils/libmos/subscription.cpp \
+    ../src/utils/libmos/transport_udp.cpp \
+    ../src/utils/libmos/poll_set.cpp \
+    ../src/utils/libmos/service_publication.cpp \
+    ../src/utils/libmos/connection.cpp \
+    ../src/utils/libmos/service_client_link.cpp \
+    ../src/utils/xmlrpcpp/cencode.c \
+    ../src/utils/xmlrpcpp/cdecode.c \
+    ../src/utils/xmlrpcpp/XmlRpcServerConnection.cpp \
+    ../src/utils/libmos/subscriber_link.cpp \
+    ../src/utils/mos_transport/transport.cpp \
+    ../src/utils/libmos/io.cpp \
+    ../src/utils/libmos/single_subscriber_publisher.cpp \
+    ../src/utils/libmos/statistics.cpp \
+    ../src/utils/libmos/publisher_link.cpp \
+    ../src/utils/libmos/intraprocess_publisher_link.cpp \
+    ../src/utils/libmos/intraprocess_subscriber_link.cpp \
+    ../src/utils/libmos/subscription_queue.cpp \
+    ../src/utils/libmos/message_deserializer.cpp \
+    ../src/utils/mos_time/mos_time.cpp \
+    ../src/utils/mos_time/mos_duration.cpp \
 
 HEADERS += \
     ../src/rviz/display_factory.h \
@@ -217,16 +296,6 @@ HEADERS += \
     ../src/rviz/properties/property.h \
     ../src/rviz/properties/status_property.h \
     ../src/rviz/properties/status_list.h \
-    ../src/rviz/robot/robot.h \
-    ../src/rviz/robot/robot_joint.h \
-    ../src/rviz/robot/robot_link.h \
-    ../src/rviz/selection/selection_manager.h \
-    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/fps_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/frame_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.h \
-    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.h \
     ../src/rviz/properties/color_property.h \
     ../src/rviz/properties/combo_box.h \
     ../src/rviz/properties/display_visibility_property.h \
@@ -242,6 +311,26 @@ HEADERS += \
     ../src/rviz/properties/property_tree_widget.h \
     ../src/rviz/properties/splitter_handle.h \
     ../src/rviz/properties/string_property.h \
+    ../src/rviz/robot/robot.h \
+    ../src/rviz/robot/robot_joint.h \
+    ../src/rviz/robot/robot_link.h \
+    ../src/rviz/selection/selection_manager.h \
+    ../src/rviz/default_plugin/view_controllers/fixed_orientation_ortho_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/fps_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/orbit_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/frame_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/third_person_follower_view_controller.h \
+    ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.h \
+    ../src/rviz/default_plugin/tools/move_tool.h \
+    ../src/rviz/default_plugin/tools/interaction_tool.h \
+    ../src/rviz/default_plugin/tools/selection_tool.h \
+    ../src/rviz/default_plugin/tools/initial_pose_tool.h \
+    ../src/rviz/default_plugin/tools/goal_tool.h \
+    ../src/rviz/default_plugin/tools/pose_tool.h \
+    ../src/rviz/default_plugin/tools/focus_tool.h \
+    ../src/rviz/default_plugin/tools/point_tool.h \
+    ../src/rviz/default_plugin/tools/measure_tool.h \
+    ../src/rviz/default_plugin/grid_display.h \
     \
     ../src/rviz/load_resource.h \
     ../src/rviz/env_config.h \
@@ -266,15 +355,6 @@ HEADERS += \
     ../src/rviz/ogre_helpers/render_system.h \
     ../src/rviz/ogre_helpers/render_widget.h \
     ../src/rviz/ogre_helpers/shape.h \
-    ../src/rviz/default_plugin/tools/move_tool.h \
-    ../src/rviz/default_plugin/tools/interaction_tool.h \
-    ../src/rviz/default_plugin/tools/selection_tool.h \
-    ../src/rviz/default_plugin/tools/initial_pose_tool.h \
-    ../src/rviz/default_plugin/tools/goal_tool.h \
-    ../src/rviz/default_plugin/tools/pose_tool.h \
-    ../src/rviz/default_plugin/tools/focus_tool.h \
-    ../src/rviz/default_plugin/tools/point_tool.h \
-    ../src/rviz/default_plugin/tools/measure_tool.h \
-    ../src/rviz/default_plugin/grid_display.h \
     ../src/utils/mos_retriever.h \
     \
+    ../src/rviz/properties/mos_topic_property.h \

@@ -34,8 +34,8 @@
 #ifndef MOSTIME_IMPL_DURATION_H_INCLUDED
 #define MOSTIME_IMPL_DURATION_H_INCLUDED
 
-#include <mos_duration.h>
-#include <mos_rate.h>
+#include "mos_duration.h"
+#include "mos_rate.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/math/special_functions/round.hpp>
 

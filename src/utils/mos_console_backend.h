@@ -30,7 +30,7 @@
 #ifndef MOSCONSOLE_CONSOLE_BACKEND_H
 #define MOSCONSOLE_CONSOLE_BACKEND_H
 
-#include <mos_macros.h>
+#include "mos_macros.h"
 
 // Import/export for windows dll's and visibility for gcc shared libraries.
 #ifdef MOS_BUILD_SHARED_LIBS // mos is being built around shared libraries

@@ -35,7 +35,7 @@
 #ifndef IMAGE_TRANSPORT_IMAGE_TRANSPORT_H
 #define IMAGE_TRANSPORT_IMAGE_TRANSPORT_H
 
-#include "mos_image_transport/publisher.h"
+#include "mos_image_transport/image_publisher.h"
 #include "mos_image_transport/subscriber.h"
 #include "mos_image_transport/camera_publisher.h"
 #include "mos_image_transport/camera_subscriber.h"

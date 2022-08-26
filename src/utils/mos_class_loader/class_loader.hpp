@@ -41,7 +41,7 @@
 #include <string>
 #include <vector>
 
-#include "console_bridge/console.h"
+#include "mos_console_bridge/console.h"
 
 #include "mos_class_loader/class_loader_core.hpp"
 #include "mos_class_loader/register_macro.hpp"

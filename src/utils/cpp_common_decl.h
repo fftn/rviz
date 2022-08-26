@@ -27,7 +27,7 @@
 #ifndef MOS_CPP_COMMON_DECL_H_INCLUDED
 #define MOS_CPP_COMMON_DECL_H_INCLUDED
 
-#include <mos_macros.h>
+#include "mos_macros.h"
 
 #ifdef MOS_BUILD_SHARED_LIBS // ros is being built around shared libraries
   #ifdef cpp_common_EXPORTS // we are building a shared lib/dll

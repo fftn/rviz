@@ -39,8 +39,8 @@
 
 #include "connection.h"
 #include "null_types.h"
-#include <mos_message_event.h>
-#include <mos_parameter_adapter.h>
+#include "mos_message_event.h"
+#include "mos_parameter_adapter.h"
 
 #include <boost/bind.hpp>
 #include <boost/thread/mutex.hpp>

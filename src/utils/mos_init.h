@@ -60,7 +60,7 @@ enum InitOption
   /**
    * \brief Don't broadcast mosconsole output to the /mosout topic
    */
-  Nomosout = 1 << 2,
+  NoMosout = 1 << 2,
 };
 }
 typedef init_options::InitOption InitOption;
@@ -214,6 +214,11 @@ MOSCPP_DECL std::string getMOSArg(int argc, const char* const* argv, const std::
  * \param [out] args_out Output args, stripped of any MOS args
  */
 MOSCPP_DECL void removeMOSArgs(int argc, const char* const* argv, V_string& args_out);
+
+/**
+ * \brief returns the default master uri that is used if no other is specified, e.g. by defining MOS_MASTER_URI.
+ */
+MOSCPP_DECL const std::string& getDefaultMasterURI();
 
 }
 

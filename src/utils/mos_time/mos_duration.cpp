@@ -32,7 +32,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *********************************************************************/
 #include <mos_duration.h>
-#include <impl/duration.h>
+#include "impl/duration.h"
 
 namespace mos {
 
