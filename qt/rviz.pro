@@ -5,20 +5,19 @@ QT += widgets
 
 INCLUDEPATH += ../src
 INCLUDEPATH += ../src/rviz
-INCLUDEPATH += ../src/rviz/robot
 INCLUDEPATH += ../src/utils
 INCLUDEPATH += /usr/include/OGRE
 INCLUDEPATH += /usr/include/eigen3
 INCLUDEPATH += /usr/include/python3.8
 
-LIBS += -lboost_chrono -lboost_regex
-LIBS += -lboost_thread -lboost_filesystem -lboost_program_options
-LIBS += -lconsole_bridge -lPocoFoundation
-LIBS += -lfreeimage -ljpegxr -ljxrglue
+LIBS += -ltinyxml -ltinyxml2
 LIBS += -lcurl -lpython3.8 -lX11
 LIBS += -lassimp -lyaml-cpp -lzzip
-LIBS += -ltinyxml -ltinyxml2
+LIBS += -lfreeimage -ljpegxr -ljxrglue
+LIBS += -lconsole_bridge -lPocoFoundation
 LIBS += -lOgreOverlay -lOgreMain -lOgreProperty
+LIBS += -lboost_filesystem -lboost_program_options
+LIBS += -lboost_chrono -lboost_regex -lboost_thread
 
 SOURCES +=  ../src/rviz/main.cpp \
     \
@@ -247,7 +246,6 @@ HEADERS += \
     ../src/rviz/default_plugin/view_controllers/xy_orbit_view_controller.h \
     ../src/rviz/display.h \
     ../src/rviz/display_context.h \
-    ../src/rviz/display_factory.h \
     ../src/rviz/display_group.h \
     ../src/rviz/displays_panel.h \
     ../src/rviz/failed_panel.h \
