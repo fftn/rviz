@@ -31,26 +31,25 @@
 namespace rviz
 {
 
-std::string get_version()
-{
-  // The return string here is replaced at compile time by
-  // CMakeLists.txt in this directory.
-  return "1.14.14";
-}
+    std::string get_version()
+    {
+        // The return string here is replaced at compile time by
+        // CMakeLists.txt in this directory.
+        return "1.14.14";
+    }
 
-std::string get_distro()
-{
-  // The return string here is replaced at compile time by
-  // CMakeLists.txt in this directory.
-  return "noetic";
-}
+    std::string get_distro()
+    {
+        // The return string here is replaced at compile time by
+        // CMakeLists.txt in this directory.
+        return "noetic";
+    }
 
-std::string get_ogre_plugin_path()
-{
-  // The return string here is replaced at compile time by
-  // CMakeLists.txt in this directory.
-  //return "/usr/lib/x86_64-linux-gnu/OGRE-1.9.0";
-  return "./3rdlibs/OGRE/lib";
-}
+    std::string get_ogre_plugin_path()
+    {
+        // The return string here is replaced at compile time by
+        // CMakeLists.txt in this directory.
+        return "/usr/lib/x86_64-linux-gnu/OGRE-1.9.0";
+    }
 
 }

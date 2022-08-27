@@ -131,7 +131,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
   , render_requested_(1)
   , frame_count_(0)
   , window_manager_(wm)
-  , private_(new VisualizationManagerPrivate)
+//  , private_(new VisualizationManagerPrivate)
 {
   // visibility_bit_allocator_ is listed after default_visibility_bit_ (and thus initialized later be
   // default):
@@ -141,7 +141,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
 
   render_panel->setAutoRender(false);
 
-  private_->threaded_nh_.setCallbackQueue(&private_->threaded_queue_);
+//  private_->threaded_nh_.setCallbackQueue(&private_->threaded_queue_);
 
   scene_manager_ = ogre_root_->createSceneManager(Ogre::ST_GENERIC);
 
@@ -203,7 +203,7 @@ VisualizationManager::VisualizationManager(RenderPanel* render_panel,
   update_timer_ = new QTimer;
   connect(update_timer_, SIGNAL(timeout()), this, SLOT(onUpdate()));
 
-  private_->threaded_queue_threads_.create_thread( boost::bind(&VisualizationManager::threadedQueueThreadFunc, this));
+//  private_->threaded_queue_threads_.create_thread( boost::bind(&VisualizationManager::threadedQueueThreadFunc, this));
 
   display_factory_ = new DisplayFactory();
 
@@ -215,7 +215,7 @@ VisualizationManager::~VisualizationManager()
 {
   update_timer_->stop();
   shutting_down_ = true;
-  private_->threaded_queue_threads_.join_all();
+//  private_->threaded_queue_threads_.join_all();
 
   delete update_timer_;
 
@@ -235,7 +235,7 @@ VisualizationManager::~VisualizationManager()
     ogre_root_->destroySceneManager(scene_manager_);
   }
   delete frame_manager_;
-  delete private_;
+//  delete private_;
 
   Ogre::Root::getSingletonPtr()->removeFrameListener(ogre_render_queue_clearer_);
   delete ogre_render_queue_clearer_;
@@ -255,17 +255,18 @@ void VisualizationManager::initialize()
 
 mos::CallbackQueueInterface* VisualizationManager::getThreadedQueue()
 {
-  return &private_->threaded_queue_;
+//  return &private_->threaded_queue_;
+    return nullptr;
 }
 
 void VisualizationManager::lockRender()
 {
-  private_->render_mutex_.lock();
+//  private_->render_mutex_.lock();
 }
 
 void VisualizationManager::unlockRender()
 {
-  private_->render_mutex_.unlock();
+//  private_->render_mutex_.unlock();
 }
 
 mos::CallbackQueueInterface* VisualizationManager::getUpdateQueue()
@@ -331,7 +332,7 @@ void VisualizationManager::onUpdate()
     resetTime();
   }
 
-  mos::spinOnce();
+//  mos::spinOnce();
 
   Q_EMIT preUpdate();
 
@@ -376,7 +377,7 @@ void VisualizationManager::onUpdate()
   if (render_requested_ || wall_dt > 0.01)
   {
     render_requested_ = 0;
-    boost::mutex::scoped_lock lock(private_->render_mutex_);
+//    boost::mutex::scoped_lock lock(private_->render_mutex_);
     ogre_root_->renderOneFrame();
   }
 }
@@ -400,17 +401,17 @@ void VisualizationManager::updateTime()
 
 void VisualizationManager::updateFrames()
 {
-  if (!frame_manager_->getTF2BufferPtr()->_frameExists(getFixedFrame().toStdString()))
-  {
-    bool no_frames = frame_manager_->getTF2BufferPtr()->allFramesAsString().empty();
-    global_status_->setStatus(no_frames ? StatusProperty::Warn : StatusProperty::Error, "Fixed Frame",
-                              no_frames ? QString("No TF data") :
-                                          QString("Unknown frame %1").arg(getFixedFrame()));
-  }
-  else
-  {
-    global_status_->setStatus(StatusProperty::Ok, "Fixed Frame", "OK");
-  }
+//  if (!frame_manager_->getTF2BufferPtr()->_frameExists(getFixedFrame().toStdString()))
+//  {
+//    bool no_frames = frame_manager_->getTF2BufferPtr()->allFramesAsString().empty();
+//    global_status_->setStatus(no_frames ? StatusProperty::Warn : StatusProperty::Error, "Fixed Frame",
+//                              no_frames ? QString("No TF data") :
+//                                          QString("Unknown frame %1").arg(getFixedFrame()));
+//  }
+//  else
+//  {
+//    global_status_->setStatus(StatusProperty::Ok, "Fixed Frame", "OK");
+//  }
 }
 
 std::shared_ptr<tf2_mos::Buffer> VisualizationManager::getTF2BufferPtr() const
@@ -568,9 +569,9 @@ void VisualizationManager::threadedQueueThreadFunc()
   mos::WallDuration timeout(0.1);
   while (!shutting_down_)
   {
-    if (update_timer_->isActive())
-      private_->threaded_queue_.callOne(timeout);
-    else
+//    if (update_timer_->isActive())
+//      private_->threaded_queue_.callOne(timeout);
+//    else
       timeout.sleep();
   }
 }

@@ -39,12 +39,12 @@ namespace rviz
 FrameManager::FrameManager(std::shared_ptr<tf2_mos::Buffer> tf_buffer,
                            std::shared_ptr<tf2_mos::TransformListener> tf_listener)
 {
-  assert(!tf_listener || tf_buffer); // tf_listener implies tf_buffer to defined too
-  tf_buffer_ =
-      tf_buffer ? std::move(tf_buffer) : std::make_shared<tf2_mos::Buffer>(mos::Duration(10 * 60));
-  tf_listener_ = tf_listener ?
-                     std::move(tf_listener) :
-                     std::make_shared<tf2_mos::TransformListener>(*tf_buffer_, mos::NodeHandle(), true);
+//  assert(!tf_listener || tf_buffer); // tf_listener implies tf_buffer to defined too
+//  tf_buffer_ =
+//      tf_buffer ? std::move(tf_buffer) : std::make_shared<tf2_mos::Buffer>(mos::Duration(10 * 60));
+//  tf_listener_ = tf_listener ?
+//                     std::move(tf_listener) :
+//                     std::make_shared<tf2_mos::TransformListener>(*tf_buffer_, mos::NodeHandle(), true);
 
   setSyncMode(SyncOff);
   setPause(false);
@@ -94,7 +94,8 @@ void FrameManager::setFixedFrame(const std::string& frame)
     if (fixed_frame_ != frame)
     {
       fixed_frame_ = frame;
-      fixed_frame_id_ = tf_buffer_->_lookupFrameNumber(fixed_frame_);
+      //TODO
+//      fixed_frame_id_ = tf_buffer_->_lookupFrameNumber(fixed_frame_);
       cache_.clear();
       should_emit = true;
     }
@@ -254,7 +255,7 @@ bool FrameManager::transform(const std::string& frame,
   // convert pose into fixed_frame_
   try
   {
-    tf2::doTransform(pose, pose, tf_buffer_->lookupTransform(fixed_frame_, frame, time));
+//    tf2::doTransform(pose, pose, tf_buffer_->lookupTransform(fixed_frame_, frame, time));
   }
   catch (std::runtime_error& e)
   {

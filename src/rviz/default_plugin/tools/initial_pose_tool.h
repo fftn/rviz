@@ -64,8 +64,8 @@ private Q_SLOTS:
   void updateTopic();
 
 private:
-  mos::NodeHandle nh_;
-  mos::Publisher pub_;
+//  mos::NodeHandle nh_;
+//  mos::Publisher pub_;
 
   StringProperty* topic_property_;
   FloatProperty* std_dev_x_;

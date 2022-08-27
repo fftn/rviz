@@ -66,7 +66,7 @@ FramePositionTrackingViewController::~FramePositionTrackingViewController()
 
 void FramePositionTrackingViewController::onActivate()
 {
-  updateTargetSceneNode();
+//  updateTargetSceneNode();
 
   // Before activation, changes to target frame property should have
   // no side-effects.  After activation, changing target frame

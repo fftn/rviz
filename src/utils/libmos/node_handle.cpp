@@ -25,30 +25,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "ros/node_handle.h"
-#include "ros/this_node.h"
-#include "ros/service.h"
-#include "ros/callback_queue.h"
+#include "mos_node_handle.h"
+#include "mos_this_node.h"
+#include "mos_service.h"
+#include "mos_callback_queue.h"
 
-#include "ros/time.h"
-#include "ros/rate.h"
-#include "ros/timer.h"
-#include "ros/wall_timer.h"
-#include "ros/steady_timer.h"
+#include "mos_time.h"
+#include "mos_rate.h"
+#include "mos_timer.h"
+#include "mos_wall_timer.h"
+#include "mos_steady_timer.h"
 
-#include "ros/xmlrpc_manager.h"
-#include "ros/topic_manager.h"
-#include "ros/service_manager.h"
-#include "ros/master.h"
-#include "ros/param.h"
-#include "ros/names.h"
-#include "ros/init.h"
-#include "ros/this_node.h"
+#include "mos_xmlrpc_manager.h"
+#include "mos_topic_manager.h"
+#include "mos_service_manager.h"
+#include "mos_master.h"
+#include "mos_param.h"
+#include "mos_names.h"
+#include "mos_init.h"
+#include "mos_this_node.h"
 #include "xmlrpcpp/XmlRpc.h"
 
 #include <boost/thread.hpp>
 
-namespace ros
+namespace mos
 {
 
 boost::mutex g_nh_refcount_mutex;
@@ -135,7 +135,7 @@ NodeHandle::~NodeHandle()
 
 NodeHandle& NodeHandle::operator=(const NodeHandle& rhs)
 {
-  ROS_ASSERT(collection_);
+  MOS_ASSERT(collection_);
   namespace_ = rhs.namespace_;
   callback_queue_ = rhs.callback_queue_;
   remappings_ = rhs.remappings_;
@@ -146,39 +146,39 @@ NodeHandle& NodeHandle::operator=(const NodeHandle& rhs)
 
 void spinThread()
 {
-  ros::spin();
+  mos::spin();
 }
 
 void NodeHandle::construct(const std::string& ns, bool validate_name)
 {
-  if (!ros::isInitialized())
-  {
-    ROS_FATAL("You must call ros::init() before creating the first NodeHandle");
-    ROS_BREAK();
-  }
+//  if (!mos::isInitialized())
+//  {
+//    MOS_FATAL("You must call mos::init() before creating the first NodeHandle");
+//    MOS_BREAK();
+//  }
 
   collection_ = new NodeHandleBackingCollection;
   unresolved_namespace_ = ns;
   // if callback_queue_ is nonnull, we are in a non-nullary constructor
 
-  if (validate_name)
-    namespace_ = resolveName(ns, true);
-  else
-    {
-      namespace_ = resolveName(ns, true, no_validate());
-      // FIXME validate namespace_ now
-    }
-  ok_ = true;
+//  if (validate_name)
+//    namespace_ = resolveName(ns, true);
+//  else
+//    {
+//      namespace_ = resolveName(ns, true, no_validate());
+//      // FIXME validate namespace_ now
+//    }
+//  ok_ = true;
 
-  boost::mutex::scoped_lock lock(g_nh_refcount_mutex);
+//  boost::mutex::scoped_lock lock(g_nh_refcount_mutex);
 
-  if (g_nh_refcount == 0 && !ros::isStarted())
-  {
-    g_node_started_by_nh = true;
-    ros::start();
-  }
+//  if (g_nh_refcount == 0 && !mos::isStarted())
+//  {
+//    g_node_started_by_nh = true;
+//    mos::start();
+//  }
 
-  ++g_nh_refcount;
+//  ++g_nh_refcount;
 }
 
 void NodeHandle::destruct()
@@ -191,7 +191,7 @@ void NodeHandle::destruct()
 
   if (g_nh_refcount == 0 && g_node_started_by_nh)
   {
-    ros::shutdown();
+    mos::shutdown();
   }
 }
 
@@ -224,7 +224,7 @@ std::string NodeHandle::remapName(const std::string& name) const
   M_string::const_iterator it = remappings_.find(resolved);
   if (it != remappings_.end())
   {
-    // ROSCPP_LOG_DEBUG("found 'local' remapping: %s", it->second.c_str());
+    // MOSCPP_LOG_DEBUG("found 'local' remapping: %s", it->second.c_str());
     return it->second;
   }
 
@@ -234,7 +234,7 @@ std::string NodeHandle::remapName(const std::string& name) const
 
 std::string NodeHandle::resolveName(const std::string& name, bool remap) const
 {
-  // ROSCPP_LOG_DEBUG("resolveName(%s, %s)", name.c_str(), remap ? "true" : "false");
+  // MOSCPP_LOG_DEBUG("resolveName(%s, %s)", name.c_str(), remap ? "true" : "false");
   std::string error;
   if (!names::validate(name, error))
   {
@@ -258,7 +258,7 @@ std::string NodeHandle::resolveName(const std::string& name, bool remap, no_vali
     std::stringstream ss;
     ss << "Using ~ names with NodeHandle methods is not allowed.  If you want to use private names with the NodeHandle ";
     ss << "interface, construct a NodeHandle using a private name as its namespace.  e.g. ";
-    ss << "ros::NodeHandle nh(\"~\");  ";
+    ss << "mos::NodeHandle nh(\"~\");  ";
     ss << "nh.getParam(\"my_private_name\");";
     ss << " (name = [" << name << "])";
     throw InvalidNameException(ss.str());
@@ -269,18 +269,18 @@ std::string NodeHandle::resolveName(const std::string& name, bool remap, no_vali
   }
   else if (!namespace_.empty())
   {
-    // ROSCPP_LOG_DEBUG("Appending namespace_ (%s)", namespace_.c_str());
+    // MOSCPP_LOG_DEBUG("Appending namespace_ (%s)", namespace_.c_str());
     final = names::append(namespace_, final);
   }
 
-  // ROSCPP_LOG_DEBUG("resolveName, pre-clean: %s", final.c_str());
+  // MOSCPP_LOG_DEBUG("resolveName, pre-clean: %s", final.c_str());
   final = names::clean(final);
-  // ROSCPP_LOG_DEBUG("resolveName, post-clean: %s", final.c_str());
+  // MOSCPP_LOG_DEBUG("resolveName, post-clean: %s", final.c_str());
 
   if (remap)
   {
     final = remapName(final);
-    // ROSCPP_LOG_DEBUG("resolveName, remapped: %s", final.c_str());
+    // MOSCPP_LOG_DEBUG("resolveName, remapped: %s", final.c_str());
   }
 
   return names::resolve(final, false);
@@ -310,16 +310,16 @@ Publisher NodeHandle::advertise(AdvertiseOptions& ops)
     callbacks->push_latched_message_ = pub.getLastMessageCallback();
   }
 
-  if (TopicManager::instance()->advertise(ops, callbacks))
-  {
+//  if (TopicManager::instance()->advertise(ops, callbacks))
+//  {
 
-    {
-      boost::mutex::scoped_lock lock(collection_->mutex_);
-      collection_->pubs_.push_back(pub.impl_);
-    }
+//    {
+//      boost::mutex::scoped_lock lock(collection_->mutex_);
+//      collection_->pubs_.push_back(pub.impl_);
+//    }
 
     return pub;
-  }
+//  }
 
   return Publisher();
 }
@@ -802,7 +802,7 @@ bool NodeHandle::searchParam(const std::string& key, std::string& result_out) co
 
 bool NodeHandle::ok() const
 {
-  return ros::ok() && ok_;
+  return mos::ok() && ok_;
 }
 
-} // namespace ros
+} // namespace mos

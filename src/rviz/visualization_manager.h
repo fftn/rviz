@@ -454,7 +454,7 @@ private Q_SLOTS:
 
 private:
   DisplayFactory* display_factory_;
-  VisualizationManagerPrivate* private_;
+//  VisualizationManagerPrivate* private_;
   uint32_t default_visibility_bit_;
   BitAllocator visibility_bit_allocator_;
   QString help_path_;

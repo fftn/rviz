@@ -298,12 +298,12 @@ protected:
   /** @brief A NodeHandle whose CallbackQueue is run from the main GUI thread (the "update" thread).
    *
    * This is configured after the constructor and before onInitialize() is called. */
-  mos::NodeHandle update_nh_;
+//  mos::NodeHandle update_nh_;
 
   /** @brief A NodeHandle whose CallbackQueue is run from a different thread than the GUI.
    *
    * This is configured after the constructor and before onInitialize() is called. */
-  mos::NodeHandle threaded_nh_;
+//  mos::NodeHandle threaded_nh_;
 
   /** @brief A convenience variable equal to context_->getFixedFrame().
    *

@@ -67,14 +67,14 @@ void InitialPoseTool::onInitialize()
 
 void InitialPoseTool::updateTopic()
 {
-  try
-  {
-    pub_ = nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>(topic_property_->getStdString(), 1);
-  }
-  catch (const mos::Exception& e)
-  {
-    MOS_ERROR_STREAM_NAMED("InitialPoseTool", e.what());
-  }
+//  try
+//  {
+//    pub_ = nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>(topic_property_->getStdString(), 1);
+//  }
+//  catch (const mos::Exception& e)
+//  {
+//    MOS_ERROR_STREAM_NAMED("InitialPoseTool", e.what());
+//  }
 }
 
 void InitialPoseTool::onPoseSet(double x, double y, double theta)
@@ -95,7 +95,7 @@ void InitialPoseTool::onPoseSet(double x, double y, double theta)
   pose.pose.covariance[6 * 1 + 1] = std::pow(std_dev_y_->getFloat(), 2);
   pose.pose.covariance[6 * 5 + 5] = std::pow(std_dev_theta_->getFloat(), 2);
   MOS_INFO("Setting pose: %.3f %.3f %.3f [frame=%s]", x, y, theta, fixed_frame.c_str());
-  pub_.publish(pose);
+//  pub_.publish(pose);
 }
 
 } // end namespace rviz
